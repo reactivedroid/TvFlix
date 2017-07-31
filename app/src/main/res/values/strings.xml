@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TvMaze</string>
+    <string name="popular_shows_airing_today">Popular shows in %s tonight</string>
+    <string name="schedule_for">Schedule for %s</string>
+</resources>
