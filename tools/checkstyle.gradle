@@ -1,0 +1,19 @@
+apply plugin: 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    description 'Check code standard'
+    group 'verification'
+    configFile file("${project.rootDir}/tools/rules-checkstyle.xml")
+    source fileTree('src/main/java')
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = files()
+    showViolations true
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+        html.destination = "$project.buildDir/outputs/checkstyle/checkstyle.html"
+    }
+}
