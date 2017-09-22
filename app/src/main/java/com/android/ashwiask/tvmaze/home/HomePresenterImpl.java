@@ -73,7 +73,7 @@ public class HomePresenterImpl implements HomePresenter
             for (Episode episode : episodes)
             {
                 String[] airtime = episode.getAirtime().split(Constants.SEMICOLON);
-                if (Integer.valueOf(airtime[0]) >= EIGHT_O_CLOCK)
+                if (Integer.parseInt(airtime[0]) >= EIGHT_O_CLOCK)
                 {
                     filteredList.add(episode);
                 } else
