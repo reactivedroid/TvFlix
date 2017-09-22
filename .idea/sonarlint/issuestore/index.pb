@@ -45,3 +45,17 @@ s
 Capp/src/main/java/com/android/ashwiask/tvmaze/common/Constants.java,d/8/d812daeb30661a1c1ee94d171b006aca8e8f9dd5
 t
 Dapp/src/main/java/com/android/ashwiask/tvmaze/home/ShowsAdapter.java,2/e/2e37291625bda2a59104a90de591da68b29ca5e4
+X
+(gradle/wrapper/gradle-wrapper.properties,f/b/fbe448ebfc3eb2d4e308f6b8b043666f5b57235e
+C
+tools/rules-pmd.xml,e/9/e98f65dc1cdfc550bfc3046162b18b0a4c35cdab
+@
+tools/pmd.gradle,7/b/7b90865967d80fc1b0e069b65ec3a054dd212a25
+J
+tools/rules-checkstyle.xml,1/f/1fac38b0f8d3ab42bfd38376641dabded71a4c1a
+H
+tools/rules-findbugs.xml,4/7/4745db95ce43d7c9a7744a54fee0f53ab9ae9c9c
+E
+tools/findbugs.gradle,5/0/5098db5e0018322df6a4d9bfe4fb3bbb4d2abcf3
+G
+tools/checkstyle.gradle,7/7/77dd7e4b5606ec3c428763e729861da7757daf83
