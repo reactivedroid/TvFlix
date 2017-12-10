@@ -23,13 +23,12 @@ dependencies {
 
     // Glide
     implementation deps.glide.runtime
-    annotationProcessor deps.glide.compiler
+    kapt deps.glide.compiler
     implementation deps.glide_okhttp_integration
 
     // Butterknife
     implementation deps.butterknife.runtime
     kapt deps.butterknife.compiler
-    annotationProcessor deps.butterknife.compiler
 
     // Retrofit
     implementation deps.retrofit.main
@@ -42,10 +41,12 @@ dependencies {
 
     // Dagger2
     implementation deps.dagger.main
-    annotationProcessor deps.dagger.compiler
+    kapt deps.dagger.compiler
     implementation deps.dagger.android
-    annotationProcessor deps.dagger.android_processor
+    kapt deps.dagger.android_processor
     implementation deps.dagger.android_support
+
+    kapt deps.databinding_kotlin
 
     // Espresso
     androidTestImplementation(deps.espresso, {
