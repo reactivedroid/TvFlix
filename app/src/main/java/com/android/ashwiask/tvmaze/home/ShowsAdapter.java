@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.android.ashwiask.tvmaze.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder>
     {
         if (show.getImage() != null)
         {
-            Glide.with(context).load(show.getImage().get(MEDIUM_IMAGE)).placeholder(R.color.grey).into(holder.showImage);
+            Glide.with(context).load(show.getImage().get(MEDIUM_IMAGE)).apply(new RequestOptions()
+                .placeholder(R.color.grey)).into(holder.showImage);
         } else
         {
             // do nothing
