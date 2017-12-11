@@ -1,5 +1,5 @@
 # TvMaze
-The Android application showcasing the use of MVP architechture with RxJava2, Retrofit2, Dagger2, Butterknife and Glide3
+The Android application showcasing the use of MVP architechture with RxJava2, Retrofit2, Dagger2, DataBinding and Glide
 
 The codebase tries to follow Uncle Bob Clean Code Architechture with MVP pattern at its base. 
 
