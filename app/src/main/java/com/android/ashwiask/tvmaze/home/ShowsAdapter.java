@@ -3,85 +3,65 @@ package com.android.ashwiask.tvmaze.home;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.android.ashwiask.tvmaze.R;
+import com.android.ashwiask.tvmaze.databinding.ShowListItemBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * @author Ashwini Kumar.
  */
 
-public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder>
-{
+public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> {
     private static final String MEDIUM_IMAGE = "medium";
     private List<Episode> episodes;
     private Context context;
 
-    public ShowsAdapter(List<Episode> episodes)
-    {
+    public ShowsAdapter(List<Episode> episodes) {
         this.episodes = episodes;
     }
 
     @Override
-    public ShowHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public ShowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(R.layout.show_list_item, parent, false);
-        ShowHolder showHolder = new ShowHolder(view);
-        return showHolder;
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        ShowListItemBinding showListItemBinding = ShowListItemBinding.inflate(layoutInflater, parent, false);
+        return new ShowHolder(showListItemBinding);
     }
 
     @Override
-    public void onBindViewHolder(ShowHolder holder, int position)
-    {
+    public void onBindViewHolder(ShowHolder holder, int position) {
         Episode episode = episodes.get(position);
         Show show = episode.getShow();
-        holder.showTitle.setText(show.getName());
-        holder.episodeTitle.setText(episode.getName());
+        holder.binding.setEpisode(episode);
+        holder.binding.setShow(show);
         configureImage(holder, show);
     }
 
-    private void configureImage(ShowHolder holder, Show show)
-    {
-        if (show.getImage() != null)
-        {
+    private void configureImage(ShowHolder holder, Show show) {
+        if (show.getImage() != null) {
             Glide.with(context).load(show.getImage().get(MEDIUM_IMAGE)).apply(new RequestOptions()
-                .placeholder(R.color.grey)).into(holder.showImage);
-        } else
-        {
+                    .placeholder(R.color.grey)).into(holder.binding.showImage);
+        } else {
             // do nothing
         }
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return episodes.size();
     }
 
-    public static class ShowHolder extends RecyclerView.ViewHolder
-    {
-        @BindView(R.id.show_title)
-        TextView showTitle;
-        @BindView(R.id.episode_title)
-        TextView episodeTitle;
-        @BindView(R.id.show_image)
-        ImageView showImage;
+    public static class ShowHolder extends RecyclerView.ViewHolder {
+        private ShowListItemBinding binding;
 
-        ShowHolder(View itemView)
-        {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        ShowHolder(ShowListItemBinding itemBinding) {
+            super(itemBinding.getRoot());
+            this.binding = itemBinding;
         }
     }
 }

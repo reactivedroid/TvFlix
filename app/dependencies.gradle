@@ -20,15 +20,12 @@ dependencies {
     implementation deps.rxjava.main
 
     implementation deps.okhttp.main
+    implementation deps.okhttp.logging_interceptor
 
     // Glide
     implementation deps.glide.runtime
     kapt deps.glide.compiler
     implementation deps.glide_okhttp_integration
-
-    // Butterknife
-    implementation deps.butterknife.runtime
-    kapt deps.butterknife.compiler
 
     // Retrofit
     implementation deps.retrofit.main

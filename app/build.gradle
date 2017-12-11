@@ -10,6 +10,9 @@ android {
     compileSdkVersion versions.compile_sdk
     buildToolsVersion versions.build_tools
 
+    dataBinding {
+        enabled true
+    }
     defaultConfig {
         applicationId "com.android.ashwiask.tvmaze"
         minSdkVersion versions.min_sdk

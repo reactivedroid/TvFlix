@@ -21,7 +21,7 @@ versions.butterknife = '8.8.1'
 versions.circularimageview = '2.2.0'
 versions.dagger = '2.11'
 versions.glide = '4.3.1'
-versions.glide_okhttp_integration = '1.5.0@aar'
+versions.glide_okhttp_integration = '4.3.1@aar'
 versions.gson = '2.8.2'
 versions.junit = '4.12'
 versions.mockito = '2.12.0'
@@ -63,11 +63,6 @@ deps.lifecycle = lifecycle
 deps.espresso = "com.android.support.test.espresso:espresso-core:$versions.espresso"
 
 // ----- END OF ANDROID AND GOOGLE ESSENTIALS
-
-def butterknife = [:]
-butterknife.runtime = "com.jakewharton:butterknife:$versions.butterknife"
-butterknife.compiler = "com.jakewharton:butterknife:$versions.butterknife"
-deps.butterknife = butterknife
 
 deps.circularimageview = "de.hdodenhof:circleimageview:$versions.circularimageview"
 deps.clevertap = "com.clevertap.android:clevertap-android-sdk:$versions.clevertap"
