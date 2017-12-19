@@ -46,6 +46,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> 
         if (show.getImage() != null) {
             Glide.with(context).load(show.getImage().get(MEDIUM_IMAGE))
                     .apply(RequestOptions.placeholderOf(R.color.grey))
+                    .apply(RequestOptions.centerCropTransform())
                     .into(holder.binding.showImage);
         } else {
             // do nothing
