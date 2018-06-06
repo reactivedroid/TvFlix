@@ -1,5 +1,10 @@
 package com.android.ashwiask.tvmaze.home;
 
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -8,99 +13,53 @@ import java.util.Map;
 /**
  * @author Ashwini Kumar.
  */
+@AutoValue
+public abstract class Show {
+    public static TypeAdapter<Show> typeAdapter(Gson gson) {
+        return new AutoValue_Show.GsonTypeAdapter(gson);
+    }
 
-public class Show
-{
-    private long id;
-    private String url;
-    private String name;
-    private String type;
-    private String language;
-    private List<String> genres;
-    private String status;
-    private int runtime;
-    private String premiered;
-    private String officialSite;
+    public abstract long id();
+
+    @Nullable
+    public abstract String url();
+
+    @Nullable
+    public abstract String name();
+
+    @Nullable
+    public abstract String type();
+
+    @Nullable
+    public abstract String language();
+
+    @Nullable
+    public abstract List<String> genres();
+
+    @Nullable
+    public abstract String status();
+
+    public abstract int runtime();
+
+    public abstract String premiered();
+
+    @Nullable
+    public abstract String officialSite();
+
+    @Nullable
     @SerializedName("network")
-    private AirChannel airChannel;
-    private Map<String, String> image;
+    public abstract AirChannel airChannel();
+
+    @Nullable
+    public abstract Map<String, String> image();
+
+    @Nullable
     @SerializedName("externals")
-    private ExternalInfo externalInfo;
-    private String summary;
-    private Map<String, Double> rating;
+    public abstract ExternalInfo externalInfo();
 
-    public long getId()
-    {
-        return id;
-    }
+    @Nullable
+    public abstract String summary();
 
-    public String getUrl()
-    {
-        return url;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getType()
-    {
-        return type;
-    }
-
-    public String getLanguage()
-    {
-        return language;
-    }
-
-    public List<String> getGenres()
-    {
-        return genres;
-    }
-
-    public String getStatus()
-    {
-        return status;
-    }
-
-    public int getRuntime()
-    {
-        return runtime;
-    }
-
-    public String getPremiered()
-    {
-        return premiered;
-    }
-
-    public String getOfficialSite()
-    {
-        return officialSite;
-    }
-
-    public AirChannel getAirChannel()
-    {
-        return airChannel;
-    }
-
-    public Map<String, String> getImage()
-    {
-        return image;
-    }
-
-    public ExternalInfo getExternalInfo()
-    {
-        return externalInfo;
-    }
-
-    public String getSummary()
-    {
-        return summary;
-    }
-
-    public Map<String, Double> getRating()
-    {
-        return rating;
-    }
+    @Nullable
+    public abstract Map<String, Double> rating();
 }
