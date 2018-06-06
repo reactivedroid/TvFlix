@@ -9,6 +9,7 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapterFactory;
 
 import java.io.File;
 import java.net.CookieHandler;
@@ -71,10 +72,11 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    Gson provideGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-        return gsonBuilder.create();
+    Gson provideGson(TypeAdapterFactory tvMazeTypeAdaptorFactory) {
+        return new GsonBuilder()
+                .registerTypeAdapterFactory(tvMazeTypeAdaptorFactory)
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create();
     }
 
     @Provides
@@ -95,5 +97,11 @@ public class NetworkModule {
     @Singleton
     RxJava2CallAdapterFactory provideRxJavaCallAdapterFactory() {
         return RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io());
+    }
+
+    @Provides
+    @Singleton
+    TypeAdapterFactory provideTypeAdapterFactory() {
+        return TvMazeTypeAdaptorFactory.create();
     }
 }

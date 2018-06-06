@@ -17,7 +17,7 @@ import java.util.List;
  */
 
 public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> {
-    private static final String MEDIUM_IMAGE = "medium";
+    private static final String ORIGINAL_IMAGE = "original";
     private List<Episode> episodes;
     private Context context;
 
@@ -36,15 +36,15 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> 
     @Override
     public void onBindViewHolder(ShowHolder holder, int position) {
         Episode episode = episodes.get(position);
-        Show show = episode.getShow();
+        Show show = episode.show();
         holder.binding.setEpisode(episode);
         holder.binding.setShow(show);
         configureImage(holder, show);
     }
 
     private void configureImage(ShowHolder holder, Show show) {
-        if (show.getImage() != null) {
-            Glide.with(context).load(show.getImage().get(MEDIUM_IMAGE))
+        if (show.image() != null) {
+            Glide.with(context).load(show.image().get(ORIGINAL_IMAGE))
                     .apply(RequestOptions.placeholderOf(R.color.grey))
                     .apply(RequestOptions.centerCropTransform())
                     .into(holder.binding.showImage);

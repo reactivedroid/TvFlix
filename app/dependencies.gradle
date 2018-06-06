@@ -12,8 +12,6 @@ dependencies {
     testImplementation deps.junit
     androidTestImplementation deps.findbugs_jsr
 
-    implementation deps.kotlin.stdlib
-
     implementation deps.rxjava.android
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
@@ -24,7 +22,6 @@ dependencies {
 
     // Glide
     implementation deps.glide.runtime
-    kapt deps.glide.compiler
     implementation deps.glide_okhttp_integration
 
     // Retrofit
@@ -38,15 +35,24 @@ dependencies {
 
     // Dagger2
     implementation deps.dagger.main
-    kapt deps.dagger.compiler
+    annotationProcessor deps.dagger.compiler
     implementation deps.dagger.android
-    kapt deps.dagger.android_processor
+    annotationProcessor deps.dagger.android_processor
     implementation deps.dagger.android_support
 
     // Viewmodel
     implementation deps.lifecycle.extensions
     annotationProcessor deps.lifecycle.compiler
 
+    //Auto value
+    implementation deps.auto_value.annotations
+    annotationProcessor deps.auto_value.compiler
+    implementation deps.auto_value_gson.annotations
+    // included again as annotation processor because of
+    // an issue https://github.com/rharter/auto-value-gson/issues/171
+    annotationProcessor deps.auto_value.annotations
+    annotationProcessor deps.auto_value_gson.compiler
+    annotationProcessor deps.auto_value_parcel
     // Espresso
     androidTestImplementation(deps.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'

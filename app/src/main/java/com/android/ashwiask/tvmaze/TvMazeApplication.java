@@ -5,13 +5,13 @@ import android.app.Application;
 
 import com.android.ashwiask.tvmaze.di.AppComponent;
 import com.android.ashwiask.tvmaze.di.AppInjector;
+import com.android.ashwiask.tvmaze.di.DaggerAppComponent;
 
 import javax.inject.Inject;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
-
 
 /**
  * @author Ashwini Kumar.
@@ -26,6 +26,10 @@ public class TvMazeApplication extends Application
     @Override
     public void onCreate() {
         super.onCreate();
+        appComponent = DaggerAppComponent.builder()
+                .application(this)
+                .build();
+        appComponent.inject(this);
         AppInjector.init(this);
     }
 

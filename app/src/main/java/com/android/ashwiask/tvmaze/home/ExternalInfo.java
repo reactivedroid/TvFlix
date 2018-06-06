@@ -1,27 +1,25 @@
 package com.android.ashwiask.tvmaze.home;
 
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+
 /**
  * @author Ashwini Kumar.
  */
-
-public class ExternalInfo
-{
-    private long tvrage;
-    private long thetvdb;
-    private String imdb;
-
-    public long getTvrage()
-    {
-        return tvrage;
+@AutoValue
+public abstract class ExternalInfo {
+    public static TypeAdapter<ExternalInfo> typeAdapter(Gson gson) {
+        return new AutoValue_ExternalInfo.GsonTypeAdapter(gson);
     }
 
-    public long getThetvdb()
-    {
-        return thetvdb;
-    }
+    @Nullable
+    public abstract String tvrage();
 
-    public String getImdb()
-    {
-        return imdb;
-    }
+    public abstract long thetvdb();
+
+    @Nullable
+    public abstract String imdb();
 }

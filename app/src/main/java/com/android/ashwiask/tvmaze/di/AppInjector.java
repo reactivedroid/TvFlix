@@ -21,8 +21,6 @@ public class AppInjector {
     }
 
     public static void init(TvMazeApplication tvMazeApplication) {
-        DaggerAppComponent.builder().application(tvMazeApplication)
-                .build().inject(tvMazeApplication);
         tvMazeApplication.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

@@ -31,9 +31,10 @@ versions.retrofit = '2.2.0'
 versions.rxjava = '2.0.1'
 versions.rxbinding = '2.0.0'
 versions.findbugs = '3.0.1'
-versions.kotlin = '1.1.51'
 versions.persistentcookiejar = 'v1.0.1'
-versions.databinding_kotlin = '2.3.1'
+versions.auto_value = '1.6'
+versions.auto_value_gson = '0.7.0'
+versions.auto_value_parcel = '0.2.5'
 
 ext.versions = versions
 
@@ -130,4 +131,16 @@ kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin = kotlin
 
 deps.persistentcookiejar = "com.github.franmontiel:PersistentCookieJar:$versions.persistentcookiejar"
+
+def auto_value = [:]
+auto_value.annotations = "com.google.auto.value:auto-value-annotations:$versions.auto_value"
+auto_value.compiler = "com.google.auto.value:auto-value:$versions.auto_value"
+deps.auto_value = auto_value
+
+def auto_value_gson = [:]
+auto_value_gson.compiler = "com.ryanharter.auto.value:auto-value-gson:$versions.auto_value_gson"
+auto_value_gson.annotations = "com.ryanharter.auto.value:auto-value-gson-annotations:$versions.auto_value_gson"
+deps.auto_value_gson = auto_value_gson
+
+deps.auto_value_parcel = "com.ryanharter.auto.value:auto-value-parcel:$versions.auto_value_parcel"
 ext.deps = deps

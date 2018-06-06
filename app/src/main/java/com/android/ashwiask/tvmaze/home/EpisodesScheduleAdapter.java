@@ -12,7 +12,8 @@ import java.util.List;
  * @author Ashwini Kumar.
  */
 
-public class EpisodesScheduleAdapter extends RecyclerView.Adapter<EpisodesScheduleAdapter.EpisodeScheduleHolder> {
+public class EpisodesScheduleAdapter extends
+        RecyclerView.Adapter<EpisodesScheduleAdapter.EpisodeScheduleHolder> {
     private List<Episode> episodes;
 
     public EpisodesScheduleAdapter(List<Episode> episodes) {
@@ -31,7 +32,7 @@ public class EpisodesScheduleAdapter extends RecyclerView.Adapter<EpisodesSchedu
     @Override
     public void onBindViewHolder(EpisodeScheduleHolder holder, int position) {
         Episode episode = episodes.get(position);
-        Show show = episode.getShow();
+        Show show = episode.show();
         holder.binding.setEpisode(episode);
         holder.binding.setShow(show);
     }
@@ -41,10 +42,10 @@ public class EpisodesScheduleAdapter extends RecyclerView.Adapter<EpisodesSchedu
         return episodes.size();
     }
 
-    public static class EpisodeScheduleHolder extends RecyclerView.ViewHolder {
+    static class EpisodeScheduleHolder extends RecyclerView.ViewHolder {
         private ScheduleListItemBinding binding;
 
-        public EpisodeScheduleHolder(ScheduleListItemBinding itemBinding) {
+        EpisodeScheduleHolder(ScheduleListItemBinding itemBinding) {
             super(itemBinding.getRoot());
             this.binding = itemBinding;
         }

@@ -75,7 +75,7 @@ public class HomeViewModel extends ViewModel {
     private void onSuccess(List<Episode> episodes) {
         List<Episode> filteredList = new ArrayList<>(20);
         for (Episode episode : episodes) {
-            String[] airtime = episode.getAirtime().split(Constants.SEMICOLON);
+            String[] airtime = episode.airtime().split(Constants.SEMICOLON);
             if (Integer.parseInt(airtime[0]) >= EIGHT_O_CLOCK) {
                 filteredList.add(episode);
             }

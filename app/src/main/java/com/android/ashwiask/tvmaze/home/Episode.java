@@ -1,69 +1,42 @@
 package com.android.ashwiask.tvmaze.home;
 
+import android.support.annotation.Nullable;
+
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+
 /**
  * @author Ashwini Kumar.
  */
-
-public class Episode
-{
-    private Show show;
-    private long id;
-    private String url;
-    private String name;
-    private int season;
-    private int number;
-    private String airdate;
-    private String airtime;
-    private int runtime;
-    private String summary;
-
-    public Show getShow()
-    {
-        return show;
+@AutoValue
+public abstract class Episode {
+    public static TypeAdapter<Episode> typeAdapter(Gson gson) {
+        return new AutoValue_Episode.GsonTypeAdapter(gson);
     }
 
-    public long getId()
-    {
-        return id;
-    }
+    public abstract Show show();
 
-    public String getUrl()
-    {
-        return url;
-    }
+    public abstract long id();
 
-    public String getName()
-    {
-        return name;
-    }
+    @Nullable
+    public abstract String url();
 
-    public int getSeason()
-    {
-        return season;
-    }
+    @Nullable
+    public abstract String name();
 
-    public int getNumber()
-    {
-        return number;
-    }
+    public abstract int season();
 
-    public String getAirdate()
-    {
-        return airdate;
-    }
+    public abstract int number();
 
-    public String getAirtime()
-    {
-        return airtime;
-    }
+    @Nullable
+    public abstract String airdate();
 
-    public int getRuntime()
-    {
-        return runtime;
-    }
+    @Nullable
+    public abstract String airtime();
 
-    public String getSummary()
-    {
-        return summary;
-    }
+    public abstract int runtime();
+
+    @Nullable
+    public abstract String summary();
 }
