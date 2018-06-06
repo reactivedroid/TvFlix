@@ -10,8 +10,8 @@ import retrofit2.http.Query;
  * @author Ashwini Kumar.
  */
 
-public interface HomeEndpoint
-{
+public interface TvMazeApi {
     @GET("/schedule")
-    Single<List<Episode>> getCurrentSchedule(@Query("country") String country, @Query("date") String date);
+    Single<List<Episode>> getCurrentSchedule(@Query("country") String country,
+                                             @Query("date") String date);
 }

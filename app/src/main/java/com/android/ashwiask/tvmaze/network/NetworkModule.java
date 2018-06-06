@@ -2,6 +2,7 @@ package com.android.ashwiask.tvmaze.network;
 
 import android.content.Context;
 
+import com.android.ashwiask.tvmaze.network.backend.TvMazeBackendModule;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
@@ -25,31 +26,26 @@ import okhttp3.Cache;
 import okhttp3.CookieJar;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author Ashwini Kumar.
  */
-@Module
-public class NetworkModule
-{
+@Module(includes = TvMazeBackendModule.class)
+public class NetworkModule {
     private static final int TIMEOUT_IN_MS = 30000;
-    private static final String NAME_BASE_URL = "base url";
+    public static final String TVMAZE_BASE_URL = "tvmaze_base_url";
     private static final String BASE_URL = "https://api.tvmaze.com/";
 
     @Provides
-    @Named(NAME_BASE_URL)
-    String provideBaseUrlString()
-    {
+    @Named(TVMAZE_BASE_URL)
+    String provideBaseUrlString() {
         return BASE_URL;
     }
 
     @Provides
     @Singleton
-    CookieManager provideCookieManager()
-    {
+    CookieManager provideCookieManager() {
         CookieManager cookieManager = new CookieManager();
         cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
         CookieHandler.setDefault(cookieManager);
@@ -58,15 +54,13 @@ public class NetworkModule
 
     @Provides
     @Singleton
-    HttpLoggingInterceptor provideLoggingInterceptor()
-    {
+    HttpLoggingInterceptor provideLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
     @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient(CookieJar cookieJar, HttpLoggingInterceptor loggingInterceptor, Cache cache)
-    {
+    OkHttpClient provideOkHttpClient(CookieJar cookieJar, HttpLoggingInterceptor loggingInterceptor, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .connectTimeout(TIMEOUT_IN_MS, TimeUnit.MILLISECONDS)
@@ -77,8 +71,7 @@ public class NetworkModule
 
     @Provides
     @Singleton
-    Gson provideGson()
-    {
+    Gson provideGson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         return gsonBuilder.create();
@@ -86,15 +79,13 @@ public class NetworkModule
 
     @Provides
     @Singleton
-    CookieJar provideCookieJar(Context context)
-    {
+    CookieJar provideCookieJar(Context context) {
         return new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context));
     }
 
     @Provides
     @Singleton
-    Cache provideCache(Context context)
-    {
+    Cache provideCache(Context context) {
         final int cacheSize = 5 * 1024 * 1024; // 5 MB
         File cacheDir = context.getCacheDir();
         return new Cache(cacheDir, cacheSize);
@@ -102,20 +93,7 @@ public class NetworkModule
 
     @Provides
     @Singleton
-    RxJava2CallAdapterFactory provideRxJavaCallAdapterFactory()
-    {
+    RxJava2CallAdapterFactory provideRxJavaCallAdapterFactory() {
         return RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io());
-    }
-
-    @Provides
-    @Singleton
-    Retrofit provideRetrofit(OkHttpClient okHttpClient, RxJava2CallAdapterFactory rxAdapter, @Named(NAME_BASE_URL) String baseUrl)
-    {
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(rxAdapter)
-                .client(okHttpClient)
-                .build();
     }
 }

@@ -11,11 +11,9 @@ import okhttp3.Response;
  * @author Ashwini Kumar.
  */
 
-public class ApiInterceptor implements Interceptor
-{
+public class ApiInterceptor implements Interceptor {
     @Override
-    public Response intercept(Chain chain) throws IOException
-    {
+    public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
         HttpUrl originalHttpUrl = original.url();
 

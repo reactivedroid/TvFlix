@@ -1,40 +1,40 @@
 package com.android.ashwiask.tvmaze;
 
+import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 
-import com.android.ashwiask.tvmaze.network.NetworkModule;
+import com.android.ashwiask.tvmaze.di.AppComponent;
+import com.android.ashwiask.tvmaze.di.AppInjector;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
 
 
 /**
  * @author Ashwini Kumar.
  */
 public class TvMazeApplication extends Application
-{
+        implements HasActivityInjector {
+    @Inject
+    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
+
     private AppComponent appComponent;
 
-    public static TvMazeApplication get(Context context)
-    {
-        return (TvMazeApplication) context.getApplicationContext();
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        AppInjector.init(this);
+    }
+
+    public AppComponent getAppComponent() {
+        return appComponent;
     }
 
     @Override
-    public void onCreate()
-    {
-        super.onCreate();
-        initAppComponent();
-    }
-
-    private void initAppComponent()
-    {
-        appComponent = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .networkModule(new NetworkModule())
-                .build();
-    }
-
-    public AppComponent getAppComponent()
-    {
-        return appComponent;
+    public AndroidInjector<Activity> activityInjector() {
+        return dispatchingAndroidInjector;
     }
 }
