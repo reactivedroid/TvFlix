@@ -43,8 +43,6 @@ dependencies {
     kapt deps.dagger.android_processor
     implementation deps.dagger.android_support
 
-    kapt deps.databinding_kotlin
-
     // Espresso
     androidTestImplementation(deps.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
