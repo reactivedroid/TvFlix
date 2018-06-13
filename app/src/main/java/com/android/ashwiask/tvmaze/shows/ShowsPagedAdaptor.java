@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.ashwiask.tvmaze.R;
+import com.android.ashwiask.tvmaze.databinding.AllShowListItemBinding;
 import com.android.ashwiask.tvmaze.databinding.LoadingListItemBinding;
 import com.android.ashwiask.tvmaze.databinding.NetworkFailureListItemBinding;
-import com.android.ashwiask.tvmaze.databinding.ShowListItemBinding;
 import com.android.ashwiask.tvmaze.home.Show;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -46,8 +46,8 @@ public class ShowsPagedAdaptor extends PagedListAdapter<Show, RecyclerView.ViewH
                 return networkFailureHolder;
             case R.layout.show_list_item:
             default:
-                ShowListItemBinding showListItemBinding =
-                        ShowListItemBinding.inflate(layoutInflater, parent, false);
+                AllShowListItemBinding showListItemBinding =
+                        AllShowListItemBinding.inflate(layoutInflater, parent, false);
                 return new ShowHolder(showListItemBinding);
         }
     }
@@ -66,7 +66,12 @@ public class ShowsPagedAdaptor extends PagedListAdapter<Show, RecyclerView.ViewH
             default:
             case R.layout.show_list_item:
                 Show show = getItem(position);
-                configureImage((ShowHolder) holder, show);
+                ShowHolder showHolder = (ShowHolder) holder;
+                showHolder.binding.setShow(show);
+                if (show.rating() != null) {
+                    showHolder.binding.setRating(show.rating().get("average"));
+                }
+                configureImage(showHolder, show);
                 break;
         }
     }
@@ -126,9 +131,9 @@ public class ShowsPagedAdaptor extends PagedListAdapter<Show, RecyclerView.ViewH
     }
 
     static class ShowHolder extends RecyclerView.ViewHolder {
-        private ShowListItemBinding binding;
+        private AllShowListItemBinding binding;
 
-        ShowHolder(ShowListItemBinding itemBinding) {
+        ShowHolder(AllShowListItemBinding itemBinding) {
             super(itemBinding.getRoot());
             this.binding = itemBinding;
         }

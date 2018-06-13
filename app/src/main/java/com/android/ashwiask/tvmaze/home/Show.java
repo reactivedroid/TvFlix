@@ -66,5 +66,5 @@ public abstract class Show {
     public abstract String summary();
 
     @Nullable
-    public abstract Map<String, Double> rating();
+    public abstract Map<String, String> rating();
 }

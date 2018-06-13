@@ -4,4 +4,7 @@
     <string name="schedule_for">Schedule for %s</string>
     <string name="shows">Shows</string>
     <string name="retry">Retry</string>
+    <string name="rating">Rating: %s</string>
+    <string name="premiered_on">Premiered on: %s</string>
+    <string name="not_rated">Not Rated</string>
 </resources>

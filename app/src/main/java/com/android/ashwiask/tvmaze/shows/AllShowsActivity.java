@@ -9,7 +9,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.android.ashwiask.tvmaze.R;
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity;
-import com.android.ashwiask.tvmaze.common.Constants;
-import com.android.ashwiask.tvmaze.common.GridItemDecoration;
 import com.android.ashwiask.tvmaze.databinding.ActivityAllShowsBinding;
 import com.android.ashwiask.tvmaze.home.Show;
 
@@ -49,10 +47,8 @@ public class AllShowsActivity extends TvMazeBaseActivity
     }
 
     private void initAdapter() {
-        GridLayoutManager layoutManager = new GridLayoutManager(this, Constants.NO_OF_COLUMNS);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         showsPagedAdaptor = new ShowsPagedAdaptor(new ShowsDiffUtilCallback(), this);
-        int spacing = getResources().getDimensionPixelSize(R.dimen.show_grid_spacing);
-        binding.shows.addItemDecoration(new GridItemDecoration(spacing, Constants.NO_OF_COLUMNS));
         binding.shows.setLayoutManager(layoutManager);
         binding.shows.setAdapter(showsPagedAdaptor);
         showsViewModel.getShows().observe(this, this::showAllShows);
