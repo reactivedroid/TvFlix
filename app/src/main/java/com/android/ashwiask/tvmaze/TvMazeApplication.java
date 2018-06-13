@@ -1,7 +1,7 @@
 package com.android.ashwiask.tvmaze;
 
 import android.app.Activity;
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.android.ashwiask.tvmaze.di.AppComponent;
 import com.android.ashwiask.tvmaze.di.AppInjector;
@@ -16,7 +16,7 @@ import dagger.android.HasActivityInjector;
 /**
  * @author Ashwini Kumar.
  */
-public class TvMazeApplication extends Application
+public class TvMazeApplication extends MultiDexApplication
         implements HasActivityInjector {
     @Inject
     DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;

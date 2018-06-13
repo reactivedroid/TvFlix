@@ -1,66 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-
-        <variable
-            name="show"
-            type="com.android.ashwiask.tvmaze.home.Show" />
-
-        <variable
-            name="episode"
-            type="com.android.ashwiask.tvmaze.home.Episode" />
-    </data>
-
-    <FrameLayout
+    <ImageView
+        android:id="@+id/show_image"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:background="@color/grey"
-        android:orientation="vertical">
+        android:layout_height="240dp"
+        android:scaleType="fitXY" />
 
-        <ImageView
-            android:id="@+id/show_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_gravity="bottom"
-            android:alpha="0.8"
-            android:background="@color/colorPrimaryDark"
-            android:orientation="vertical"
-            android:padding="8dp">
-
-            <TextView
-                android:id="@+id/show_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@{show.name}"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="Game of Thrones" />
-
-            <TextView
-                android:id="@+id/episode_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="4dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:text="@{episode.name}"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="Ice And Fire" />
-        </LinearLayout>
-    </FrameLayout>
 </layout>

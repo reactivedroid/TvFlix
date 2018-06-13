@@ -57,8 +57,7 @@ android {
     }
 
     dexOptions {
-        jumboMode true
-        javaMaxHeapSize "2048m"
+        javaMaxHeapSize "4g"
     }
 }
 

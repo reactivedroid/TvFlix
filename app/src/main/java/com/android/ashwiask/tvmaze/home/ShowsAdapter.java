@@ -1,6 +1,7 @@
 package com.android.ashwiask.tvmaze.home;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import com.android.ashwiask.tvmaze.R;
 import com.android.ashwiask.tvmaze.databinding.ShowListItemBinding;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
@@ -21,12 +23,13 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> 
     private List<Episode> episodes;
     private Context context;
 
-    public ShowsAdapter(List<Episode> episodes) {
+    ShowsAdapter(List<Episode> episodes) {
         this.episodes = episodes;
     }
 
+    @NonNull
     @Override
-    public ShowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ShowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         ShowListItemBinding showListItemBinding = ShowListItemBinding.inflate(layoutInflater, parent, false);
@@ -37,8 +40,6 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> 
     public void onBindViewHolder(ShowHolder holder, int position) {
         Episode episode = episodes.get(position);
         Show show = episode.show();
-        holder.binding.setEpisode(episode);
-        holder.binding.setShow(show);
         configureImage(holder, show);
     }
 
@@ -46,10 +47,8 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> 
         if (show.image() != null) {
             Glide.with(context).load(show.image().get(ORIGINAL_IMAGE))
                     .apply(RequestOptions.placeholderOf(R.color.grey))
-                    .apply(RequestOptions.centerCropTransform())
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(holder.binding.showImage);
-        } else {
-            // do nothing
         }
     }
 
@@ -58,7 +57,7 @@ public class ShowsAdapter extends RecyclerView.Adapter<ShowsAdapter.ShowHolder> 
         return episodes.size();
     }
 
-    public static class ShowHolder extends RecyclerView.ViewHolder {
+    static class ShowHolder extends RecyclerView.ViewHolder {
         private ShowListItemBinding binding;
 
         ShowHolder(ShowListItemBinding itemBinding) {

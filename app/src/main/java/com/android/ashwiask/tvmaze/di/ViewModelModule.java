@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 import com.android.ashwiask.tvmaze.home.HomeViewModel;
+import com.android.ashwiask.tvmaze.shows.ShowsViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -15,6 +16,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel.class)
     abstract ViewModel bindHomeViewModel(HomeViewModel homeViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ShowsViewModel.class)
+    abstract ViewModel bindShowsViewModel(ShowsViewModel showsViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(TvMazeViewModelFactory factory);
