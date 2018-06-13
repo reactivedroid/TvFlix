@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="show_grid_spacing">8dp</dimen>
+    <dimen name="show_grid_spacing">4dp</dimen>
 </resources>

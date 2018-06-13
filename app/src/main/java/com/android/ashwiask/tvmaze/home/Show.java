@@ -41,6 +41,7 @@ public abstract class Show {
 
     public abstract int runtime();
 
+    @Nullable
     public abstract String premiered();
 
     @Nullable
@@ -48,7 +49,11 @@ public abstract class Show {
 
     @Nullable
     @SerializedName("network")
-    public abstract AirChannel airChannel();
+    public abstract Channel airChannel();
+
+    @Nullable
+    @SerializedName("webChannel")
+    public abstract Channel webChannel();
 
     @Nullable
     public abstract Map<String, String> image();
@@ -61,5 +66,5 @@ public abstract class Show {
     public abstract String summary();
 
     @Nullable
-    public abstract Map<String, Double> rating();
+    public abstract Map<String, String> rating();
 }

@@ -13,7 +13,7 @@ versions.build_tools = '27.0.3'
 versions.constraint_layout = '1.0.2'
 versions.google_services = '3.0.0'
 versions.lifecycle = '1.1.1'
-versions.support_lib = '26.1.0'
+versions.support_lib = '27.1.0'
 versions.support_test = '1.0.1'
 versions.multidex = '1.0.1'
 versions.espresso = '2.2.2'
@@ -35,6 +35,7 @@ versions.persistentcookiejar = 'v1.0.1'
 versions.auto_value = '1.6'
 versions.auto_value_gson = '0.7.0'
 versions.auto_value_parcel = '0.2.5'
+versions.paging = '1.0.0'
 
 ext.versions = versions
 
@@ -143,4 +144,9 @@ auto_value_gson.annotations = "com.ryanharter.auto.value:auto-value-gson-annotat
 deps.auto_value_gson = auto_value_gson
 
 deps.auto_value_parcel = "com.ryanharter.auto.value:auto-value-parcel:$versions.auto_value_parcel"
+
+def paging = [:]
+paging.runtime = "android.arch.paging:runtime:$versions.paging"
+paging.common = "android.arch.paging:common:$versions.paging"
+deps.paging = paging
 ext.deps = deps

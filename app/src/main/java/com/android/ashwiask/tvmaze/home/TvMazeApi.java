@@ -14,4 +14,8 @@ public interface TvMazeApi {
     @GET("/schedule")
     Single<List<Episode>> getCurrentSchedule(@Query("country") String country,
                                              @Query("date") String date);
+
+
+    @GET("/shows")
+    Single<List<Show>> getShows(@Query("page") int pageNumber);
 }

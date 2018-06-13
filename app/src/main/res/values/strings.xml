@@ -2,4 +2,9 @@
     <string name="app_name">TvMaze</string>
     <string name="popular_shows_airing_today">Popular shows in %s tonight</string>
     <string name="schedule_for">Schedule for %s</string>
+    <string name="shows">Shows</string>
+    <string name="retry">Retry</string>
+    <string name="rating">Rating: %s</string>
+    <string name="premiered_on">Premiered on: %s</string>
+    <string name="not_rated">Not Rated</string>
 </resources>

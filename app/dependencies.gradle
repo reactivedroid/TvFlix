@@ -57,4 +57,8 @@ dependencies {
     androidTestImplementation(deps.espresso, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
+    // Paging
+    implementation deps.paging.runtime
+    testImplementation deps.paging.common
 }
