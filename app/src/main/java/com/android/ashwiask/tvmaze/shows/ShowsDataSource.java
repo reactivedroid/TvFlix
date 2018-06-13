@@ -63,9 +63,6 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
         initialLoadStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.SUCCESS).build());
         pageNumber++;
-        // Shows fetched from TvMaze API are not page size dependent
-        // and it gives 234 shows in a single page. Hence, reducing the number here to see pagination
-        shows = shows.subList(0, 40);
         callback.onResult(shows);
     }
 
@@ -88,9 +85,6 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
         paginatedNetworkStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.SUCCESS).build());
         pageNumber++;
-        // Shows fetched from TvMaze API are not page size dependent
-        // and it gives 234 shows in a single page. Hence, reducing the number here to see pagination
-        shows = shows.subList(0, 20);
         callback.onResult(shows);
     }
 
