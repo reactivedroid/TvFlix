@@ -19,11 +19,13 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 public class ShowsPagedAdaptor extends PagedListAdapter<Show, RecyclerView.ViewHolder> {
+    private final Callback callback;
     private Context context;
     private NetworkState currentNetworkState;
 
-    ShowsPagedAdaptor(@NonNull DiffUtil.ItemCallback<Show> diffCallback) {
+    ShowsPagedAdaptor(@NonNull DiffUtil.ItemCallback<Show> diffCallback, Callback callback) {
         super(diffCallback);
+        this.callback = callback;
     }
 
     @NonNull
@@ -39,7 +41,9 @@ public class ShowsPagedAdaptor extends PagedListAdapter<Show, RecyclerView.ViewH
             case R.layout.network_failure_list_item:
                 NetworkFailureListItemBinding networkFailureListItemBinding =
                         NetworkFailureListItemBinding.inflate(layoutInflater, parent, false);
-                return new NetworkFailureHolder(networkFailureListItemBinding);
+                NetworkFailureHolder networkFailureHolder = new NetworkFailureHolder(networkFailureListItemBinding);
+                networkFailureHolder.binding.retry.setOnClickListener(v -> callback.onRetryClicked());
+                return networkFailureHolder;
             case R.layout.show_list_item:
             default:
                 ShowListItemBinding showListItemBinding =
@@ -146,5 +150,9 @@ public class ShowsPagedAdaptor extends PagedListAdapter<Show, RecyclerView.ViewH
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface Callback {
+        void onRetryClicked();
     }
 }

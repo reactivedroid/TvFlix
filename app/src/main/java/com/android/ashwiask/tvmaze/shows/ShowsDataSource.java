@@ -27,6 +27,9 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
     private int pageNumber = 1;
     private MutableLiveData<NetworkState> paginatedNetworkStateLiveData;
     private MutableLiveData<NetworkState> initialLoadStateLiveData;
+    // For Retry
+    private LoadParams<Integer> params;
+    private LoadCallback<Show> callback;
 
     @Inject
     public ShowsDataSource(TvMazeApi tvMazeApi) {
@@ -53,19 +56,24 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
         initialLoadStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.ERROR)
                 .message(throwable.getMessage()).build());
-        Log.d(TAG, throwable.getMessage());
+        Log.e(TAG, throwable.getMessage());
     }
 
     private void onShowsFetched(List<Show> shows, LoadInitialCallback<Show> callback) {
         initialLoadStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.SUCCESS).build());
         pageNumber++;
+        // Shows fetched from TvMaze API are not page size dependent
+        // and it gives 234 shows in a single page. Hence, reducing the number here to see pagination
+        shows = shows.subList(0, 40);
         callback.onResult(shows);
     }
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params,
                           @NonNull LoadCallback<Show> callback) {
+        this.params = params;
+        this.callback = callback;
         Log.d(TAG, "Fetching next page: " + pageNumber);
         paginatedNetworkStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.LOADING).build());
@@ -80,6 +88,9 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
         paginatedNetworkStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.SUCCESS).build());
         pageNumber++;
+        // Shows fetched from TvMaze API are not page size dependent
+        // and it gives 234 shows in a single page. Hence, reducing the number here to see pagination
+        shows = shows.subList(0, 20);
         callback.onResult(shows);
     }
 
@@ -87,7 +98,7 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
         paginatedNetworkStateLiveData.postValue(NetworkState.builder()
                 .status(NetworkState.Status.ERROR)
                 .message(throwable.getMessage()).build());
-        Log.d("ShowsDataSource", throwable.getMessage());
+        Log.e(TAG, throwable.getMessage());
     }
 
     @Override
@@ -113,5 +124,9 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
 
     public LiveData<NetworkState> getInitialLoadStateLiveData() {
         return initialLoadStateLiveData;
+    }
+
+    public void retryPagination() {
+        loadAfter(params, callback);
     }
 }

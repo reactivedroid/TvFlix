@@ -24,7 +24,8 @@ import com.android.ashwiask.tvmaze.home.Show;
 
 import javax.inject.Inject;
 
-public class AllShowsActivity extends TvMazeBaseActivity {
+public class AllShowsActivity extends TvMazeBaseActivity
+        implements ShowsPagedAdaptor.Callback {
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ShowsViewModel showsViewModel;
@@ -49,7 +50,7 @@ public class AllShowsActivity extends TvMazeBaseActivity {
 
     private void initAdapter() {
         GridLayoutManager layoutManager = new GridLayoutManager(this, Constants.NO_OF_COLUMNS);
-        showsPagedAdaptor = new ShowsPagedAdaptor(new ShowsDiffUtilCallback());
+        showsPagedAdaptor = new ShowsPagedAdaptor(new ShowsDiffUtilCallback(), this);
         int spacing = getResources().getDimensionPixelSize(R.dimen.show_grid_spacing);
         binding.shows.addItemDecoration(new GridItemDecoration(spacing, Constants.NO_OF_COLUMNS));
         binding.shows.setLayoutManager(layoutManager);
@@ -100,5 +101,10 @@ public class AllShowsActivity extends TvMazeBaseActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onRetryClicked() {
+        showsViewModel.retry();
     }
 }

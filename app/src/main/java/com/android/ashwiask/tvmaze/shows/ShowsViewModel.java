@@ -44,4 +44,8 @@ public class ShowsViewModel extends ViewModel {
         super.onCleared();
         showsDataSourceFactory.getShowsDataSource().clear();
     }
+
+    public void retry() {
+        showsDataSourceFactory.getShowsDataSource().retryPagination();
+    }
 }
