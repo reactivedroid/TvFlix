@@ -19,7 +19,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidSupportInjectionModule.class,
         AppModule.class,
         ActivityBuildersModule.class,
-        NetworkModule.class})
+        NetworkModule.class,
+        TvMazeDbModule.class})
 public interface AppComponent {
     void inject(TvMazeApplication tvMazeApplication);
 

@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_favorites"
+        android:icon="@drawable/favorite"
+        android:title="@string/favorite_shows"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_shows"
         android:title="@string/shows"
         app:showAsAction="always" />
+
 </menu>

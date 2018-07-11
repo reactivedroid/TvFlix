@@ -6,6 +6,7 @@ import android.arch.paging.ItemKeyedDataSource;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.android.ashwiask.tvmaze.favorite.FavoriteShowsRepository;
 import com.android.ashwiask.tvmaze.home.Show;
 import com.android.ashwiask.tvmaze.home.TvMazeApi;
 
@@ -14,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -23,6 +25,7 @@ import io.reactivex.schedulers.Schedulers;
 public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
     private static final String TAG = "ShowsDataSource";
     private final TvMazeApi tvMazeApi;
+    private final FavoriteShowsRepository favoriteShowsRepository;
     private CompositeDisposable compositeDisposable;
     private int pageNumber = 1;
     private MutableLiveData<NetworkState> paginatedNetworkStateLiveData;
@@ -30,10 +33,13 @@ public class ShowsDataSource extends ItemKeyedDataSource<Integer, Show> {
     // For Retry
     private LoadParams<Integer> params;
     private LoadCallback<Show> callback;
+    private Single<List<Show>> favoriteShows;
 
     @Inject
-    public ShowsDataSource(TvMazeApi tvMazeApi) {
+    public ShowsDataSource(TvMazeApi tvMazeApi,
+                           FavoriteShowsRepository favoriteShowsRepository) {
         this.tvMazeApi = tvMazeApi;
+        this.favoriteShowsRepository = favoriteShowsRepository;
         compositeDisposable = new CompositeDisposable();
         initialLoadStateLiveData = new MutableLiveData<>();
         paginatedNetworkStateLiveData = new MutableLiveData<>();

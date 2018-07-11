@@ -15,6 +15,10 @@ public abstract class Episode {
         return new AutoValue_Episode.GsonTypeAdapter(gson);
     }
 
+    public static Builder builder() {
+        return new AutoValue_Episode.Builder();
+    }
+
     public abstract Show show();
 
     public abstract long id();
@@ -39,4 +43,36 @@ public abstract class Episode {
 
     @Nullable
     public abstract String summary();
+
+    public abstract Builder toBuilder();
+
+    @AutoValue.Builder
+    public static abstract class Builder {
+        public abstract Builder show(Show show);
+
+        public abstract Builder id(long id);
+
+        @Nullable
+        public abstract Builder url(String url);
+
+        @Nullable
+        public abstract Builder name(String name);
+
+        public abstract Builder season(int season);
+
+        public abstract Builder number(int number);
+
+        @Nullable
+        public abstract Builder airdate(String airdate);
+
+        @Nullable
+        public abstract Builder airtime(String airtime);
+
+        public abstract Builder runtime(int runtime);
+
+        @Nullable
+        public abstract Builder summary(String summary);
+
+        public abstract Episode build();
+    }
 }

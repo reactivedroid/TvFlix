@@ -48,7 +48,7 @@ public class AllShowsActivity extends TvMazeBaseActivity
 
     private void initAdapter() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        showsPagedAdaptor = new ShowsPagedAdaptor(new ShowsDiffUtilCallback(), this);
+        showsPagedAdaptor = new ShowsPagedAdaptor(new ShowDiffUtilItemCallback(), this);
         binding.shows.setLayoutManager(layoutManager);
         binding.shows.setAdapter(showsPagedAdaptor);
         showsViewModel.getShows().observe(this, this::showAllShows);
