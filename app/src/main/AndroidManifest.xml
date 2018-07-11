@@ -26,6 +26,10 @@
         <activity
             android:name=".shows.AllShowsActivity"
             android:screenOrientation="sensorPortrait" />
+
+        <activity
+            android:name=".favorite.FavoriteShowsActivity"
+            android:screenOrientation="sensorPortrait" />
     </application>
 
 </manifest>

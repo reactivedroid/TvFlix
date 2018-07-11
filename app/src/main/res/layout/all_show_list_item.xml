@@ -32,7 +32,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="160dp"
             android:orientation="horizontal"
             android:padding="8dp">
 
@@ -64,7 +64,8 @@
                     android:maxLines="4"
                     android:text="@{Html.fromHtml(show.summary())}"
                     android:visibility="@{show.summary() == null ? View.GONE: View.VISIBLE, default = gone}"
-                    tools:text="In Hell's Kitchen, aspiring chefs are put through an intense culinary academy to prove they possess the right combination of ingredients to win a life-changing grand prize." />
+                    tools:text="In Hell's Kitchen, aspiring chefs are put through an intense culinary academy to prove they possess the right combination of ingredients to win a life-changing grand prize."
+                    tools:visibility="visible" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -73,7 +74,8 @@
                     android:text="@{rating != null ? String.format(@string/rating, rating) : @string/not_rated}"
                     android:textSize="12sp"
                     android:visibility="@{show.rating() == null ? View.GONE: View.VISIBLE, default=gone}"
-                    tools:text="Rating: 8.9" />
+                    tools:text="Rating: 8.9"
+                    tools:visibility="visible" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,7 +84,8 @@
                     android:text="@{String.format(@string/premiered_on, show.premiered())}"
                     android:textSize="12sp"
                     android:visibility="@{show.premiered() == null ? View.GONE:View.VISIBLE, default=gone}"
-                    tools:text="Premiered On: 2005-05-30" />
+                    tools:text="Premiered On: 2005-05-30"
+                    tools:visibility="visible" />
 
             </LinearLayout>
         </LinearLayout>

@@ -1,5 +1,6 @@
 package com.android.ashwiask.tvmaze.home;
 
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -11,7 +12,7 @@ import com.google.gson.TypeAdapter;
  */
 
 @AutoValue
-public abstract class Channel {
+public abstract class Channel implements Parcelable {
     public static TypeAdapter<Channel> typeAdapter(Gson gson) {
         return new AutoValue_Channel.GsonTypeAdapter(gson);
     }

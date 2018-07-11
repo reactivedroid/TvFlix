@@ -1,5 +1,6 @@
 package com.android.ashwiask.tvmaze.di;
 
+import com.android.ashwiask.tvmaze.favorite.FavoriteShowsActivity;
 import com.android.ashwiask.tvmaze.home.HomeActivity;
 import com.android.ashwiask.tvmaze.shows.AllShowsActivity;
 
@@ -13,4 +14,7 @@ abstract class ActivityBuildersModule {
 
     @ContributesAndroidInjector
     abstract AllShowsActivity bindAllShowsActivity();
+
+    @ContributesAndroidInjector
+    abstract FavoriteShowsActivity bindFavoriteShowsActivity();
 }

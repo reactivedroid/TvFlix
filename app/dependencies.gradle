@@ -7,6 +7,7 @@ dependencies {
     implementation deps.support_lib.support_annotations
     implementation deps.support_lib.recyclerview
     implementation deps.support_lib.cardview
+    implementation deps.constraint_layout
 
     implementation deps.multidex
     testImplementation deps.junit
@@ -61,4 +62,10 @@ dependencies {
     // Paging
     implementation deps.paging.runtime
     testImplementation deps.paging.common
+
+    // Room
+    implementation deps.room.runtime
+    annotationProcessor deps.room.compiler
+    implementation deps.room.rxjava2
+    testImplementation deps.room.testing
 }

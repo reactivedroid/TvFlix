@@ -1,5 +1,6 @@
 package com.android.ashwiask.tvmaze.home;
 
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 
 import com.google.auto.value.AutoValue;
@@ -10,7 +11,7 @@ import com.google.gson.TypeAdapter;
  * @author Ashwini Kumar.
  */
 @AutoValue
-public abstract class ExternalInfo {
+public abstract class ExternalInfo implements Parcelable {
     public static TypeAdapter<ExternalInfo> typeAdapter(Gson gson) {
         return new AutoValue_ExternalInfo.GsonTypeAdapter(gson);
     }

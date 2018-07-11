@@ -2,6 +2,7 @@ package com.android.ashwiask.tvmaze.home;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -17,20 +18,25 @@ import com.android.ashwiask.tvmaze.R;
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity;
 import com.android.ashwiask.tvmaze.common.GridItemDecoration;
 import com.android.ashwiask.tvmaze.databinding.ActivityHomeBinding;
+import com.android.ashwiask.tvmaze.favorite.FavoriteShowsActivity;
 import com.android.ashwiask.tvmaze.shows.AllShowsActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class HomeActivity extends TvMazeBaseActivity {
+public class HomeActivity extends TvMazeBaseActivity
+        implements ShowsAdapter.Callback {
     private static final int NO_OF_COLUMNS = 2;
+    private static final int REQUEST_CODE_FAVORITE_SHOWS = 11;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
     private ActivityHomeBinding binding;
     private HomeViewModel homeViewModel;
+    private ShowsAdapter showsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,12 +67,13 @@ public class HomeActivity extends TvMazeBaseActivity {
         }
     }
 
-    private void showPopularShows(List<Episode> episodes) {
+    private void showPopularShows(List<Show> shows) {
         GridLayoutManager layoutManager = new GridLayoutManager(this, NO_OF_COLUMNS);
         layoutManager.setAutoMeasureEnabled(true);
         binding.popularShows.setLayoutManager(layoutManager);
         binding.popularShows.setHasFixedSize(true);
-        ShowsAdapter showsAdapter = new ShowsAdapter(episodes);
+        showsAdapter = new ShowsAdapter(this);
+        showsAdapter.updateList(shows);
         binding.popularShows.setAdapter(showsAdapter);
         int spacing = getResources().getDimensionPixelSize(R.dimen.show_grid_spacing);
         binding.popularShows.addItemDecoration(new GridItemDecoration(spacing, NO_OF_COLUMNS));
@@ -108,11 +115,43 @@ public class HomeActivity extends TvMazeBaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_shows) {
-            AllShowsActivity.start(this);
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_shows:
+                AllShowsActivity.start(this);
+                return true;
+            case R.id.action_favorites:
+                FavoriteShowsActivity.startForResult(this, REQUEST_CODE_FAVORITE_SHOWS);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onFavoriteClicked(Show show) {
+        if (show.isFavorite()) {
+            homeViewModel.addToFavorite(show);
+            Toast.makeText(this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show();
         } else {
-            return super.onOptionsItemSelected(item);
+            homeViewModel.removeFromFavorite(show);
+            Toast.makeText(this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_FAVORITE_SHOWS) {
+            List<Show> removedFromFavoriteShows = data.getParcelableArrayListExtra(
+                    FavoriteShowsActivity.EXTRAS_REMOVED_FROM_FAVORITE_SHOWS);
+            if (!removedFromFavoriteShows.isEmpty()) {
+                List<Show> showList = new ArrayList<>(showsAdapter.getShows());
+                for (Show show : removedFromFavoriteShows) {
+                    int index = showList.indexOf(show);
+                    showList.set(index, show);
+                }
+                showsAdapter.updateList(showList);
+            }
         }
     }
 }
