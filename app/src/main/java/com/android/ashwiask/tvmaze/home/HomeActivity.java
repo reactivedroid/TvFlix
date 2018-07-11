@@ -148,7 +148,9 @@ public class HomeActivity extends TvMazeBaseActivity
                 List<Show> showList = new ArrayList<>(showsAdapter.getShows());
                 for (Show show : removedFromFavoriteShows) {
                     int index = showList.indexOf(show);
-                    showList.set(index, show);
+                    if (index != -1) {
+                        showList.set(index, show);
+                    }
                 }
                 showsAdapter.updateList(showList);
             }
