@@ -14,8 +14,8 @@ The Shows screen displays the list of shows fetched from TvMaze API using `Pagin
 Read my article on medium:
 [Pagination using Paging Library with RxJava and Dagger](https://medium.com/@kumarashwini/pagination-using-paging-library-with-rxjava-and-dagger-d9d05dbd8eac)
 
-## Room to implement Favourites
-The Favourites screen displayes the list of shows marked favourites from the Home screen. The user can add/remove from the favorites as and when required. The implementation of the favorites is done using `Room` library with RxJava and Dagger. 
+## Room Persistence Library
+The Favourites screen displayes the list of shows marked favourites from the Home screen. The user can add/remove from the favorites as and when required. The implementation of the favorites is done using `Room`  Persistence Library with RxJava and Dagger. 
 Read my article on medium:
 [Room with RxJava and Dagger](https://medium.com/@kumarashwini/room-with-rxjava-and-dagger-2722f4420651)
 
