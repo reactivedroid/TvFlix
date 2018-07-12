@@ -25,8 +25,7 @@ It also has Static Code Analysis tools integrated. Want to know more. Read my ar
 
 Sample Screenshots:
 
-![Home](http://i.imgur.com/6YvBFTb.png) 
+![Home](http://i.imgur.com/6YvBFTb.png)                       ![Favourite Shows](http://i.imgur.com/7dxorJc.png) 
 
-![Favourite Shows](http://i.imgur.com/7dxorJc.png) 
 
 ![Shows](http://i.imgur.com/aEPrcdg.png) 
