@@ -5,7 +5,6 @@ apply from: "$project.rootDir/tools/pmd.gradle"
 
 android {
     compileSdkVersion versions.compile_sdk
-    buildToolsVersion versions.build_tools
 
     dataBinding {
         enabled true
