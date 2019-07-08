@@ -2,6 +2,9 @@ apply plugin: 'com.android.application'
 apply from: "$project.rootDir/tools/findbugs.gradle"
 apply from: "$project.rootDir/tools/checkstyle.gradle"
 apply from: "$project.rootDir/tools/pmd.gradle"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion versions.compile_sdk
@@ -13,8 +16,8 @@ android {
         applicationId "com.android.ashwiask.tvmaze"
         minSdkVersion versions.min_sdk
         targetSdkVersion versions.target_sdk
-        versionCode 1
-        versionName "1.0"
+        versionCode versions.app_version_code
+        versionName versions.app_version_name
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -36,7 +39,7 @@ android {
         release {
             shrinkResources true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {

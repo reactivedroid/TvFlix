@@ -34,7 +34,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
  */
 @Module(includes = TvMazeBackendModule.class)
 public class NetworkModule {
-    private static final int TIMEOUT_IN_MS = 30000;
     public static final String TVMAZE_BASE_URL = "tvmaze_base_url";
     private static final String BASE_URL = "https://api.tvmaze.com/";
 
@@ -64,7 +63,6 @@ public class NetworkModule {
     OkHttpClient provideOkHttpClient(CookieJar cookieJar, HttpLoggingInterceptor loggingInterceptor, Cache cache) {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
-                .connectTimeout(TIMEOUT_IN_MS, TimeUnit.MILLISECONDS)
                 .cookieJar(cookieJar)
                 .cache(cache)
                 .build();
