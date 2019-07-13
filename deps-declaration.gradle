@@ -10,7 +10,7 @@ versions.app_version_code = 102
 versions.app_version_name = '2.0.0'
 
 // android and google essentials
-versions.android_plugin = '3.4.1'
+versions.android_plugin = '3.4.2'
 versions.constraint_layout = '1.0.2'
 versions.google_services = '3.0.0'
 versions.lifecycle = '1.1.1'
