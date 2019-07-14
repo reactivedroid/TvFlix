@@ -24,3 +24,6 @@ allprojects {
         maven("http://repository.jetbrains.com/all")
     }
 }
+tasks.register("clean", Delete::class) {
+    delete(rootProject.buildDir)
+}
