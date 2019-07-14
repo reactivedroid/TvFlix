@@ -1,82 +1,81 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //Support
-    implementation deps.support_lib.design
-    implementation deps.support_lib.appcompat
-    implementation deps.support_lib.support_v4
-    implementation deps.support_lib.support_annotations
-    implementation deps.support_lib.recyclerview
-    implementation deps.support_lib.cardview
-    implementation deps.constraint_layout
+    implementation Deps.support_lib_design
+    implementation Deps.support_lib_appcompat
+    implementation Deps.support_lib_support_v4
+    implementation Deps.support_lib_support_annotations
+    implementation Deps.support_lib_recyclerview
+    implementation Deps.support_lib_cardview
+    implementation Deps.constraint_layout
 
-    implementation deps.multidex
+    implementation Deps.multidex
 
-    implementation deps.rxjava.android
+    implementation Deps.rxjava_android
     // Because RxAndroid releases are few and far between, it is recommended you also
     // explicitly depend on RxJava's latest version for bug fixes and new features.
-    implementation deps.rxjava.main
+    implementation Deps.rxjava_main
 
-    implementation deps.okhttp.main
-    implementation deps.okhttp.logging_interceptor
+    implementation Deps.okhttp_main
+    implementation Deps.okhttp_logging_interceptor
 
     // Glide
-    implementation deps.glide.runtime
-    implementation deps.glide.okhttp_integration
-    kapt deps.glide.compiler
+    implementation Deps.glide_runtime
+    implementation Deps.glide_okhttp_integration
+    kapt Deps.glide_compiler
 
     // Retrofit
-    implementation deps.retrofit.main
-    implementation deps.retrofit.gson
-    implementation deps.retrofit.rxjava
-    implementation deps.okhttp.logging_interceptor
+    implementation Deps.retrofit_main
+    implementation Deps.retrofit_gson
+    implementation Deps.retrofit_rxjava
+    implementation Deps.okhttp_logging_interceptor
 
-    implementation deps.persistentcookiejar
-    implementation deps.gson
+    implementation Deps.gson
 
     // Dagger2
-    implementation deps.dagger.main
-    kapt deps.dagger.compiler
-    implementation deps.dagger.android
-    kapt deps.dagger.android_processor
-    implementation deps.dagger.android_support
+    implementation Deps.dagger_main
+    kapt Deps.dagger_compiler
+    implementation Deps.dagger_android
+    kapt Deps.dagger_android_processor
+    implementation Deps.dagger_android_support
 
     // Viewmodel
-    implementation deps.lifecycle.extensions
-    kapt deps.lifecycle.compiler
+    implementation Deps.lifecycle_extensions
+    kapt Deps.lifecycle_compiler
 
     //Auto value
-    implementation deps.auto_value.annotations
-    kapt deps.auto_value.compiler
-    implementation deps.auto_value_gson.annotations
+    implementation Deps.auto_value_annotations
+    kapt Deps.auto_value_compiler
+    implementation Deps.auto_value_gson_annotations
     // included again as annotation processor because of
     // an issue https://github.com/rharter/auto-value-gson/issues/171
-    kapt deps.auto_value.annotations
-    kapt deps.auto_value_gson.compiler
-    kapt deps.auto_value_parcel
+    kapt Deps.auto_value_annotations
+    kapt Deps.auto_value_gson_compiler
+    kapt Deps.auto_value_parcel
     // Paging
-    implementation deps.paging.runtime
-    testImplementation deps.paging.common
+    implementation Deps.paging_runtime
+    testImplementation Deps.paging_common
 
     // Room
-    implementation deps.room.runtime
-    kapt deps.room.compiler
-    implementation deps.room.rxjava2
-    testImplementation deps.room.testing
+    implementation Deps.room_runtime
+    kapt Deps.room_compiler
+    implementation Deps.room_rxjava2
+    testImplementation Deps.room_testing
 
     // Logger
-    implementation deps.timber
+    implementation Deps.timber
 
     // Test
-    testImplementation deps.junit
-    androidTestImplementation deps.findbugs_jsr
-    testImplementation deps.mockito.core
-    androidTestImplementation deps.mockito.android
-    androidTestImplementation deps.mockito.kotlin
-    testImplementation deps.robolectric
-    testImplementation deps.arch_core_testing
+    testImplementation Deps.junit
+    androidTestImplementation Deps.findbugs_jsr
+    testImplementation Deps.mockito_core
+    androidTestImplementation Deps.mockito_android
+    androidTestImplementation Deps.mockito_kotlin
+    testImplementation Deps.robolectric
+    testImplementation Deps.arch_core_testing
     // Espresso
-    androidTestImplementation(deps.espresso.core, {
+    androidTestImplementation(Deps.espresso_core, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation deps.espresso.contrib
+    androidTestImplementation Deps.espresso_contrib
 }

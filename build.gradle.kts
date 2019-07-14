@@ -1,16 +1,15 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    apply from: 'deps-declaration.gradle'
     repositories {
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
+        maven("https://maven.fabric.io/public")
         google()
         jcenter()
     }
     dependencies {
-        classpath deps.android_plugin
-        classpath deps.kotlin.gradle_plugin
+        classpath(Deps.android_plugin)
+        classpath(Deps.kotlin_gradle_plugin)
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -20,12 +19,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "https://jitpack.io" }
-        maven { url "https://maven.google.com" }
-        maven { url "http://repository.jetbrains.com/all" }
+        maven("https://jitpack.io")
+        maven("https://maven.google.com")
+        maven("http://repository.jetbrains.com/all")
     }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
 }
