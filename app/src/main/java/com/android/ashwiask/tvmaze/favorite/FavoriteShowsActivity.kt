@@ -16,10 +16,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.ashwiask.tvmaze.R
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity
-import com.android.ashwiask.tvmaze.common.Constants
-import com.android.ashwiask.tvmaze.common.GridItemDecoration
 import com.android.ashwiask.tvmaze.databinding.ActivityFavoriteShowsBinding
 import com.android.ashwiask.tvmaze.db.favouriteshow.FavoriteShow
+import com.android.ashwiask.tvmaze.utils.GridItemDecoration
 import javax.inject.Inject
 
 class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callback {
@@ -53,12 +52,12 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
     private fun showFavorites(favoriteShows: List<FavoriteShow>) {
         binding.progress.visibility = View.GONE
         if (favoriteShows.isNotEmpty()) {
-            val layoutManager = GridLayoutManager(this, Constants.NO_OF_COLUMNS)
+            val layoutManager = GridLayoutManager(this, COULMNS_COUNT)
             binding.shows.layoutManager = layoutManager
             val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
             binding.shows.adapter = favoriteShowsAdapter
             val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-            binding.shows.addItemDecoration(GridItemDecoration(spacing, Constants.NO_OF_COLUMNS))
+            binding.shows.addItemDecoration(GridItemDecoration(spacing, COULMNS_COUNT))
             binding.shows.visibility = View.VISIBLE
         } else {
             val bookmarkSpan = ImageSpan(this, R.drawable.favorite_border)
@@ -85,6 +84,7 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
     companion object {
         private const val FAVORITE_ICON_START_OFFSET = 13
         private const val FAVORITE_ICON_END_OFFSET = 14
+        private const val COULMNS_COUNT = 2
 
         fun startForResult(context: Activity, requestCode: Int) {
             val starter = Intent(context, FavoriteShowsActivity::class.java)

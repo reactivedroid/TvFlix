@@ -1,39 +1,35 @@
 package com.android.ashwiask.tvmaze.shows
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.ItemKeyedDataSource
-import com.android.ashwiask.tvmaze.favorite.FavoriteShowsRepository
-import com.android.ashwiask.tvmaze.home.TvMazeApi
+import com.android.ashwiask.tvmaze.network.TvMazeApi
 import com.android.ashwiask.tvmaze.network.home.Show
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ShowsDataSource @Inject
 constructor(
-    private val tvMazeApi: TvMazeApi,
-    private val favoriteShowsRepository: FavoriteShowsRepository
+    private val tvMazeApi: TvMazeApi
 ) : ItemKeyedDataSource<Int, Show>() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private var pageNumber = 1
     private val paginatedNetworkStateLiveData: MutableLiveData<NetworkState> = MutableLiveData()
     private val initialLoadStateLiveData: MutableLiveData<NetworkState> = MutableLiveData()
     // For Retry
-    private var params: LoadParams<Int>? = null
-    private var callback: LoadCallback<Show>? = null
-    private val favoriteShows: Single<List<Show>>? = null
+    private lateinit var params: LoadParams<Int>
+    private lateinit var callback: LoadCallback<Show>
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Show>
     ) {
-        Log.d(TAG, "Fetching first page: $pageNumber")
+        Timber.d("Fetching first page: $pageNumber")
         initialLoadStateLiveData.postValue(Loading)
         val showsDisposable = tvMazeApi.getShows(pageNumber)
             .subscribeOn(Schedulers.io())
@@ -61,7 +57,7 @@ constructor(
     ) {
         this.params = params
         this.callback = callback
-        Log.d(TAG, "Fetching next page: $pageNumber")
+        Timber.d("Fetching next page: $pageNumber")
         paginatedNetworkStateLiveData.postValue(Loading)
         val showsDisposable = tvMazeApi.getShows(params.key)
             .subscribeOn(Schedulers.io())
@@ -80,7 +76,7 @@ constructor(
 
     private fun onPaginationError(throwable: Throwable) {
         paginatedNetworkStateLiveData.postValue(NetworkError(throwable.message))
-        Log.e(TAG, throwable.message)
+        Timber.e(throwable)
     }
 
     override fun loadBefore(
@@ -108,10 +104,6 @@ constructor(
     }
 
     fun retryPagination() {
-        loadAfter(params!!, callback!!)
-    }
-
-    companion object {
-        private const val TAG = "ShowsDataSource"
+        loadAfter(params, callback)
     }
 }

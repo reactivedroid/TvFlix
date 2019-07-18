@@ -6,9 +6,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-/**
- * @author Ashwini Kumar.
- */
 @Module(includes = [ViewModelModule::class])
 internal class AppModule {
     @Provides

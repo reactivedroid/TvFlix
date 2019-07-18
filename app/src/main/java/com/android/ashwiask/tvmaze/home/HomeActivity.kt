@@ -13,10 +13,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.ashwiask.tvmaze.R
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity
-import com.android.ashwiask.tvmaze.common.GridItemDecoration
 import com.android.ashwiask.tvmaze.databinding.ActivityHomeBinding
 import com.android.ashwiask.tvmaze.favorite.FavoriteShowsActivity
 import com.android.ashwiask.tvmaze.shows.AllShowsActivity
+import com.android.ashwiask.tvmaze.utils.GridItemDecoration
 import javax.inject.Inject
 
 class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {

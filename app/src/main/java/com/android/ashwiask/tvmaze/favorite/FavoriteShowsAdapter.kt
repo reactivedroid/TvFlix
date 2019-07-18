@@ -29,7 +29,7 @@ class FavoriteShowsAdapter(
     private fun onFavouriteIconClicked(position: Int) {
         if (position != RecyclerView.NO_POSITION) {
             val show = favoriteShows[position]
-             val updatedShow = show.copy(isFavorite = !show.isFavorite)
+            val updatedShow = show.copy(isFavorite = !show.isFavorite)
             favoriteShows[position] = updatedShow
             notifyItemChanged(position)
             callback.onFavoriteClicked(show)

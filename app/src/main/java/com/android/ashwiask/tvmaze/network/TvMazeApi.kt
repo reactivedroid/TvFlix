@@ -1,4 +1,4 @@
-package com.android.ashwiask.tvmaze.home
+package com.android.ashwiask.tvmaze.network
 
 import com.android.ashwiask.tvmaze.network.home.Episode
 import com.android.ashwiask.tvmaze.network.home.Show

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.ashwiask.tvmaze.favorite.FavoriteShowsRepository
+import com.android.ashwiask.tvmaze.network.TvMazeApi
 import com.android.ashwiask.tvmaze.network.home.Episode
 import com.android.ashwiask.tvmaze.network.home.Show
 import io.reactivex.Single

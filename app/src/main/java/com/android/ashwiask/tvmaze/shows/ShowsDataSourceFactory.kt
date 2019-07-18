@@ -10,11 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class ShowsDataSourceFactory @Inject
 constructor(val showsDataSource: ShowsDataSource) : DataSource.Factory<Int, Show>() {
-    private val showsDataSourceLiveData: MutableLiveData<ShowsDataSource>
-
-    init {
-        showsDataSourceLiveData = MutableLiveData()
-    }
+    private val showsDataSourceLiveData: MutableLiveData<ShowsDataSource> = MutableLiveData()
 
     override fun create(): DataSource<Int, Show> {
         showsDataSourceLiveData.postValue(showsDataSource)

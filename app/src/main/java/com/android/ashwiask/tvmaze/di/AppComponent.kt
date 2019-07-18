@@ -8,9 +8,6 @@ import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
-/**
- * @author Ashwini Kumar.
- */
 @Singleton
 @Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBuildersModule::class, NetworkModule::class, TvMazeDbModule::class])
 interface AppComponent {
