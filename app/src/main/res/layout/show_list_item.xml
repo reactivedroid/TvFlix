@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="showFavoriteIcon"
+            type="Boolean" />
+    </data>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="260dp">
@@ -15,7 +24,8 @@
             android:layout_width="54dp"
             android:layout_height="54dp"
             android:layout_gravity="start"
-            android:background="@drawable/favorite_gradient">
+            android:background="@drawable/favorite_gradient"
+            android:visibility="@{showFavoriteIcon? View.VISIBLE:View.GONE}">
 
             <ImageView
                 android:id="@+id/favorite"
@@ -25,5 +35,4 @@
                 android:layout_marginTop="8dp" />
         </LinearLayout>
     </FrameLayout>
-
 </layout>

@@ -1,8 +1,9 @@
 package com.android.ashwiask.tvmaze.common;
 
 import android.graphics.Rect;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import androidx.recyclerview.widget.RecyclerView;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Ashwini Kumar.
@@ -17,8 +18,8 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     @Override
-    public void getItemOffsets(Rect outRect, View view,
-                               RecyclerView parent, RecyclerView.State state) {
+    public void getItemOffsets(@NotNull Rect outRect, @NotNull View view,
+                               @NotNull RecyclerView parent, @NotNull RecyclerView.State state) {
         outRect.left = space;
         outRect.right = space;
         outRect.bottom = space;

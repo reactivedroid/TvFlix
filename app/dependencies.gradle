@@ -3,7 +3,6 @@ dependencies {
     //Support
     implementation deps.support_lib.design
     implementation deps.support_lib.appcompat
-    implementation deps.support_lib.support_v4
     implementation deps.support_lib.support_annotations
     implementation deps.support_lib.recyclerview
     implementation deps.support_lib.cardview
@@ -26,12 +25,9 @@ dependencies {
 
     // Retrofit
     implementation deps.retrofit.main
-    implementation deps.retrofit.gson
+    implementation deps.retrofit.moshi
     implementation deps.retrofit.rxjava
     implementation deps.okhttp.logging_interceptor
-
-    implementation deps.persistentcookiejar
-    implementation deps.gson
 
     // Dagger2
     implementation deps.dagger.main
@@ -44,15 +40,6 @@ dependencies {
     implementation deps.lifecycle.extensions
     kapt deps.lifecycle.compiler
 
-    //Auto value
-    implementation deps.auto_value.annotations
-    kapt deps.auto_value.compiler
-    implementation deps.auto_value_gson.annotations
-    // included again as annotation processor because of
-    // an issue https://github.com/rharter/auto-value-gson/issues/171
-    kapt deps.auto_value.annotations
-    kapt deps.auto_value_gson.compiler
-    kapt deps.auto_value_parcel
     // Paging
     implementation deps.paging.runtime
     testImplementation deps.paging.common
@@ -72,6 +59,7 @@ dependencies {
     testImplementation deps.mockito.core
     androidTestImplementation deps.mockito.android
     androidTestImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.inline
     testImplementation deps.robolectric
     testImplementation deps.arch_core_testing
     // Espresso
@@ -79,4 +67,9 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation deps.espresso.contrib
+
+    implementation deps.moshi.kotlin
+    kapt deps.moshi.codegen
+
+    kapt deps.databinding
 }

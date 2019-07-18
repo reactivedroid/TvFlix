@@ -43,7 +43,6 @@ android {
         }
     }
     compileOptions {
-        incremental true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -57,9 +56,9 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude '.readme'
     }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
+    // To enable experimental functionality like @Parcelize
+    androidExtensions {
+        experimental = true
     }
 }
 
