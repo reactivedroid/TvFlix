@@ -25,7 +25,7 @@
             android:layout_height="54dp"
             android:layout_gravity="start"
             android:background="@drawable/favorite_gradient"
-            android:visibility="@{showFavoriteIcon? View.VISIBLE:View.GONE}">
+            android:visibility="@{safeUnbox(showFavoriteIcon) ? View.VISIBLE:View.GONE}">
 
             <ImageView
                 android:id="@+id/favorite"

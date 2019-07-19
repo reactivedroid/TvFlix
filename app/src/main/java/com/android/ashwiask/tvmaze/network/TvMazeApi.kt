@@ -6,10 +6,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-/**
- * @author Ashwini Kumar.
- */
-
 interface TvMazeApi {
     @GET("/schedule")
     fun getCurrentSchedule(

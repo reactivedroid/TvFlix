@@ -1,91 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="com.android.ashwiask.tvmaze.network.home.Show"/>
+        <import type="com.android.ashwiask.tvmaze.network.home.Show" />
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
-        <import type="android.text.Html"/>
-
-        <variable
-                name="rating"
-                type="String"/>
+        <import type="androidx.core.text.HtmlCompat" />
 
         <variable
-                name="show"
-                type="com.android.ashwiask.tvmaze.network.home.Show"/>
+            name="rating"
+            type="String" />
+
+        <variable
+            name="show"
+            type="com.android.ashwiask.tvmaze.network.home.Show" />
     </data>
 
     <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
-            app:cardCornerRadius="2dp"
-            app:cardUseCompatPadding="true">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        app:cardCornerRadius="2dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:orientation="horizontal"
-                android:padding="8dp">
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <ImageView
-                    android:id="@+id/show_image"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="8dp"
-                    android:scaleType="fitXY"/>
+                android:id="@+id/show_image"
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="8dp"
+                android:scaleType="fitXY" />
 
             <LinearLayout
-                    android:layout_width="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:text="@{show.name}"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:text="Hell's Kitchen" />
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@{show.name}"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        tools:text="Hell's Kitchen"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="4"
+                    android:text="@{HtmlCompat.fromHtml(show.summary, HtmlCompat.FROM_HTML_MODE_LEGACY)}"
+                    android:visibility="@{show.summary == null ? View.GONE: View.VISIBLE, default = gone}"
+                    tools:text="In Hell's Kitchen, aspiring chefs are put through an intense culinary academy to prove they possess the right combination of ingredients to win a life-changing grand prize."
+                    tools:visibility="visible" />
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:ellipsize="end"
-                        android:maxLines="4"
-                        android:text="@{Html.fromHtml(show.summary)}"
-                        android:visibility="@{show.summary == null ? View.GONE: View.VISIBLE, default = gone}"
-                        tools:text="In Hell's Kitchen, aspiring chefs are put through an intense culinary academy to prove they possess the right combination of ingredients to win a life-changing grand prize."
-                        tools:visibility="visible"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{rating != null ? String.format(@string/rating, rating) : @string/not_rated}"
+                    android:textSize="12sp"
+                    android:visibility="@{show.rating == null ? View.GONE: View.VISIBLE, default=gone}"
+                    tools:text="Rating: 8.9"
+                    tools:visibility="visible" />
 
                 <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@{rating != null ? String.format(@string/rating, rating) : @string/not_rated}"
-                        android:textSize="12sp"
-                        android:visibility="@{show.rating == null ? View.GONE: View.VISIBLE, default=gone}"
-                        tools:text="Rating: 8.9"
-                        tools:visibility="visible"/>
-
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@{String.format(@string/premiered_on, show.premiered)}"
-                        android:textSize="12sp"
-                        android:visibility="@{show.premiered == null ? View.GONE:View.VISIBLE, default=gone}"
-                        tools:text="Premiered On: 2005-05-30"
-                        tools:visibility="visible"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@{String.format(@string/premiered_on, show.premiered)}"
+                    android:textSize="12sp"
+                    android:visibility="@{show.premiered == null ? View.GONE:View.VISIBLE, default=gone}"
+                    tools:text="Premiered On: 2005-05-30"
+                    tools:visibility="visible" />
 
             </LinearLayout>
         </LinearLayout>
