@@ -22,16 +22,14 @@ class HomeViewModel @Inject constructor(
     private val tvMazeApi: TvMazeApi,
     private val favoriteShowsRepository: FavoriteShowsRepository
 ) : ViewModel() {
-    private val isLoading = MutableLiveData<Boolean>()
-    private val homeData: MutableLiveData<HomeViewData> = MutableLiveData()
-    private val errorMsg: MutableLiveData<String> = MutableLiveData()
+    private val homeViewStateLiveData: MutableLiveData<HomeViewState> = MutableLiveData()
     private lateinit var episodeViewDataList: MutableList<HomeViewData.EpisodeViewData>
 
     val country: String
         get() = COUNTRY_US
 
     fun onScreenCreated() {
-        isLoading.value = true
+        homeViewStateLiveData.value = Loading
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
             onError(exception)
         }
@@ -74,26 +72,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        isLoading.value = false
-        errorMsg.value = throwable.message
+        homeViewStateLiveData.value = NetworkError(throwable.message)
         Timber.e(throwable)
     }
 
     private fun onSuccess(favoriteShowsWithFavorites: List<HomeViewData.EpisodeViewData>) {
-        isLoading.value = false
-        homeData.value = HomeViewData(favoriteShowsWithFavorites)
+        homeViewStateLiveData.value = Success(HomeViewData(favoriteShowsWithFavorites))
     }
 
-    fun getPopularShowsList(): LiveData<HomeViewData> {
-        return homeData
-    }
-
-    fun isLoading(): LiveData<Boolean> {
-        return isLoading
-    }
-
-    fun getErrorMsg(): LiveData<String> {
-        return errorMsg
+    fun getHomeViewState(): LiveData<HomeViewState> {
+        return homeViewStateLiveData
     }
 
     fun addToFavorite(show: Show) {

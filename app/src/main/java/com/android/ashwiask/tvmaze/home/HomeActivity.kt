@@ -33,13 +33,25 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
         homeViewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         setToolbar()
         homeViewModel.onScreenCreated()
-        homeViewModel.isLoading().observe(this, Observer { setProgress(it) })
-        homeViewModel.getPopularShowsList().observe(this, Observer { showPopularShows(it) })
-        homeViewModel.getErrorMsg().observe(this, Observer { showError(it) })
+        homeViewModel.getHomeViewState().observe(this, Observer { setViewState(it) })
         binding.popularShowHeader.text = String.format(
             getString(R.string.popular_shows_airing_today),
             homeViewModel.country
         )
+    }
+
+    private fun setViewState(homeViewState: HomeViewState) {
+        when (homeViewState) {
+            is Loading -> setProgress(true)
+            is NetworkError -> {
+                setProgress(false)
+                showError(homeViewState.message!!)
+            }
+            is Success -> {
+                setProgress(false)
+                showPopularShows(homeViewState.homeViewData)
+            }
+        }
     }
 
     private fun setToolbar() {
