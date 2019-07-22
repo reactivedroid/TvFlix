@@ -2,6 +2,7 @@ package com.android.ashwiask.tvmaze.di
 
 import android.app.Application
 import com.android.ashwiask.tvmaze.TvMazeApplication
+import com.android.ashwiask.tvmaze.db.TvMazeDbModule
 import com.android.ashwiask.tvmaze.network.NetworkModule
 import dagger.BindsInstance
 import dagger.Component

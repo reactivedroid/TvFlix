@@ -1,8 +1,7 @@
-package com.android.ashwiask.tvmaze.di
+package com.android.ashwiask.tvmaze.db
 
 import android.content.Context
 import androidx.room.Room
-import com.android.ashwiask.tvmaze.db.TvMazeDatabase
 import com.android.ashwiask.tvmaze.db.favouriteshow.ShowDao
 import dagger.Module
 import dagger.Provides

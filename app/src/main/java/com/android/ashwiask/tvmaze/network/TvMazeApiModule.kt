@@ -1,7 +1,5 @@
-package com.android.ashwiask.tvmaze.network.backend
+package com.android.ashwiask.tvmaze.network
 
-import com.android.ashwiask.tvmaze.network.NetworkModule
-import com.android.ashwiask.tvmaze.network.TvMazeApi
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient

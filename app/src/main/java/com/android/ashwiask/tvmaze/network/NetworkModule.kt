@@ -1,7 +1,6 @@
 package com.android.ashwiask.tvmaze.network
 
 import android.content.Context
-import com.android.ashwiask.tvmaze.network.backend.TvMazeApiModule
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
