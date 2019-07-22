@@ -39,6 +39,7 @@ dependencies {
     // Viewmodel
     implementation deps.lifecycle.extensions
     kapt deps.lifecycle.compiler
+    implementation deps.lifecycle.viewmodel_ktx
 
     // Paging
     implementation deps.paging.runtime
@@ -72,4 +73,8 @@ dependencies {
     kapt deps.moshi.codegen
 
     kapt deps.databinding
+
+    implementation deps.coroutines.core
+    implementation deps.coroutines.rx2
+    implementation deps.coroutines.android
 }

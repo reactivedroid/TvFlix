@@ -15,5 +15,5 @@ interface TvMazeApi {
 
 
     @GET("/shows")
-    fun getShows(@Query("page") pageNumber: Int): Single<List<Show>>
+    suspend fun getShows(@Query("page") pageNumber: Int): List<Show>
 }

@@ -1,7 +1,7 @@
 package com.android.ashwiask.tvmaze.network
 
 import android.content.Context
-import com.android.ashwiask.tvmaze.network.backend.TvMazeBackendModule
+import com.android.ashwiask.tvmaze.network.backend.TvMazeApiModule
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Named
 import javax.inject.Singleton
 
-@Module(includes = [TvMazeBackendModule::class])
+@Module(includes = [TvMazeApiModule::class])
 class NetworkModule {
 
     @Provides

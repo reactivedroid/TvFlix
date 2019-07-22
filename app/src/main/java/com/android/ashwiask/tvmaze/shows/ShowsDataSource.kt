@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.ItemKeyedDataSource
 import com.android.ashwiask.tvmaze.network.TvMazeApi
 import com.android.ashwiask.tvmaze.network.home.Show
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,7 +15,6 @@ class ShowsDataSource @Inject
 constructor(
     private val tvMazeApi: TvMazeApi
 ) : ItemKeyedDataSource<Int, Show>() {
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private var pageNumber = 1
     private val paginatedNetworkStateLiveData: MutableLiveData<NetworkState> = MutableLiveData()
     private val initialLoadStateLiveData: MutableLiveData<NetworkState> = MutableLiveData()
@@ -31,15 +28,16 @@ constructor(
     ) {
         Timber.d("Fetching first page: $pageNumber")
         initialLoadStateLiveData.postValue(Loading)
-        val showsDisposable = tvMazeApi.getShows(pageNumber)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ onShowsFetched(it, callback) }, { onError(it) })
-        compositeDisposable.add(showsDisposable)
-    }
-
-    private fun onError(throwable: Throwable) {
-        initialLoadStateLiveData.postValue(NetworkError(throwable.message))
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+            initialLoadStateLiveData.postValue(NetworkError(exception.message))
+            Timber.e(exception)
+        }
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+            val shows = tvMazeApi.getShows(pageNumber)
+            withContext(Dispatchers.Main) {
+                onShowsFetched(shows, callback)
+            }
+        }
     }
 
     private fun onShowsFetched(
@@ -59,24 +57,22 @@ constructor(
         this.callback = callback
         Timber.d("Fetching next page: $pageNumber")
         paginatedNetworkStateLiveData.postValue(Loading)
-        val showsDisposable = tvMazeApi.getShows(params.key)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { onMoreShowsFetched(it, callback) },
-                { this.onPaginationError(it) })
-        compositeDisposable.add(showsDisposable)
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+            paginatedNetworkStateLiveData.postValue(NetworkError(exception.message))
+            Timber.e(exception)
+        }
+        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+            val shows = tvMazeApi.getShows(params.key)
+            withContext(Dispatchers.Main) {
+                onMoreShowsFetched(shows, callback)
+            }
+        }
     }
 
     private fun onMoreShowsFetched(shows: List<Show>, callback: LoadCallback<Show>) {
         paginatedNetworkStateLiveData.postValue(Success)
         pageNumber++
         callback.onResult(shows)
-    }
-
-    private fun onPaginationError(throwable: Throwable) {
-        paginatedNetworkStateLiveData.postValue(NetworkError(throwable.message))
-        Timber.e(throwable)
     }
 
     override fun loadBefore(
@@ -91,7 +87,6 @@ constructor(
     }
 
     fun clear() {
-        compositeDisposable.clear()
         pageNumber = 1
     }
 

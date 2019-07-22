@@ -37,13 +37,14 @@ versions.mockito_kotlin = '2.1.0'
 versions.arch_core_testing = '2.0.0'
 versions.robolectric = '4.3'
 versions.moshi = '1.8.0'
+versions.coroutines = '1.2.1'
 ext.versions = versions
 
 def deps = [:]
 
 // ----- START OF GOOGLE AND ANDROID ESSENTIALS
 deps.android_plugin = "com.android.tools.build:gradle:$versions.android_plugin"
-deps.databinding =  "com.android.databinding:compiler:$versions.android_plugin"
+deps.databinding = "com.android.databinding:compiler:$versions.android_plugin"
 deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
 deps.multidex = "androidx.multidex:multidex:$versions.multidex"
 deps.google_services = "com.google.gms:google-services:$versions.google_services"
@@ -60,6 +61,7 @@ deps.support_lib = support_lib
 def lifecycle = [:]
 lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
 lifecycle.compiler = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
 deps.lifecycle = lifecycle
 
 def espresso = [:]
@@ -148,4 +150,10 @@ mockito.android = "org.mockito:mockito-android:$versions.mockito"
 mockito.inline = "org.mockito:mockito-inline:$versions.mockito"
 mockito.kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
 deps.mockito = mockito
+
+def coroutines = [:]
+coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+coroutines.rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$versions.coroutines"
+coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+deps.coroutines = coroutines
 ext.deps = deps
