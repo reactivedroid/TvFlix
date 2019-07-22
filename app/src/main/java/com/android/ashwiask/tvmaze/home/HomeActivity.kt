@@ -6,35 +6,33 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.ashwiask.tvmaze.R
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity
-import com.android.ashwiask.tvmaze.databinding.ActivityHomeBinding
 import com.android.ashwiask.tvmaze.favorite.FavoriteShowsActivity
 import com.android.ashwiask.tvmaze.shows.AllShowsActivity
 import com.android.ashwiask.tvmaze.utils.GridItemDecoration
+import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import javax.inject.Inject
 
 class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var binding: ActivityHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var showsAdapter: ShowsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        setContentView(R.layout.activity_home)
         homeViewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         setToolbar()
         homeViewModel.onScreenCreated()
         homeViewModel.getHomeViewState().observe(this, Observer { setViewState(it) })
-        binding.popularShowHeader.text = String.format(
+        popular_show_header.text = String.format(
             getString(R.string.popular_shows_airing_today),
             homeViewModel.country
         )
@@ -55,7 +53,7 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
     }
 
     private fun setToolbar() {
-        val toolbar = binding.toolbar.toolbar
+        val toolbar = toolbar.toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
@@ -72,14 +70,13 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
 
     private fun showPopularShows(homeViewData: HomeViewData) {
         val layoutManager = GridLayoutManager(this, NO_OF_COLUMNS)
-        binding.popularShows.layoutManager = layoutManager
-        binding.popularShows.setHasFixedSize(true)
+        popular_shows.layoutManager = layoutManager
+        popular_shows.setHasFixedSize(true)
         showsAdapter = ShowsAdapter(this)
         showsAdapter.updateList(homeViewData.episodes.toMutableList())
-        binding.popularShows.adapter = showsAdapter
+        popular_shows.adapter = showsAdapter
         val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-        binding.popularShows.addItemDecoration(GridItemDecoration(spacing, NO_OF_COLUMNS))
-        binding.popularShows.isNestedScrollingEnabled = false
+        popular_shows.addItemDecoration(GridItemDecoration(spacing, NO_OF_COLUMNS))
     }
 
     private fun showError(message: String) {
@@ -87,11 +84,11 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
     }
 
     private fun showProgress() {
-        binding.progress.visibility = View.VISIBLE
+        progress.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        binding.progress.visibility = View.GONE
+        progress.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

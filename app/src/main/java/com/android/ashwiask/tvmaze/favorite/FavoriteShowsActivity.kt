@@ -9,16 +9,16 @@ import android.text.style.ImageSpan
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.ashwiask.tvmaze.R
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity
-import com.android.ashwiask.tvmaze.databinding.ActivityFavoriteShowsBinding
 import com.android.ashwiask.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.ashwiask.tvmaze.utils.GridItemDecoration
+import kotlinx.android.synthetic.main.activity_favorite_shows.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import javax.inject.Inject
 
 class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callback {
@@ -26,11 +26,10 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var favoriteShowsViewModel: FavoriteShowsViewModel
-    private lateinit var binding: ActivityFavoriteShowsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_favorite_shows)
+        setContentView(R.layout.activity_favorite_shows)
         setToolbar()
         favoriteShowsViewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(FavoriteShowsViewModel::class.java)
@@ -40,7 +39,7 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
     }
 
     private fun setToolbar() {
-        val toolbar = binding.toolbar.toolbar
+        val toolbar = toolbar.toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
@@ -50,15 +49,15 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
 
 
     private fun showFavorites(favoriteShows: List<FavoriteShow>) {
-        binding.progress.visibility = View.GONE
+        progress.visibility = View.GONE
         if (favoriteShows.isNotEmpty()) {
-            val layoutManager = GridLayoutManager(this, COULMNS_COUNT)
-            binding.shows.layoutManager = layoutManager
+            val layoutManager = GridLayoutManager(this, COLUMNS_COUNT)
+            shows.layoutManager = layoutManager
             val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
-            binding.shows.adapter = favoriteShowsAdapter
+            shows.adapter = favoriteShowsAdapter
             val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-            binding.shows.addItemDecoration(GridItemDecoration(spacing, COULMNS_COUNT))
-            binding.shows.visibility = View.VISIBLE
+           shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
+            shows.visibility = View.VISIBLE
         } else {
             val bookmarkSpan = ImageSpan(this, R.drawable.favorite_border)
             val spannableString = SpannableString(getString(R.string.favorite_hint_msg))
@@ -66,8 +65,8 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
                 bookmarkSpan, FAVORITE_ICON_START_OFFSET,
                 FAVORITE_ICON_END_OFFSET, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            binding.favoriteHint.text = spannableString
-            binding.favoriteHint.visibility = View.VISIBLE
+            favorite_hint.text = spannableString
+            favorite_hint.visibility = View.VISIBLE
         }
     }
 
@@ -84,7 +83,7 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
     companion object {
         private const val FAVORITE_ICON_START_OFFSET = 13
         private const val FAVORITE_ICON_END_OFFSET = 14
-        private const val COULMNS_COUNT = 2
+        private const val COLUMNS_COUNT = 2
 
         fun startForResult(context: Activity, requestCode: Int) {
             val starter = Intent(context, FavoriteShowsActivity::class.java)

@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -16,21 +15,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.ashwiask.tvmaze.R
 import com.android.ashwiask.tvmaze.base.TvMazeBaseActivity
-import com.android.ashwiask.tvmaze.databinding.ActivityAllShowsBinding
 import com.android.ashwiask.tvmaze.network.home.Show
-
+import kotlinx.android.synthetic.main.activity_all_shows.*
+import kotlinx.android.synthetic.main.toolbar.view.*
 import javax.inject.Inject
 
 class AllShowsActivity : TvMazeBaseActivity(), ShowsPagedAdaptor.Callback {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var showsViewModel: ShowsViewModel
-    private lateinit var binding: ActivityAllShowsBinding
     private lateinit var showsPagedAdaptor: ShowsPagedAdaptor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_all_shows)
+        setContentView(R.layout.activity_all_shows)
         setToolbar()
         showsViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShowsViewModel::class.java)
         showsViewModel.onScreenCreated()
@@ -41,8 +39,8 @@ class AllShowsActivity : TvMazeBaseActivity(), ShowsPagedAdaptor.Callback {
     private fun initAdapter() {
         val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         showsPagedAdaptor = ShowsPagedAdaptor(ShowDiffUtilItemCallback(), this)
-        binding.shows.layoutManager = layoutManager
-        binding.shows.adapter = showsPagedAdaptor
+        shows.layoutManager = layoutManager
+        shows.adapter = showsPagedAdaptor
         showsViewModel.getShows().observe(this, Observer { showAllShows(it) })
         showsViewModel.paginatedLoadState().observe(this, Observer { setAdapterState(it) })
     }
@@ -52,7 +50,7 @@ class AllShowsActivity : TvMazeBaseActivity(), ShowsPagedAdaptor.Callback {
     }
 
     private fun setToolbar() {
-        val toolbar = binding.toolbar.toolbar
+        val toolbar = toolbar.toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
@@ -62,18 +60,18 @@ class AllShowsActivity : TvMazeBaseActivity(), ShowsPagedAdaptor.Callback {
 
     private fun setProgress(loadState: NetworkState) {
         when (loadState) {
-            is Success -> binding.progress.visibility = View.GONE
+            is Success -> progress.visibility = View.GONE
             is NetworkError -> {
-                binding.progress.visibility = View.GONE
+                progress.visibility = View.GONE
                 Toast.makeText(this, loadState.message, Toast.LENGTH_SHORT).show()
             }
-            is Loading -> binding.progress.visibility = View.VISIBLE
+            is Loading -> progress.visibility = View.VISIBLE
         }
     }
 
-    private fun showAllShows(shows: PagedList<Show>) {
-        showsPagedAdaptor.submitList(shows)
-        binding.shows.visibility = View.VISIBLE
+    private fun showAllShows(showsList: PagedList<Show>) {
+        showsPagedAdaptor.submitList(showsList)
+        shows.visibility = View.VISIBLE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
