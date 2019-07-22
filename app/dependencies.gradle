@@ -50,6 +50,7 @@ dependencies {
     kapt deps.room.compiler
     implementation deps.room.rxjava2
     testImplementation deps.room.testing
+    implementation deps.room.ktx
 
     // Logger
     implementation deps.timber

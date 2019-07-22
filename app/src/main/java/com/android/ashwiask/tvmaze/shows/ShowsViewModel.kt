@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.android.ashwiask.tvmaze.network.home.Show
-
 import javax.inject.Inject
 
 class ShowsViewModel @Inject

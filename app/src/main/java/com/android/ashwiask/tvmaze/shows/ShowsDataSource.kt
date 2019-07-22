@@ -21,6 +21,7 @@ constructor(
     // For Retry
     private lateinit var params: LoadParams<Int>
     private lateinit var callback: LoadCallback<Show>
+    private lateinit var job: Job
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -32,7 +33,7 @@ constructor(
             initialLoadStateLiveData.postValue(NetworkError(exception.message))
             Timber.e(exception)
         }
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+        job = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             val shows = tvMazeApi.getShows(pageNumber)
             withContext(Dispatchers.Main) {
                 onShowsFetched(shows, callback)
@@ -61,7 +62,7 @@ constructor(
             paginatedNetworkStateLiveData.postValue(NetworkError(exception.message))
             Timber.e(exception)
         }
-        CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
+        job = CoroutineScope(Dispatchers.IO + coroutineExceptionHandler).launch {
             val shows = tvMazeApi.getShows(params.key)
             withContext(Dispatchers.Main) {
                 onMoreShowsFetched(shows, callback)
@@ -88,6 +89,7 @@ constructor(
 
     fun clear() {
         pageNumber = 1
+        job.cancel()
     }
 
     fun getPaginatedNetworkStateLiveData(): LiveData<NetworkState> {

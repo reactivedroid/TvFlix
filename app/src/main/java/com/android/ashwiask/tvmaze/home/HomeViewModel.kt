@@ -3,58 +3,56 @@ package com.android.ashwiask.tvmaze.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.android.ashwiask.tvmaze.favorite.FavoriteShowsRepository
 import com.android.ashwiask.tvmaze.network.TvMazeApi
 import com.android.ashwiask.tvmaze.network.home.Episode
 import com.android.ashwiask.tvmaze.network.home.Show
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.BiFunction
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-/**
- * @author Ashwini Kumar.
- */
-
 class HomeViewModel @Inject constructor(
     private val tvMazeApi: TvMazeApi,
     private val favoriteShowsRepository: FavoriteShowsRepository
 ) : ViewModel() {
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val isLoading = MutableLiveData<Boolean>()
     private val homeData: MutableLiveData<HomeViewData> = MutableLiveData()
     private val errorMsg: MutableLiveData<String> = MutableLiveData()
     private lateinit var episodeViewDataList: MutableList<HomeViewData.EpisodeViewData>
-    private var previousFavoriteList: List<Long>? = null
 
     val country: String
         get() = COUNTRY_US
 
     fun onScreenCreated() {
         isLoading.value = true
-        val currentDate = currentDate
-        val favoriteShows = favoriteShowsRepository.allFavoriteShowIds
-        val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
-        val zippedSingleSource = Single.zip(
-            episodes,
-            favoriteShows,
-            BiFunction(this@HomeViewModel::favorites)
-        )
-        val homeDisposable = zippedSingleSource
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .map { HomeViewData(it) }
-            .subscribe(this::onSuccess, this::onError)
-        compositeDisposable.add(homeDisposable)
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+            onError(exception)
+        }
+        viewModelScope.launch(coroutineExceptionHandler) {
+            val favoriteShowIds = withContext(Dispatchers.IO) {
+                favoriteShowsRepository.allFavoriteShowIds()
+            }
+            val favoriteShowsWithFavorites = withContext(Dispatchers.IO) {
+                val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
+                getShowsWithFavorites(episodes, favoriteShowIds)
+            }
+            withContext(Dispatchers.Main) {
+                onSuccess(favoriteShowsWithFavorites)
+            }
+        }
     }
 
-    private fun favorites(episodes: List<Episode>, favoriteShowIds: List<Long>): List<HomeViewData.EpisodeViewData> {
-        previousFavoriteList = favoriteShowIds
+    private fun getShowsWithFavorites(
+        episodes: List<Episode>,
+        favoriteShowIds: List<Long>
+    ): List<HomeViewData.EpisodeViewData> {
         val episodeViewDataList = ArrayList<HomeViewData.EpisodeViewData>(episodes.size)
         for (episode in episodes) {
             val show = episode.show
@@ -78,16 +76,12 @@ class HomeViewModel @Inject constructor(
     private fun onError(throwable: Throwable) {
         isLoading.value = false
         errorMsg.value = throwable.message
+        Timber.e(throwable)
     }
 
-    private fun onSuccess(homeViewData: HomeViewData) {
+    private fun onSuccess(favoriteShowsWithFavorites: List<HomeViewData.EpisodeViewData>) {
         isLoading.value = false
-        homeData.value = homeViewData
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
+        homeData.value = HomeViewData(favoriteShowsWithFavorites)
     }
 
     fun getPopularShowsList(): LiveData<HomeViewData> {

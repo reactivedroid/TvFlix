@@ -2,16 +2,15 @@ package com.android.ashwiask.tvmaze.network
 
 import com.android.ashwiask.tvmaze.network.home.Episode
 import com.android.ashwiask.tvmaze.network.home.Show
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface TvMazeApi {
     @GET("/schedule")
-    fun getCurrentSchedule(
+    suspend fun getCurrentSchedule(
         @Query("country") country: String,
         @Query("date") date: String
-    ): Single<List<Episode>>
+    ): List<Episode>
 
 
     @GET("/shows")

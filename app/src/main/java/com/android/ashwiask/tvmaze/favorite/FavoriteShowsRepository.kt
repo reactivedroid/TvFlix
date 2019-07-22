@@ -3,8 +3,9 @@ package com.android.ashwiask.tvmaze.favorite
 import com.android.ashwiask.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.ashwiask.tvmaze.db.favouriteshow.ShowDao
 import com.android.ashwiask.tvmaze.network.home.Show
-import io.reactivex.Single
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,8 +13,9 @@ import javax.inject.Singleton
 class FavoriteShowsRepository @Inject
 constructor(private val showDao: ShowDao) {
 
-    val allFavoriteShows: Single<List<FavoriteShow>>
-        get() = showDao.allFavouriteShows()
+    suspend fun allFavoriteShows(): List<FavoriteShow> {
+        return showDao.allFavouriteShows()
+    }
 
     fun insertShowIntoFavorites(show: Show) {
         val favoriteShow = FavoriteShow(
@@ -26,7 +28,7 @@ constructor(private val showDao: ShowDao) {
             runtime = show.runtime!!,
             isFavorite = true
         )
-        showDao.insert(favoriteShow)
+        CoroutineScope(Dispatchers.IO).launch { showDao.insert(favoriteShow) }
     }
 
     fun removeShowFromFavorites(show: Show) {
@@ -40,17 +42,18 @@ constructor(private val showDao: ShowDao) {
             runtime = show.runtime!!,
             isFavorite = false
         )
-        showDao.remove(favoriteShow)
+        CoroutineScope(Dispatchers.IO).launch { showDao.remove(favoriteShow) }
     }
 
     fun insertIntoFavorites(favoriteShow: FavoriteShow) {
-        showDao.insert(favoriteShow)
+        CoroutineScope(Dispatchers.IO).launch { showDao.insert(favoriteShow) }
     }
 
     fun removeFromFavorites(favoriteShow: FavoriteShow) {
-        showDao.remove(favoriteShow)
+        CoroutineScope(Dispatchers.IO).launch { showDao.remove(favoriteShow) }
     }
 
-    val allFavoriteShowIds: Single<List<Long>>
-        get() = showDao.getFavoriteShowIds()
+    suspend fun allFavoriteShowIds(): List<Long> {
+        return showDao.getFavoriteShowIds()
+    }
 }

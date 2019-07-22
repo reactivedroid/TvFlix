@@ -13,7 +13,7 @@ versions.app_version_name = '2.0.0'
 versions.android_plugin = '3.4.2'
 versions.constraint_layout = '1.1.2'
 versions.google_services = '3.0.0'
-versions.lifecycle = '2.0.0'
+versions.lifecycle = '2.1.0-rc01'
 versions.support_lib = '27.1.0'
 versions.support_x = '1.0.0'
 versions.support_test = '1.1.0'
@@ -130,6 +130,7 @@ room.runtime = "androidx.room:room-runtime:$versions.room"
 room.compiler = "androidx.room:room-compiler:$versions.room"
 room.rxjava2 = "androidx.room:room-rxjava2:$versions.room"
 room.testing = "androidx.room:room-testing:$versions.room"
+room.ktx = "androidx.room:room-ktx:$versions.room"
 deps.room = room
 
 

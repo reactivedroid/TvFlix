@@ -3,26 +3,34 @@ package com.android.ashwiask.tvmaze.favorite
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.android.ashwiask.tvmaze.db.favouriteshow.FavoriteShow
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
 class FavoriteShowsViewModel @Inject
 constructor(private val favoriteShowsRepository: FavoriteShowsRepository) : ViewModel() {
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
     private val favoriteShowsLiveData: MutableLiveData<List<FavoriteShow>> = MutableLiveData()
     private lateinit var removedFromFavoriteShows: List<FavoriteShow>
 
     fun loadFavoriteShows() {
-        val favoriteShowsDisposable = favoriteShowsRepository.allFavoriteShows
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::onFavoritesFetched, this::onError)
-        compositeDisposable.add(favoriteShowsDisposable)
+        val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+            onError(exception)
+        }
+
+        viewModelScope.launch(coroutineExceptionHandler) {
+            val favoriteShows = withContext(Dispatchers.IO + coroutineExceptionHandler) {
+                favoriteShowsRepository.allFavoriteShows()
+            }
+            withContext(Dispatchers.Main + coroutineExceptionHandler) {
+                onFavoritesFetched(favoriteShows)
+            }
+        }
     }
 
     private fun onError(throwable: Throwable) {
@@ -36,11 +44,6 @@ constructor(private val favoriteShowsRepository: FavoriteShowsRepository) : View
 
     fun getFavoriteShowsLiveData(): LiveData<List<FavoriteShow>> {
         return favoriteShowsLiveData
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.clear()
     }
 
     fun addToFavorite(show: FavoriteShow) {
