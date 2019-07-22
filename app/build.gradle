@@ -7,17 +7,17 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion Versions.compile_sdk
+    compileSdkVersion versions.compile_sdk
 
     dataBinding {
         enabled true
     }
     defaultConfig {
         applicationId "com.android.ashwiask.tvmaze"
-        minSdkVersion Versions.min_sdk
-        targetSdkVersion Versions.target_sdk
-        versionCode Versions.app_version_code
-        versionName Versions.app_version_name
+        minSdkVersion versions.min_sdk
+        targetSdkVersion versions.target_sdk
+        versionCode versions.app_version_code
+        versionName versions.app_version_name
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
