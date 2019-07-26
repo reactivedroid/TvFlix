@@ -1,23 +1,18 @@
 package com.android.ashwiask.tvmaze
 
-import android.app.Activity
 import androidx.multidex.MultiDexApplication
 import com.android.ashwiask.tvmaze.di.AppComponent
 import com.android.ashwiask.tvmaze.di.AppInjector
 import com.android.ashwiask.tvmaze.di.DaggerAppComponent
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import timber.log.Timber
-
 import javax.inject.Inject
 
-/**
- * @author Ashwini Kumar.
- */
-class TvMazeApplication : MultiDexApplication(), HasActivityInjector {
+class TvMazeApplication : MultiDexApplication(), HasAndroidInjector {
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
 
     private lateinit var appComponent: AppComponent
 
@@ -33,7 +28,7 @@ class TvMazeApplication : MultiDexApplication(), HasActivityInjector {
         AppInjector.init(this)
     }
 
-    override fun activityInjector(): AndroidInjector<Activity>? {
+    override fun androidInjector(): AndroidInjector<Any> {
         return dispatchingAndroidInjector
     }
 }

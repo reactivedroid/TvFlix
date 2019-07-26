@@ -34,7 +34,7 @@ class HomeRobot {
             )
     }
 
-    fun verifyToast(activity: Activity){
+    fun verifyToast(activity: Activity) {
         onView(withText(R.string.added_to_favorites)).inRoot(withDecorView(not(`is`(activity.window.decorView))))
             .check(matches(isDisplayed()))
     }
@@ -46,7 +46,7 @@ class HomeRobot {
             }
 
             override fun getDescription(): String {
-                return "Click on a child view with specified id."
+                return "Click on a child view with id $id"
             }
 
             override fun perform(uiController: UiController, view: View) {
