@@ -16,7 +16,8 @@ versions.google_services = '3.0.0'
 versions.lifecycle = '2.1.0-rc01'
 versions.support_lib = '27.1.0'
 versions.support_x = '1.0.0'
-versions.support_test = '1.1.0'
+versions.android_test = '1.1.0'
+versions.android_test_junit = '1.1.1'
 versions.multidex = '2.0.0'
 versions.espresso = '3.1.0'
 versions.dagger = '2.23.2'
@@ -67,6 +68,7 @@ deps.lifecycle = lifecycle
 def espresso = [:]
 espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
 espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+espresso.idling_resource = "androidx.test.espresso:espresso-idling-resource:$versions.espresso"
 deps.espresso = espresso
 
 // ----- END OF ANDROID AND GOOGLE ESSENTIALS
@@ -108,10 +110,11 @@ def rxbinding = [:]
 rxbinding.platform = "com.jakewharton.rxbinding2:rxbinding:$versions.rxbinding"
 deps.rxbinding = rxbinding
 
-def support_test = [:]
-support_test.rules = "androidx.test:rules:$versions.support_test"
-support_test.runner = "androidx.test:runner:$versions.support_test"
-deps.support_test = support_test
+def android_test = [:]
+android_test.rules = "androidx.test:rules:$versions.android_test"
+android_test.runner = "androidx.test:runner:$versions.android_test"
+android_test.junit = "androidx.test.ext:junit:$versions.android_test_junit"
+deps.android_test = android_test
 
 deps.findbugs_jsr = "com.google.code.findbugs:jsr305:$versions.findbugs"
 

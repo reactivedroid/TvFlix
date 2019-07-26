@@ -69,14 +69,16 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
     }
 
     private fun showPopularShows(homeViewData: HomeViewData) {
-        val layoutManager = GridLayoutManager(this, NO_OF_COLUMNS)
-        popular_shows.layoutManager = layoutManager
-        popular_shows.setHasFixedSize(true)
+        val gridLayoutManager = GridLayoutManager(this, NO_OF_COLUMNS)
         showsAdapter = ShowsAdapter(this)
         showsAdapter.updateList(homeViewData.episodes.toMutableList())
-        popular_shows.adapter = showsAdapter
-        val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-        popular_shows.addItemDecoration(GridItemDecoration(spacing, NO_OF_COLUMNS))
+        popular_shows.apply {
+            layoutManager = gridLayoutManager
+            setHasFixedSize(true)
+            adapter = showsAdapter
+            val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
+            addItemDecoration(GridItemDecoration(spacing, NO_OF_COLUMNS))
+        }
     }
 
     private fun showError(message: String) {

@@ -65,10 +65,12 @@ dependencies {
     testImplementation deps.robolectric
     testImplementation deps.arch_core_testing
     // Espresso
-    androidTestImplementation(deps.espresso.core, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation deps.espresso.core
     androidTestImplementation deps.espresso.contrib
+    androidTestImplementation deps.espresso.idling_resource
+    androidTestImplementation deps.android_test.rules
+    androidTestImplementation deps.android_test.runner
+    androidTestImplementation deps.android_test.junit
 
     implementation deps.moshi.kotlin
     kapt deps.moshi.codegen

@@ -19,7 +19,7 @@ android {
         versionCode versions.app_version_code
         versionName versions.app_version_name
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     flavorDimensions "default"
     productFlavors {

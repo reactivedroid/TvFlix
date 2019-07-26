@@ -12,7 +12,6 @@ interface TvMazeApi {
         @Query("date") date: String
     ): List<Episode>
 
-
     @GET("/shows")
     suspend fun getShows(@Query("page") pageNumber: Int): List<Show>
 }
