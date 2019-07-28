@@ -56,4 +56,8 @@ constructor(private val showDao: ShowDao) {
     suspend fun allFavoriteShowIds(): List<Long> {
         return showDao.getFavoriteShowIds()
     }
+
+    fun clearAll() {
+        CoroutineScope(Dispatchers.IO).launch { showDao.clear() }
+    }
 }

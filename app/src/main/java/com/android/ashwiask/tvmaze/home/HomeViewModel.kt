@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class HomeViewModel @Inject constructor(
     private val tvMazeApi: TvMazeApi,
@@ -34,13 +34,13 @@ class HomeViewModel @Inject constructor(
             onError(exception)
         }
         viewModelScope.launch(coroutineExceptionHandler) {
-            val favoriteShowIds = withContext(Dispatchers.IO) {
-                favoriteShowsRepository.allFavoriteShowIds()
-            }
+            // Get shows from network and favorites from room db on background thread
             val favoriteShowsWithFavorites = withContext(Dispatchers.IO) {
+                val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
                 val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
                 getShowsWithFavorites(episodes, favoriteShowIds)
             }
+            // Return the combined result on main thread
             withContext(Dispatchers.Main) {
                 onSuccess(favoriteShowsWithFavorites)
             }

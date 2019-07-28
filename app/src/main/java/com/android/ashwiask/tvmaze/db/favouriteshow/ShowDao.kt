@@ -1,6 +1,10 @@
 package com.android.ashwiask.tvmaze.db.favouriteshow
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface ShowDao {
@@ -15,4 +19,7 @@ interface ShowDao {
 
     @Query("SELECT id from favourite_shows")
     suspend fun getFavoriteShowIds(): List<Long>
+
+    @Query("DELETE FROM favourite_shows")
+    suspend fun clear()
 }

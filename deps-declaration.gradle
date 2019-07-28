@@ -39,6 +39,8 @@ versions.arch_core_testing = '2.0.0'
 versions.robolectric = '4.3'
 versions.moshi = '1.8.0'
 versions.coroutines = '1.2.1'
+versions.coroutines_test = '1.3.0-M2'
+versions.truth = '1.0'
 ext.versions = versions
 
 def deps = [:]
@@ -159,5 +161,8 @@ def coroutines = [:]
 coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
 coroutines.rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$versions.coroutines"
 coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+coroutines.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines_test"
 deps.coroutines = coroutines
+
+deps.truth = "com.google.truth:truth:$versions.truth"
 ext.deps = deps

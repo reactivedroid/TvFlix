@@ -60,7 +60,7 @@ dependencies {
     androidTestImplementation deps.findbugs_jsr
     testImplementation deps.mockito.core
     androidTestImplementation deps.mockito.android
-    androidTestImplementation deps.mockito.kotlin
+    testImplementation deps.mockito.kotlin
     testImplementation deps.mockito.inline
     testImplementation deps.robolectric
     testImplementation deps.arch_core_testing
@@ -71,6 +71,8 @@ dependencies {
     androidTestImplementation deps.android_test.rules
     androidTestImplementation deps.android_test.runner
     androidTestImplementation deps.android_test.junit
+    // Assertion library: https://truth.dev/
+    testImplementation deps.truth
 
     implementation deps.moshi.kotlin
     kapt deps.moshi.codegen
@@ -80,4 +82,5 @@ dependencies {
     implementation deps.coroutines.core
     implementation deps.coroutines.rx2
     implementation deps.coroutines.android
+    testImplementation deps.coroutines.test
 }

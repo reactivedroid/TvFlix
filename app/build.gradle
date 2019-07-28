@@ -20,6 +20,7 @@ android {
         versionName versions.app_version_name
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testOptions.unitTests.includeAndroidResources = true
     }
     flavorDimensions "default"
     productFlavors {
