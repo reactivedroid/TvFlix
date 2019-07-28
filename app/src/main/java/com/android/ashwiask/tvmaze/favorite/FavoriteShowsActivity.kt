@@ -85,9 +85,9 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
         private const val FAVORITE_ICON_END_OFFSET = 14
         private const val COLUMNS_COUNT = 2
 
-        fun startForResult(context: Activity, requestCode: Int) {
+        fun start(context: Activity) {
             val starter = Intent(context, FavoriteShowsActivity::class.java)
-            context.startActivityForResult(starter, requestCode)
+            context.startActivity(starter)
         }
     }
 }

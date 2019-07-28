@@ -2,9 +2,11 @@ package com.android.ashwiask.tvmaze.robots
 
 import android.app.Activity
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
@@ -13,10 +15,12 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.android.ashwiask.tvmaze.R
 import com.android.ashwiask.tvmaze.home.ShowsAdapter
+import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
+import org.hamcrest.TypeSafeMatcher
 
 fun launchHome(func: HomeRobot.() -> Unit) = HomeRobot().apply { func() }
 class HomeRobot {
@@ -39,6 +43,22 @@ class HomeRobot {
             .check(matches(isDisplayed()))
     }
 
+    fun verifyFavoriteScreen() {
+        onView(withId(R.id.action_favorites))
+            .perform(click())
+        onView(withText(R.string.favorite_shows)).check(matches(isDisplayed()))
+        onView(withId(R.id.shows))
+            .check(matches(withListSize(1)))
+    }
+
+    fun verifyAllShows(){
+        onView(withId(R.id.action_shows))
+            .perform(click())
+        onView(withText(R.string.shows)).check(matches(isDisplayed()))
+        onView(withId(R.id.shows))
+            .check(matches(withListSize(1)))
+    }
+
     private fun clickChildViewWithId(id: Int): ViewAction {
         return object : ViewAction {
             override fun getConstraints(): Matcher<View>? {
@@ -52,6 +72,18 @@ class HomeRobot {
             override fun perform(uiController: UiController, view: View) {
                 val v = view.findViewById<View>(id)
                 v.performClick()
+            }
+        }
+    }
+
+    private fun withListSize(size: Int): Matcher<View> {
+        return object : TypeSafeMatcher<View>() {
+            override fun matchesSafely(view: View): Boolean {
+                return (view as RecyclerView).adapter!!.itemCount >= size
+            }
+
+            override fun describeTo(description: Description) {
+                description.appendText("RecyclerView should have $size items")
             }
         }
     }

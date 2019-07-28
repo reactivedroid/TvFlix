@@ -105,7 +105,7 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
                 true
             }
             R.id.action_favorites -> {
-                FavoriteShowsActivity.startForResult(this, REQUEST_CODE_FAVORITE_SHOWS)
+                FavoriteShowsActivity.start(this)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -124,6 +124,5 @@ class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
 
     companion object {
         private const val NO_OF_COLUMNS = 2
-        private const val REQUEST_CODE_FAVORITE_SHOWS = 11
     }
 }
