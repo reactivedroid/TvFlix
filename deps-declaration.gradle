@@ -94,7 +94,7 @@ deps.junit = "junit:junit:$versions.junit"
 def okhttp = [:]
 okhttp.main = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 okhttp.logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
-okhttp.urlconnection = "com.squareup.okhttp:okhttp-urlconnection:$versions.okhttp"
+okhttp.urlconnection = "com.squareup.okhttp3:okhttp-urlconnection:$versions.okhttp"
 deps.okhttp = okhttp
 
 def retrofit = [:]
