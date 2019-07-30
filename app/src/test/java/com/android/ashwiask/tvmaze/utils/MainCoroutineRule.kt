@@ -1,4 +1,4 @@
-package com.android.ashwiask.tvmaze
+package com.android.ashwiask.tvmaze.utils
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

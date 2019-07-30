@@ -1,11 +1,11 @@
 package com.android.ashwiask.tvmaze.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.android.ashwiask.tvmaze.LiveDataTestUtil
-import com.android.ashwiask.tvmaze.MainCoroutineRule
-import com.android.ashwiask.tvmaze.TestUtil
 import com.android.ashwiask.tvmaze.favorite.FavoriteShowsRepository
 import com.android.ashwiask.tvmaze.network.TvMazeApi
+import com.android.ashwiask.tvmaze.utils.LiveDataTestUtil
+import com.android.ashwiask.tvmaze.utils.MainCoroutineRule
+import com.android.ashwiask.tvmaze.utils.TestUtil
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi

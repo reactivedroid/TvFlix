@@ -1,4 +1,4 @@
-package com.android.ashwiask.tvmaze
+package com.android.ashwiask.tvmaze.utils
 
 import com.android.ashwiask.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.ashwiask.tvmaze.home.HomeViewData

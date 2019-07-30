@@ -1,4 +1,4 @@
-package com.android.ashwiask.tvmaze
+package com.android.ashwiask.tvmaze.utils
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
