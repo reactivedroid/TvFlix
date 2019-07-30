@@ -99,7 +99,6 @@ deps.okhttp = okhttp
 
 def retrofit = [:]
 retrofit.main = "com.squareup.retrofit2:retrofit:$versions.retrofit"
-retrofit.rxjava = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
 retrofit.moshi = "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
 deps.retrofit = retrofit
 

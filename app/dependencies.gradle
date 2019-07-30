@@ -26,7 +26,6 @@ dependencies {
     // Retrofit
     implementation deps.retrofit.main
     implementation deps.retrofit.moshi
-    implementation deps.retrofit.rxjava
     implementation deps.okhttp.logging_interceptor
 
     // Dagger2
