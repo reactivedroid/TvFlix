@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="com.android.ashwiask.tvmaze.network.home.Show" />
+        <import type="com.android.tvmaze.network.home.Show" />
 
         <import type="android.view.View" />
 
@@ -17,7 +17,7 @@
 
         <variable
             name="show"
-            type="com.android.ashwiask.tvmaze.network.home.Show" />
+            type="com.android.tvmaze.network.home.Show" />
     </data>
 
     <androidx.cardview.widget.CardView

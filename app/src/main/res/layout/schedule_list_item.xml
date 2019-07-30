@@ -7,11 +7,11 @@
 
         <variable
                 name="episode"
-                type="com.android.ashwiask.tvmaze.network.home.Episode"/>
+                type="com.android.tvmaze.network.home.Episode"/>
 
         <variable
                 name="show"
-                type="com.android.ashwiask.tvmaze.network.home.Show"/>
+                type="com.android.tvmaze.network.home.Show"/>
     </data>
 
     <androidx.cardview.widget.CardView

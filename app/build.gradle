@@ -13,7 +13,7 @@ android {
         enabled true
     }
     defaultConfig {
-        applicationId "com.android.ashwiask.tvmaze"
+        applicationId "com.android.tvmaze"
         minSdkVersion versions.min_sdk
         targetSdkVersion versions.target_sdk
         versionCode versions.app_version_code
@@ -26,11 +26,11 @@ android {
     productFlavors {
         prod {
             dimension "default"
-            applicationId = "com.android.ashwiask.tvmaze"
+            applicationId = "com.android.tvmaze"
         }
         dev {
             dimension "default"
-            applicationId = "com.android.ashwiask.tvmaze.dev"
+            applicationId = "com.android.tvmaze.dev"
         }
     }
     buildTypes {
