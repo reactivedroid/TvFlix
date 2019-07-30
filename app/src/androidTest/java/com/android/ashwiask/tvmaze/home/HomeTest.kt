@@ -32,7 +32,7 @@ class HomeTest {
             verifyHome()
             // Click on add to favorites icon
             verifyFavorite()
-            //Verify that added to favorites toast is shown
+            // Verify that added to favorites toast is shown
             verifyToast(homeActivityTestRule.activity)
             verifyFavoriteScreen()
             // Verify that pressing back from favorites goes to home

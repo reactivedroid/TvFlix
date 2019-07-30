@@ -31,6 +31,5 @@ constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcard
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
-
     }
 }

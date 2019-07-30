@@ -47,7 +47,6 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
         setTitle(R.string.favorite_shows)
     }
 
-
     private fun showFavorites(favoriteShows: List<FavoriteShow>) {
         progress.visibility = View.GONE
         if (favoriteShows.isNotEmpty()) {

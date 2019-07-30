@@ -2,10 +2,10 @@ package com.android.ashwiask.tvmaze.favorites
 
 import android.content.Context
 import androidx.room.Room
-import com.android.ashwiask.tvmaze.utils.TestUtil
 import com.android.ashwiask.tvmaze.db.TvMazeDatabase
 import com.android.ashwiask.tvmaze.db.favouriteshow.ShowDao
 import com.android.ashwiask.tvmaze.favorite.FavoriteShowsRepository
+import com.android.ashwiask.tvmaze.utils.TestUtil
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.After

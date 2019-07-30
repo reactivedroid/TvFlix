@@ -7,7 +7,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 
 object MatcherUtils {
-     fun withListSize(size: Int): Matcher<View> {
+    fun withListSize(size: Int): Matcher<View> {
         return object : TypeSafeMatcher<View>() {
             override fun matchesSafely(view: View): Boolean {
                 return (view as RecyclerView).adapter!!.itemCount >= size

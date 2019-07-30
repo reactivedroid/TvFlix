@@ -120,7 +120,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun testNetworkError(){
+    fun testNetworkError() {
         runBlocking {
             // Stubbing network calls with fake episode list
             whenever(tvMazeApi.getCurrentSchedule("US", TestUtil.currentDate))

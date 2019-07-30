@@ -57,7 +57,8 @@ class ShowsAdapter constructor(
     }
 
     override fun onBindViewHolder(
-        holder: ShowHolder, position: Int,
+        holder: ShowHolder,
+        position: Int,
         payloads: List<Any>
     ) {
         if (payloads.isNotEmpty()) {

@@ -22,27 +22,27 @@ object AppInjector {
             }
 
             override fun onActivityStarted(activity: Activity) {
-                //do nothing
+                // do nothing
             }
 
             override fun onActivityResumed(activity: Activity) {
-                //do nothing
+                // do nothing
             }
 
             override fun onActivityPaused(activity: Activity) {
-                //do nothing
+                // do nothing
             }
 
             override fun onActivityStopped(activity: Activity) {
-                //do nothing
+                // do nothing
             }
 
             override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-                //do nothing
+                // do nothing
             }
 
             override fun onActivityDestroyed(activity: Activity) {
-                //do nothing
+                // do nothing
             }
         })
     }
@@ -56,7 +56,8 @@ object AppInjector {
                 .registerFragmentLifecycleCallbacks(
                     object : FragmentManager.FragmentLifecycleCallbacks() {
                         override fun onFragmentCreated(
-                            fm: FragmentManager, f: Fragment,
+                            fm: FragmentManager,
+                            f: Fragment,
                             savedInstanceState: Bundle?
                         ) {
                             if (f is Injectable) {

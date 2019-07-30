@@ -8,7 +8,8 @@ class GridItemDecoration(private val space: Int, private val noOfColumns: Int) :
 
     override fun getItemOffsets(
         outRect: Rect, view: View,
-        parent: RecyclerView, state: RecyclerView.State
+        parent: RecyclerView,
+        state: RecyclerView.State
     ) {
         outRect.left = space
         outRect.right = space
@@ -22,9 +23,6 @@ class GridItemDecoration(private val space: Int, private val noOfColumns: Int) :
             parent.getChildLayoutPosition(view) % noOfColumns == noOfColumns - 1 -> {
                 outRect.left = space
                 outRect.right = 0
-            }
-            else -> {
-                //do nothing
             }
         }
     }
