@@ -9,8 +9,7 @@ import com.android.tvmaze.utils.TestUtil
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -45,7 +44,7 @@ class HomeViewModelTest {
 
     @Test
     fun testHomeIsLoadedWithShowsWithoutFavorites() {
-        runBlocking {
+        mainCoroutineRule.runBlockingTest {
             // Stubbing network calls with fake episode list
             whenever(tvMazeApi.getCurrentSchedule("US", TestUtil.currentDate))
                 .thenReturn(TestUtil.getFakeEpisodeList())
@@ -54,15 +53,16 @@ class HomeViewModelTest {
                 .thenReturn(emptyList())
 
             // Pause coroutine to listen for loading initial state
-            mainCoroutineRule.pauseDispatcher {
-                homeViewModel.onScreenCreated()
-            }
+            mainCoroutineRule.pauseDispatcher()
+            homeViewModel.onScreenCreated()
+
             // Check if status is loading
             assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
+
             // Resume coroutine dispatcher to execute pending coroutine actions
             mainCoroutineRule.resumeDispatcher()
             // Delay the coroutine for the job to finish
-            delay(1_00)
+            // delay(1_00)
             // Observe on home view state live data
             val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
             // Check for success data
@@ -82,25 +82,22 @@ class HomeViewModelTest {
 
     @Test
     fun testHomeIsLoadedWithShowsAndFavorites() {
-        runBlocking {
+        mainCoroutineRule.runBlockingTest {
             // Stubbing network calls with fake episode list
             whenever(tvMazeApi.getCurrentSchedule("US", TestUtil.currentDate))
                 .thenReturn(TestUtil.getFakeEpisodeList())
             // Stub repository with fake favorites
             whenever(favoriteShowsRepository.allFavoriteShowIds())
                 .thenReturn(arrayListOf(1, 2))
-
             // Pause coroutine to listen for loading initial state
-            mainCoroutineRule.pauseDispatcher {
-                homeViewModel.onScreenCreated()
-            }
+            mainCoroutineRule.pauseDispatcher()
+            homeViewModel.onScreenCreated()
+
             // Check if status is loading
             assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
+
             // Resume coroutine dispatcher to execute pending coroutine actions
             mainCoroutineRule.resumeDispatcher()
-
-            // Delay the coroutine for the job to finish
-            delay(1_00)
 
             // Observe on home view state live data
             val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
@@ -121,7 +118,7 @@ class HomeViewModelTest {
 
     @Test
     fun testNetworkError() {
-        runBlocking {
+        mainCoroutineRule.runBlockingTest {
             // Stubbing network calls with fake episode list
             whenever(tvMazeApi.getCurrentSchedule("US", TestUtil.currentDate))
                 .thenReturn(null)
@@ -130,16 +127,17 @@ class HomeViewModelTest {
                 .thenReturn(arrayListOf(1, 2))
 
             // Pause coroutine to listen for loading initial state
-            mainCoroutineRule.pauseDispatcher {
-                homeViewModel.onScreenCreated()
-            }
+            mainCoroutineRule.pauseDispatcher()
+            homeViewModel.onScreenCreated()
+
             // Check if status is loading
             assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
+
             // Resume coroutine dispatcher to execute pending coroutine actions
             mainCoroutineRule.resumeDispatcher()
 
             // Delay the coroutine for the job to finish
-            delay(1_00)
+            // delay(1_00)
 
             // Observe on home view state live data
             val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())

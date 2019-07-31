@@ -9,9 +9,7 @@ import com.android.tvmaze.network.TvMazeApi
 import com.android.tvmaze.network.home.Episode
 import com.android.tvmaze.network.home.Show
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -23,7 +21,6 @@ class HomeViewModel @Inject constructor(
     private val favoriteShowsRepository: FavoriteShowsRepository
 ) : ViewModel() {
     private val homeViewStateLiveData: MutableLiveData<HomeViewState> = MutableLiveData()
-    private lateinit var episodeViewDataList: MutableList<HomeViewData.EpisodeViewData>
 
     val country: String
         get() = COUNTRY_US
@@ -33,17 +30,15 @@ class HomeViewModel @Inject constructor(
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
             onError(exception)
         }
+        // viewModelScope launch the new coroutine on Main Dispatcher internally
         viewModelScope.launch(coroutineExceptionHandler) {
-            // Get shows from network and favorites from room db on background thread
-            val favoriteShowsWithFavorites = withContext(Dispatchers.IO) {
-                val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
-                val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
-                getShowsWithFavorites(episodes, favoriteShowIds)
-            }
-            // Return the combined result on main thread
-            withContext(Dispatchers.Main) {
-                onSuccess(favoriteShowsWithFavorites)
-            }
+            // Get favorite shows from db, suspend function in room will launch a new coroutine with IO dispatcher
+            val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
+            // Get shows from network, suspend function in retrofit will launch a new coroutine with IO dispatcher
+            val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
+
+            // Return the result on main thread via Dispatchers.Main
+            homeViewStateLiveData.value = Success(HomeViewData(getShowsWithFavorites(episodes, favoriteShowIds)))
         }
     }
 
@@ -67,17 +62,12 @@ class HomeViewModel @Inject constructor(
             )
             episodeViewDataList.add(episodeViewData)
         }
-        this.episodeViewDataList = episodeViewDataList.toMutableList()
         return episodeViewDataList
     }
 
     private fun onError(throwable: Throwable) {
         homeViewStateLiveData.value = NetworkError(throwable.message)
         Timber.e(throwable)
-    }
-
-    private fun onSuccess(favoriteShowsWithFavorites: List<HomeViewData.EpisodeViewData>) {
-        homeViewStateLiveData.value = Success(HomeViewData(favoriteShowsWithFavorites))
     }
 
     fun getHomeViewState(): LiveData<HomeViewState> {
