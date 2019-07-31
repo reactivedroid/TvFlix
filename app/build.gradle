@@ -13,23 +13,24 @@ android {
         enabled true
     }
     defaultConfig {
-        applicationId "com.android.ashwiask.tvmaze"
+        applicationId "com.android.tvmaze"
         minSdkVersion versions.min_sdk
         targetSdkVersion versions.target_sdk
         versionCode versions.app_version_code
         versionName versions.app_version_name
         multiDexEnabled true
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testOptions.unitTests.includeAndroidResources = true
     }
     flavorDimensions "default"
     productFlavors {
         prod {
             dimension "default"
-            applicationId = "com.android.ashwiask.tvmaze"
+            applicationId = "com.android.tvmaze"
         }
         dev {
             dimension "default"
-            applicationId = "com.android.ashwiask.tvmaze.dev"
+            applicationId = "com.android.tvmaze.dev"
         }
     }
     buildTypes {
@@ -43,7 +44,6 @@ android {
         }
     }
     compileOptions {
-        incremental true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -57,10 +57,12 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude '.readme'
     }
-
-    dexOptions {
-        javaMaxHeapSize "4g"
+    // To enable experimental functionality like @Parcelize
+    androidExtensions {
+        experimental = true
     }
 }
 
 apply from: 'dependencies.gradle'
+
+

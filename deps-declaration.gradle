@@ -3,7 +3,7 @@ ext.deps = [:]
 ext.versions = [:]
 def versions = [:]
 //sdk versions
-versions.compile_sdk = 26
+versions.compile_sdk = 28
 versions.min_sdk = 16
 versions.target_sdk = 26
 versions.app_version_code = 102
@@ -11,65 +11,66 @@ versions.app_version_name = '2.0.0'
 
 // android and google essentials
 versions.android_plugin = '3.4.2'
-versions.constraint_layout = '1.0.2'
+versions.constraint_layout = '1.1.2'
 versions.google_services = '3.0.0'
-versions.lifecycle = '1.1.1'
+versions.lifecycle = '2.1.0-rc01'
 versions.support_lib = '27.1.0'
-versions.support_test = '1.0.1'
-versions.multidex = '1.0.1'
-versions.espresso = '2.2.2'
-versions.dagger = '2.23.2'
+versions.support_x = '1.0.0'
+versions.android_test = '1.1.0'
+versions.android_test_junit = '1.1.1'
+versions.multidex = '2.0.0'
+versions.espresso = '3.1.0'
+versions.dagger = '2.24'
 versions.glide = '4.9.0'
-versions.gson = '2.8.2'
 versions.junit = '4.12'
 versions.mockito = '2.12.0'
 versions.okhttp = '4.0.0'
-versions.okhttp_urlconnection = '2.7.5'
-versions.retrofit = '2.2.0'
+versions.retrofit = '2.6.0'
 versions.rxjava = '2.2.10'
 versions.rxandroid = '2.1.1'
 versions.rxbinding = '2.0.0'
 versions.findbugs = '3.0.1'
-versions.persistentcookiejar = 'v1.0.1'
-versions.auto_value = '1.6'
-versions.auto_value_gson = '0.7.0'
-versions.auto_value_parcel = '0.2.5'
-versions.paging = '1.0.0'
-versions.room = '1.1.1'
+versions.paging = '2.1.0'
+versions.room = '2.1.0'
 versions.kotlin = '1.3.41'
 versions.timber = '4.7.1'
 versions.mockito_kotlin = '2.1.0'
-versions.arch_core_testing = '1.1.1'
+versions.arch_core_testing = '2.0.0'
 versions.robolectric = '4.3'
 versions.moshi = '1.8.0'
+versions.coroutines = '1.2.1'
+versions.coroutines_test = '1.3.0-M2'
+versions.truth = '1.0'
 ext.versions = versions
 
 def deps = [:]
 
 // ----- START OF GOOGLE AND ANDROID ESSENTIALS
 deps.android_plugin = "com.android.tools.build:gradle:$versions.android_plugin"
-deps.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
-deps.multidex = "com.android.support:multidex:$versions.multidex"
+deps.databinding = "com.android.databinding:compiler:$versions.android_plugin"
+deps.constraint_layout = "androidx.constraintlayout:constraintlayout:$versions.constraint_layout"
+deps.multidex = "androidx.multidex:multidex:$versions.multidex"
 deps.google_services = "com.google.gms:google-services:$versions.google_services"
 
 def support_lib = [:]
-support_lib.design = "com.android.support:design:$versions.support_lib"
-support_lib.appcompat = "com.android.support:appcompat-v7:$versions.support_lib"
-support_lib.support_v4 = "com.android.support:support-v4:$versions.support_lib"
-support_lib.recyclerview = "com.android.support:recyclerview-v7:$versions.support_lib"
-support_lib.cardview = "com.android.support:cardview-v7:$versions.support_lib"
-support_lib.support_annotations = "com.android.support:support-annotations:$versions.support_lib"
+support_lib.design = "com.google.android.material:material:$versions.support_x"
+support_lib.appcompat = "androidx.appcompat:appcompat:$versions.support_x"
+support_lib.recyclerview = "androidx.recyclerview:recyclerview:$versions.support_x"
+support_lib.cardview = "androidx.cardview:cardview:$versions.support_x"
+support_lib.support_annotations = "androidx.annotation:annotation:$versions.support_x"
 deps.support_lib = support_lib
 
 
 def lifecycle = [:]
-lifecycle.extensions = "android.arch.lifecycle:extensions:$versions.lifecycle"
-lifecycle.compiler = "android.arch.lifecycle:common-java8:$versions.lifecycle"
+lifecycle.extensions = "androidx.lifecycle:lifecycle-extensions:$versions.lifecycle"
+lifecycle.compiler = "androidx.lifecycle:lifecycle-common-java8:$versions.lifecycle"
+lifecycle.viewmodel_ktx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$versions.lifecycle"
 deps.lifecycle = lifecycle
 
 def espresso = [:]
-espresso.core = "com.android.support.test.espresso:espresso-core:$versions.espresso"
-espresso.contrib = "com.android.support.test.espresso:espresso-contrib:$versions.espresso"
+espresso.core = "androidx.test.espresso:espresso-core:$versions.espresso"
+espresso.contrib = "androidx.test.espresso:espresso-contrib:$versions.espresso"
+espresso.idling_resource = "androidx.test.espresso:espresso-idling-resource:$versions.espresso"
 deps.espresso = espresso
 
 // ----- END OF ANDROID AND GOOGLE ESSENTIALS
@@ -88,21 +89,17 @@ glide.compiler = "com.github.bumptech.glide:compiler:$versions.glide"
 glide.okhttp_integration = "com.github.bumptech.glide:okhttp3-integration:$versions.glide"
 deps.glide = glide
 
-
-deps.gson = "com.google.code.gson:gson:$versions.gson"
-
 deps.junit = "junit:junit:$versions.junit"
 
 def okhttp = [:]
 okhttp.main = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 okhttp.logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.okhttp"
-okhttp.urlconnection = "com.squareup.okhttp:okhttp-urlconnection:$versions.okhttp"
+okhttp.urlconnection = "com.squareup.okhttp3:okhttp-urlconnection:$versions.okhttp"
 deps.okhttp = okhttp
 
 def retrofit = [:]
 retrofit.main = "com.squareup.retrofit2:retrofit:$versions.retrofit"
-retrofit.rxjava = "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
-retrofit.gson = "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+retrofit.moshi = "com.squareup.retrofit2:converter-moshi:$versions.retrofit"
 deps.retrofit = retrofit
 
 def rxjava = [:]
@@ -112,14 +109,13 @@ deps.rxjava = rxjava
 
 def rxbinding = [:]
 rxbinding.platform = "com.jakewharton.rxbinding2:rxbinding:$versions.rxbinding"
-rxbinding.support_v4 = "com.jakewharton.rxbinding2:rxbinding-support-v4:$versions.rxbinding"
-rxbinding.support_v7 = "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$versions.rxbinding"
 deps.rxbinding = rxbinding
 
-def support_test = [:]
-support_test.rules = "com.android.support.test:rules:$versions.support_test"
-support_test.runner = "com.android.support.test:runner:$versions.support_test"
-deps.support_test = support_test
+def android_test = [:]
+android_test.rules = "androidx.test:rules:$versions.android_test"
+android_test.runner = "androidx.test:runner:$versions.android_test"
+android_test.junit = "androidx.test.ext:junit:$versions.android_test_junit"
+deps.android_test = android_test
 
 deps.findbugs_jsr = "com.google.code.findbugs:jsr305:$versions.findbugs"
 
@@ -128,30 +124,17 @@ kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib:$versions.kotlin"
 kotlin.gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 deps.kotlin = kotlin
 
-deps.persistentcookiejar = "com.github.franmontiel:PersistentCookieJar:$versions.persistentcookiejar"
-
-def auto_value = [:]
-auto_value.annotations = "com.google.auto.value:auto-value-annotations:$versions.auto_value"
-auto_value.compiler = "com.google.auto.value:auto-value:$versions.auto_value"
-deps.auto_value = auto_value
-
-def auto_value_gson = [:]
-auto_value_gson.compiler = "com.ryanharter.auto.value:auto-value-gson:$versions.auto_value_gson"
-auto_value_gson.annotations = "com.ryanharter.auto.value:auto-value-gson-annotations:$versions.auto_value_gson"
-deps.auto_value_gson = auto_value_gson
-
-deps.auto_value_parcel = "com.ryanharter.auto.value:auto-value-parcel:$versions.auto_value_parcel"
-
 def paging = [:]
-paging.runtime = "android.arch.paging:runtime:$versions.paging"
-paging.common = "android.arch.paging:common:$versions.paging"
+paging.runtime = "androidx.paging:paging-runtime:$versions.paging"
+paging.common = "androidx.paging:paging-common:$versions.paging"
 deps.paging = paging
 
 def room = [:]
-room.runtime = "android.arch.persistence.room:runtime:$versions.room"
-room.compiler = "android.arch.persistence.room:compiler:$versions.room"
-room.rxjava2 = "android.arch.persistence.room:rxjava2:$versions.room"
-room.testing = "android.arch.persistence.room:testing:$versions.room"
+room.runtime = "androidx.room:room-runtime:$versions.room"
+room.compiler = "androidx.room:room-compiler:$versions.room"
+room.rxjava2 = "androidx.room:room-rxjava2:$versions.room"
+room.testing = "androidx.room:room-testing:$versions.room"
+room.ktx = "androidx.room:room-ktx:$versions.room"
 deps.room = room
 
 
@@ -163,12 +146,22 @@ deps.moshi = moshi
 
 deps.timber = "com.jakewharton.timber:timber:$versions.timber"
 
-deps.arch_core_testing = "android.arch.core:core-testing:$versions.arch_core_testing"
+deps.arch_core_testing = "androidx.arch.core:core-testing:$versions.arch_core_testing"
 deps.robolectric = "org.robolectric:robolectric:$versions.robolectric"
 
 def mockito = [:]
 mockito.core = "org.mockito:mockito-core:$versions.mockito"
 mockito.android = "org.mockito:mockito-android:$versions.mockito"
+mockito.inline = "org.mockito:mockito-inline:$versions.mockito"
 mockito.kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:$versions.mockito_kotlin"
 deps.mockito = mockito
+
+def coroutines = [:]
+coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+coroutines.rx2 = "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$versions.coroutines"
+coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+coroutines.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines_test"
+deps.coroutines = coroutines
+
+deps.truth = "com.google.truth:truth:$versions.truth"
 ext.deps = deps

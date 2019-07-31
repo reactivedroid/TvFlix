@@ -69,12 +69,6 @@
 #Retrolambda
 -dontwarn java.lang.invoke.*
 
-#Dont obfuscate response classes used in Gson parsing
--keep class com.android.ashwiask.tvmaze.AirChannel { *; }
--keep class com.android.ashwiask.tvmaze.Episode { *; }
--keep class com.android.ashwiask.tvmaze.ExternalInfo { *; }
--keep class com.android.ashwiask.tvmaze.Show { *; }
-
 -keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
         public static final *** NULL;
 }
@@ -112,3 +106,10 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# Strip Timber Log statments in release
+-assumenosideeffects class timber.log.Timber* {
+    public static *** v(...);
+    public static *** d(...);
+    public static *** i(...);
+}

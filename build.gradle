@@ -4,7 +4,7 @@ buildscript {
     apply from: 'deps-declaration.gradle'
     repositories {
         mavenCentral()
-        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://maven.fabric.io/public" }
         google()
         jcenter()
     }
@@ -25,7 +25,6 @@ allprojects {
         maven { url "http://repository.jetbrains.com/all" }
     }
 }
-
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
