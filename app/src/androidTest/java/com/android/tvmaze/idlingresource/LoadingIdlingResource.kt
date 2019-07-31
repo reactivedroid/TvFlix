@@ -7,7 +7,7 @@ import androidx.test.espresso.IdlingResource
 import com.android.tvmaze.R
 
 /**
- * An idling resource which checks if the loader is being shown on screen
+ * An idling resource which checks which tells Espresso to wait until Progress Bar dismisses
  */
 class LoadingIdlingResource constructor(private val activity: Activity) : IdlingResource {
     private var resourceCallback: IdlingResource.ResourceCallback? = null

@@ -1,6 +1,7 @@
 package com.android.tvmaze.network
 
 import android.content.Context
+import com.android.tvmaze.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
@@ -25,7 +26,11 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+        return HttpLoggingInterceptor().apply {
+            if (BuildConfig.DEBUG) {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+        }
     }
 
     @JvmStatic
