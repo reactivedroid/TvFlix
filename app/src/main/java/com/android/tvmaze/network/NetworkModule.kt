@@ -10,39 +10,40 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module(includes = [TvMazeApiModule::class])
-class NetworkModule {
+object NetworkModule {
+    const val TVMAZE_BASE_URL = "tvmaze_base_url"
+    private const val BASE_URL = "https://api.tvmaze.com/"
 
+    @JvmStatic
     @Provides
     @Named(TVMAZE_BASE_URL)
-    internal fun provideBaseUrlString(): String {
+    fun provideBaseUrlString(): String {
         return BASE_URL
     }
 
+    @JvmStatic
     @Provides
     @Singleton
-    internal fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
     }
 
+    @JvmStatic
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient {
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor, cache: Cache): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .cache(cache)
             .build()
     }
 
+    @JvmStatic
     @Provides
     @Singleton
-    internal fun provideCache(context: Context): Cache {
+    fun provideCache(context: Context): Cache {
         val cacheSize = 5 * 1024 * 1024 // 5 MB
         val cacheDir = context.cacheDir
         return Cache(cacheDir, cacheSize.toLong())
-    }
-
-    companion object {
-        const val TVMAZE_BASE_URL = "tvmaze_base_url"
-        private const val BASE_URL = "https://api.tvmaze.com/"
     }
 }

@@ -9,8 +9,8 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class TvMazeApiModule {
-
+object TvMazeApiModule {
+    @JvmStatic
     @Provides
     @Singleton
     fun provideTvMazeApi(

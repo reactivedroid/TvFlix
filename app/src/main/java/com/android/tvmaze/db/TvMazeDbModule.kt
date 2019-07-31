@@ -9,7 +9,8 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class TvMazeDbModule {
+object TvMazeDbModule {
+    @JvmStatic
     @Singleton
     @Provides
     fun provideTvMazeDatabase(context: Context): TvMazeDatabase {
@@ -22,6 +23,7 @@ class TvMazeDbModule {
             .build()
     }
 
+    @JvmStatic
     @Singleton
     @Provides
     fun provideShowDao(tvMazeDatabase: TvMazeDatabase): ShowDao {
