@@ -54,15 +54,14 @@ class HomeViewModelTest {
 
             // Pause coroutine to listen for loading initial state
             mainCoroutineRule.pauseDispatcher()
-            homeViewModel.onScreenCreated()
 
+            homeViewModel.onScreenCreated()
             // Check if status is loading
             assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
 
             // Resume coroutine dispatcher to execute pending coroutine actions
             mainCoroutineRule.resumeDispatcher()
-            // Delay the coroutine for the job to finish
-            // delay(1_00)
+
             // Observe on home view state live data
             val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
             // Check for success data
@@ -89,10 +88,11 @@ class HomeViewModelTest {
             // Stub repository with fake favorites
             whenever(favoriteShowsRepository.allFavoriteShowIds())
                 .thenReturn(arrayListOf(1, 2))
+
             // Pause coroutine to listen for loading initial state
             mainCoroutineRule.pauseDispatcher()
-            homeViewModel.onScreenCreated()
 
+            homeViewModel.onScreenCreated()
             // Check if status is loading
             assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
 
@@ -128,16 +128,13 @@ class HomeViewModelTest {
 
             // Pause coroutine to listen for loading initial state
             mainCoroutineRule.pauseDispatcher()
-            homeViewModel.onScreenCreated()
 
+            homeViewModel.onScreenCreated()
             // Check if status is loading
             assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
 
             // Resume coroutine dispatcher to execute pending coroutine actions
             mainCoroutineRule.resumeDispatcher()
-
-            // Delay the coroutine for the job to finish
-            // delay(1_00)
 
             // Observe on home view state live data
             val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
