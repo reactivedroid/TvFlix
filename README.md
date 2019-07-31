@@ -2,7 +2,7 @@
 
 The aim of this app is to replicate the high level functionality of www.tvmaze.com and showcase an android app out of it. 
 It connects with [TVDB API](api.thetvdb.com) to give you popular shows and let you mark anyone as favorite
-TvMaze consists of 3 pieces of UI right now, Home with Popular Shows, Favorites and All Shows. This app is under heavy development
+TvMaze consists of 3 pieces of UI right now, Home with Popular Shows, Favorites and All Shows. This app is under heavy development.
 
 ## Android Development and Architecture
 
@@ -49,7 +49,7 @@ Know more:
 
 ### Static Code Analysis
 
-It also has Static Code Analysis tools integrated. Want to know more. 
+TvMaze has Static Code Analysis tools like FindBugs, PMD and Checkstyle integrated. These tools help in finding potential bugs that would have been missed and help in making the codebase clean.
 Know more:
 [Static Code Analysis for Android Using FindBugs, PMD and CheckStyle](https://blog.mindorks.com/static-code-analysis-for-android-using-findbugs-pmd-and-checkstyle-3a2861834c6a)
 
