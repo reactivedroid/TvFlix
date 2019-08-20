@@ -25,7 +25,7 @@ There are several articles written on this repository which states the design an
 The TvMaze complete repository has been re-written in Kotlin with Coroutines covering
 Unit Tests across ViewModels and UI tests for the app.
 Know more:
-[Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://medium.com/@kumarashwini/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
+[Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://proandroiddev.com/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
 
 ### MVVM using Android Architecture Components
 
@@ -55,10 +55,10 @@ Know more:
 
 ## Contributions
 
-If you've found an issue in this sample, please file an issue.
+If you have found an issue in this sample, please file it.
 Better yet, if you want to contribute to the repository, go ahead, any kind of patches are encouraged,
 and may be submitted by forking this project and submitting a pull request. 
-If you have something big in mind, or any architectural change, plz raise an issue first to discuss it.
+If you have something big in mind, or any architectural change, please raise an issue first to discuss it.
 
 ## License
 
