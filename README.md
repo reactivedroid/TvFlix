@@ -4,7 +4,7 @@ The aim of this app is to replicate the high level functionality of www.tvmaze.c
 It connects with [TVDB API](api.thetvdb.com) to give you popular shows and let you mark anyone as favorite
 TvFlix consists of 3 pieces of UI right now, Home with Popular Shows, Favorites and All Shows. This app is under heavy development.
 
-*Note* TvFlix is an unofficial app built only for learning and sharing the latest concepts with #AndroidDevs
+*Note: TvFlix is an unofficial app built only for learning and sharing the latest concepts with #AndroidDevs*
 
 ## Android Development and Architecture
 
@@ -20,11 +20,11 @@ TvFlix consists of 3 pieces of UI right now, Home with Popular Shows, Favorites 
 
 ## Further Reading
 
-There are several articles written on this repository which states the design and architecture. 
+There are several articles written on this repository which state the design and architecture. 
 
 ### Kotlin Everywhere. Coroutines, Tests, Robots and much more…
 
-The TvMaze complete repository has been re-written in Kotlin with Coroutines covering
+The TvFlix complete repository has been re-written in Kotlin with Coroutines covering
 Unit Tests across ViewModels and UI tests for the app.
 Know more:
 [Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://proandroiddev.com/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
@@ -51,7 +51,7 @@ Know more:
 
 ### Static Code Analysis
 
-TvMaze has Static Code Analysis tools like FindBugs, PMD and Checkstyle integrated. These tools help in finding potential bugs that would have been missed and help in making the codebase clean.
+TvFlix has Static Code Analysis tools like FindBugs, PMD and Checkstyle integrated. These tools help in finding potential bugs that would have been missed and help in making the codebase clean.
 Know more:
 [Static Code Analysis for Android Using FindBugs, PMD and CheckStyle](https://blog.mindorks.com/static-code-analysis-for-android-using-findbugs-pmd-and-checkstyle-3a2861834c6a)
 
