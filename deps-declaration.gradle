@@ -6,8 +6,8 @@ def versions = [:]
 versions.compile_sdk = 28
 versions.min_sdk = 16
 versions.target_sdk = 26
-versions.app_version_code = 102
-versions.app_version_name = '2.0.0'
+versions.app_version_code = 103
+versions.app_version_name = '2.0.1'
 
 // android and google essentials
 versions.android_plugin = '3.5.1'
