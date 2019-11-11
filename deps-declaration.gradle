@@ -10,10 +10,10 @@ versions.app_version_code = 102
 versions.app_version_name = '2.0.0'
 
 // android and google essentials
-versions.android_plugin = '3.5.0'
-versions.constraint_layout = '1.1.2'
+versions.android_plugin = '3.5.1'
+versions.constraint_layout = '2.0.0-beta2'
 versions.google_services = '3.0.0'
-versions.lifecycle = '2.1.0-rc01'
+versions.lifecycle = '2.1.0'
 versions.support_lib = '27.1.0'
 versions.support_x = '1.0.0'
 versions.android_test = '1.1.0'
@@ -41,6 +41,8 @@ versions.moshi = '1.8.0'
 versions.coroutines = '1.2.1'
 versions.coroutines_test = '1.3.0-M2'
 versions.truth = '1.0'
+versions.annotation = '1.1.0'
+versions.appcompat = '1.1.0'
 ext.versions = versions
 
 def deps = [:]
@@ -54,10 +56,10 @@ deps.google_services = "com.google.gms:google-services:$versions.google_services
 
 def support_lib = [:]
 support_lib.design = "com.google.android.material:material:$versions.support_x"
-support_lib.appcompat = "androidx.appcompat:appcompat:$versions.support_x"
+support_lib.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
 support_lib.recyclerview = "androidx.recyclerview:recyclerview:$versions.support_x"
 support_lib.cardview = "androidx.cardview:cardview:$versions.support_x"
-support_lib.support_annotations = "androidx.annotation:annotation:$versions.support_x"
+support_lib.support_annotations = "androidx.annotation:annotation:$versions.annotation"
 deps.support_lib = support_lib
 
 
