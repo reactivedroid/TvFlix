@@ -1,8 +1,10 @@
-# TvMaze 
+# TvFlix
 
 The aim of this app is to replicate the high level functionality of www.tvmaze.com and showcase an android app out of it. 
 It connects with [TVDB API](api.thetvdb.com) to give you popular shows and let you mark anyone as favorite
-TvMaze consists of 3 pieces of UI right now, Home with Popular Shows, Favorites and All Shows. This app is under heavy development.
+TvFlix consists of 3 pieces of UI right now, Home with Popular Shows, Favorites and All Shows. This app is under heavy development.
+
+*Note* TvFlix is an unofficial app built only for learning and sharing the latest concepts with #AndroidDevs
 
 ## Android Development and Architecture
 
