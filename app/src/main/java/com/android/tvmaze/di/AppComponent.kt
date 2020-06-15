@@ -10,7 +10,13 @@ import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AndroidSupportInjectionModule::class, AppModule::class, ActivityBuildersModule::class, NetworkModule::class, TvMazeDbModule::class])
+@Component(
+    modules = [AndroidSupportInjectionModule::class,
+        AppModule::class,
+        ActivityBuildersModule::class,
+        NetworkModule::class,
+        TvMazeDbModule::class]
+)
 interface AppComponent {
     fun inject(tvMazeApplication: TvMazeApplication)
 

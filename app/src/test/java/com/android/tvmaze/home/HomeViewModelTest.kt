@@ -6,6 +6,7 @@ import com.android.tvmaze.network.TvMazeApi
 import com.android.tvmaze.utils.LiveDataTestUtil
 import com.android.tvmaze.utils.MainCoroutineRule
 import com.android.tvmaze.utils.TestUtil
+import com.android.tvmaze.utils.runBlockingTest
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -32,8 +33,10 @@ class HomeViewModelTest {
 
     @Mock
     private lateinit var tvMazeApi: TvMazeApi
+
     @Mock
     private lateinit var favoriteShowsRepository: FavoriteShowsRepository
+
     @InjectMocks
     private lateinit var homeViewModel: HomeViewModel
 
@@ -44,7 +47,7 @@ class HomeViewModelTest {
 
     @Test
     fun testHomeIsLoadedWithShowsWithoutFavorites() {
-        mainCoroutineRule.runBlockingTest {
+        mainCoroutineRule.testDispatcher.runBlockingTest {
             // Stubbing network calls with fake episode list
             whenever(tvMazeApi.getCurrentSchedule("US", TestUtil.currentDate))
                 .thenReturn(TestUtil.getFakeEpisodeList())
@@ -52,30 +55,27 @@ class HomeViewModelTest {
             whenever(favoriteShowsRepository.allFavoriteShowIds())
                 .thenReturn(emptyList())
 
-            // Pause coroutine to listen for loading initial state
-            mainCoroutineRule.pauseDispatcher()
-
             homeViewModel.onScreenCreated()
-            // Check if status is loading
-            assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
-
-            // Resume coroutine dispatcher to execute pending coroutine actions
-            mainCoroutineRule.resumeDispatcher()
 
             // Observe on home view state live data
-            val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
-            // Check for success data
-            assertThat(homeViewState is Success).isTrue()
-            val homeViewData = (homeViewState as Success).homeViewData
-            assertThat(homeViewData.episodes).isNotEmpty()
-            // compare the response with fake list
-            assertThat(homeViewData.episodes).hasSize(TestUtil.getFakeEpisodeList().size)
-            // compare the data and also order
-            assertThat(homeViewData.episodes).containsExactlyElementsIn(
-                TestUtil.getFakeEpisodeViewDataList(
-                    false
-                )
-            ).inOrder()
+            LiveDataTestUtil.getValue(homeViewModel.getHomeViewState()) {
+                when (it) {
+                    is Loading -> assertThat(it).isNotNull()
+                    is Success -> {
+                        assertThat(it.homeViewData).isNotNull()
+                        val episodes = it.homeViewData.episodes
+                        assertThat(episodes.isNotEmpty())
+                        // compare the response with fake list
+                        assertThat(episodes).hasSize(TestUtil.getFakeEpisodeList().size)
+                        // compare the data and also order
+                        assertThat(episodes).containsExactlyElementsIn(
+                            TestUtil.getFakeEpisodeViewDataList(
+                                false
+                            )
+                        ).inOrder()
+                    }
+                }
+            }
         }
     }
 
@@ -89,30 +89,26 @@ class HomeViewModelTest {
             whenever(favoriteShowsRepository.allFavoriteShowIds())
                 .thenReturn(arrayListOf(1, 2))
 
-            // Pause coroutine to listen for loading initial state
-            mainCoroutineRule.pauseDispatcher()
-
             homeViewModel.onScreenCreated()
-            // Check if status is loading
-            assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
-
-            // Resume coroutine dispatcher to execute pending coroutine actions
-            mainCoroutineRule.resumeDispatcher()
-
             // Observe on home view state live data
-            val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
-            // Check for success data
-            assertThat(homeViewState is Success).isTrue()
-            val homeViewData = (homeViewState as Success).homeViewData
-            assertThat(homeViewData.episodes).isNotEmpty()
-            // compare the response with fake list
-            assertThat(homeViewData.episodes).hasSize(TestUtil.getFakeEpisodeList().size)
-            // compare the data and also order
-            assertThat(homeViewData.episodes).containsExactlyElementsIn(
-                TestUtil.getFakeEpisodeViewDataList(
-                    true
-                )
-            ).inOrder()
+            LiveDataTestUtil.getValue(homeViewModel.getHomeViewState()) {
+                when (it) {
+                    is Loading -> assertThat(it).isNotNull()
+                    is Success -> {
+                        assertThat(it.homeViewData).isNotNull()
+                        val episodes = it.homeViewData.episodes
+                        assertThat(episodes.isNotEmpty())
+                        // compare the response with fake list
+                        assertThat(episodes).hasSize(TestUtil.getFakeEpisodeList().size)
+                        // compare the data and also order
+                        assertThat(episodes).containsExactlyElementsIn(
+                            TestUtil.getFakeEpisodeViewDataList(
+                                true
+                            )
+                        ).inOrder()
+                    }
+                }
+            }
         }
     }
 
@@ -126,20 +122,13 @@ class HomeViewModelTest {
             whenever(favoriteShowsRepository.allFavoriteShowIds())
                 .thenReturn(arrayListOf(1, 2))
 
-            // Pause coroutine to listen for loading initial state
-            mainCoroutineRule.pauseDispatcher()
-
             homeViewModel.onScreenCreated()
-            // Check if status is loading
-            assertThat(LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())).isEqualTo(Loading)
-
-            // Resume coroutine dispatcher to execute pending coroutine actions
-            mainCoroutineRule.resumeDispatcher()
-
-            // Observe on home view state live data
-            val homeViewState = LiveDataTestUtil.getValue(homeViewModel.getHomeViewState())
-            // Check for success data
-            assertThat(homeViewState is NetworkError).isTrue()
+            LiveDataTestUtil.getValue(homeViewModel.getHomeViewState()) {
+                when (it) {
+                    is Loading -> assertThat(it).isNotNull()
+                    is NetworkError -> assertThat(it.message).isNotEmpty()
+                }
+            }
         }
     }
 }

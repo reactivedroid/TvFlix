@@ -1,19 +1,18 @@
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     //Support
-    implementation deps.support_lib.design
-    implementation deps.support_lib.appcompat
-    implementation deps.support_lib.support_annotations
-    implementation deps.support_lib.recyclerview
-    implementation deps.support_lib.cardview
+    implementation deps.androidx_lib.design
+    implementation deps.androidx_lib.appcompat
+    implementation deps.androidx_lib.support_annotations
+    implementation deps.androidx_lib.recyclerview
+    implementation deps.androidx_lib.cardview
+    implementation deps.androidx_lib.ktx_core
+    implementation deps.androidx_lib.ktx_collections
+    implementation deps.androidx_lib.ktx_fragment
+    implementation deps.androidx_lib.ktx_activity
     implementation deps.constraint_layout
 
     implementation deps.multidex
-
-    implementation deps.rxjava.android
-    // Because RxAndroid releases are few and far between, it is recommended you also
-    // explicitly depend on RxJava's latest version for bug fixes and new features.
-    implementation deps.rxjava.main
 
     implementation deps.okhttp.main
     implementation deps.okhttp.logging_interceptor
@@ -39,6 +38,7 @@ dependencies {
     implementation deps.lifecycle.extensions
     kapt deps.lifecycle.compiler
     implementation deps.lifecycle.viewmodel_ktx
+    implementation deps.lifecycle.livedata_ktx
 
     // Paging
     implementation deps.paging.runtime
@@ -47,7 +47,6 @@ dependencies {
     // Room
     implementation deps.room.runtime
     kapt deps.room.compiler
-    implementation deps.room.rxjava2
     testImplementation deps.room.testing
     implementation deps.room.ktx
 
@@ -82,4 +81,7 @@ dependencies {
     implementation deps.coroutines.rx2
     implementation deps.coroutines.android
     testImplementation deps.coroutines.test
+
+    debugImplementation deps.chucker.debug
+    releaseImplementation deps.chucker.release
 }

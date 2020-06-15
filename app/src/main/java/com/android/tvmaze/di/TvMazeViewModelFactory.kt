@@ -7,9 +7,9 @@ import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
 
-@Singleton
+@ActivityScoped
 class TvMazeViewModelFactory @Inject
-constructor(private val creators: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) :
+constructor(private val creators: DaggerMap<Class<out ViewModel>, Provider<ViewModel>>) :
     ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")

@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply from: "$project.rootDir/tools/findbugs.gradle"
 apply from: "$project.rootDir/tools/checkstyle.gradle"
 apply from: "$project.rootDir/tools/pmd.gradle"
 apply plugin: 'kotlin-android'
@@ -60,6 +59,10 @@ android {
     // To enable experimental functionality like @Parcelize
     androidExtensions {
         experimental = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 

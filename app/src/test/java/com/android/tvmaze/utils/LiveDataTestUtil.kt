@@ -30,4 +30,14 @@ object LiveDataTestUtil {
 
         return data
     }
+
+    fun <T> getValue(
+        liveData: LiveData<T>,
+        callback: (T) -> Unit = {}
+    ) {
+        val observer = Observer<T> { o ->
+            callback.invoke(o)
+        }
+        liveData.observeForever(observer)
+    }
 }
