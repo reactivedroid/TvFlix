@@ -1,3 +1,5 @@
+![Android CI](https://github.com/ashwini009/TvFlix/workflows/Android%20CI/badge.svg?branch=master&event=push)
+
 # TvFlix :tv: 
 
 The aim of this app is to replicate the high level functionality of www.tvmaze.com and showcase an android app out of it. 
