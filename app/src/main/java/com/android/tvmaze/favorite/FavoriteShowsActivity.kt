@@ -8,31 +8,30 @@ import android.text.Spanned
 import android.text.style.ImageSpan
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
 import com.android.tvmaze.base.TvMazeBaseActivity
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
+import com.android.tvmaze.di.ActivityScoped
 import com.android.tvmaze.utils.GridItemDecoration
 import kotlinx.android.synthetic.main.activity_favorite_shows.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import javax.inject.Inject
 
 class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callback {
+    @ActivityScoped
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var favoriteShowsViewModel: FavoriteShowsViewModel
+    private val favoriteShowsViewModel by viewModels<FavoriteShowsViewModel> { viewModelFactory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_favorite_shows)
         setToolbar()
-        favoriteShowsViewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(FavoriteShowsViewModel::class.java)
         favoriteShowsViewModel.loadFavoriteShows()
         favoriteShowsViewModel.getFavoriteShowsLiveData()
             .observe(this, Observer { showFavorites(it) })
@@ -55,7 +54,7 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
             val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
             shows.adapter = favoriteShowsAdapter
             val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-           shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
+            shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
             shows.visibility = View.VISIBLE
         } else {
             val bookmarkSpan = ImageSpan(this, R.drawable.favorite_border)

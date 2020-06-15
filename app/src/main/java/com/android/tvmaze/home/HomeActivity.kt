@@ -5,13 +5,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
 import com.android.tvmaze.base.TvMazeBaseActivity
+import com.android.tvmaze.di.ActivityScoped
 import com.android.tvmaze.favorite.FavoriteShowsActivity
 import com.android.tvmaze.shows.AllShowsActivity
 import com.android.tvmaze.utils.GridItemDecoration
@@ -20,15 +21,15 @@ import kotlinx.android.synthetic.main.toolbar.view.*
 import javax.inject.Inject
 
 class HomeActivity : TvMazeBaseActivity(), ShowsAdapter.Callback {
+    @ActivityScoped
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private lateinit var homeViewModel: HomeViewModel
+    private val homeViewModel by viewModels<HomeViewModel> { viewModelFactory }
     private lateinit var showsAdapter: ShowsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        homeViewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         setToolbar()
         homeViewModel.onScreenCreated()
         homeViewModel.getHomeViewState().observe(this, Observer { setViewState(it) })

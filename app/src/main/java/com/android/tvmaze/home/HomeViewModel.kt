@@ -3,13 +3,16 @@ package com.android.tvmaze.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.android.tvmaze.favorite.FavoriteShowsRepository
 import com.android.tvmaze.network.TvMazeApi
 import com.android.tvmaze.network.home.Episode
 import com.android.tvmaze.network.home.Show
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -30,15 +33,17 @@ class HomeViewModel @Inject constructor(
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
             onError(exception)
         }
-        // viewModelScope launch the new coroutine on Main Dispatcher internally
+        // viewModelScope launch the new coroutine on Main Dispatcher internally, so move to db and network opn on IO
         viewModelScope.launch(coroutineExceptionHandler) {
-            // Get favorite shows from db, suspend function in room will launch a new coroutine with IO dispatcher
-            val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
-            // Get shows from network, suspend function in retrofit will launch a new coroutine with IO dispatcher
-            val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
-
-            // Return the result on main thread via Dispatchers.Main
-            homeViewStateLiveData.value = Success(HomeViewData(getShowsWithFavorites(episodes, favoriteShowIds)))
+            withContext(Dispatchers.IO) {
+                val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
+                val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
+                withContext(Dispatchers.Main) {
+                    // Return the result on main thread via Dispatchers.Main
+                    homeViewStateLiveData.value =
+                        Success(HomeViewData(getShowsWithFavorites(episodes, favoriteShowIds)))
+                }
+            }
         }
     }
 

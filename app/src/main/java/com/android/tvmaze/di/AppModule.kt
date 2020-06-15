@@ -6,9 +6,8 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@Module(includes = [ViewModelModule::class])
+@Module
 object AppModule {
-    @JvmStatic
     @Provides
     @Singleton
     fun provideContext(application: Application): Context {
