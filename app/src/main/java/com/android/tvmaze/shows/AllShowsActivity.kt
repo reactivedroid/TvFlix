@@ -7,25 +7,21 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.tvmaze.R
-import com.android.tvmaze.base.TvMazeBaseActivity
-import com.android.tvmaze.di.ActivityScoped
 import com.android.tvmaze.network.home.Show
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_all_shows.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import javax.inject.Inject
 
-class AllShowsActivity : TvMazeBaseActivity(), ShowsPagedAdaptor.Callback {
-    @ActivityScoped
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val showsViewModel by viewModels<ShowsViewModel> { viewModelFactory }
+@AndroidEntryPoint
+class AllShowsActivity : AppCompatActivity(), ShowsPagedAdaptor.Callback {
+    private val showsViewModel: ShowsViewModel by viewModels()
     private lateinit var showsPagedAdaptor: ShowsPagedAdaptor
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -27,13 +27,6 @@ dependencies {
     implementation deps.retrofit.moshi
     implementation deps.okhttp.logging_interceptor
 
-    // Dagger2
-    implementation deps.dagger.main
-    kapt deps.dagger.compiler
-    implementation deps.dagger.android
-    kapt deps.dagger.android_processor
-    implementation deps.dagger.android_support
-
     // Viewmodel
     implementation deps.lifecycle.extensions
     kapt deps.lifecycle.compiler
@@ -84,4 +77,9 @@ dependencies {
 
     debugImplementation deps.chucker.debug
     releaseImplementation deps.chucker.release
+
+    implementation deps.hilt.android
+    kapt deps.hilt.android_compiler
+    implementation deps.hilt.viewmodel
+    kapt deps.hilt.compiler
 }

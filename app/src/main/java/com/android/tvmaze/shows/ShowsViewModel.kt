@@ -1,5 +1,6 @@
 package com.android.tvmaze.shows
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
@@ -7,7 +8,7 @@ import androidx.paging.PagedList
 import com.android.tvmaze.network.home.Show
 import javax.inject.Inject
 
-class ShowsViewModel @Inject
+class ShowsViewModel @ViewModelInject
 constructor(private val showsDataSourceFactory: ShowsDataSourceFactory) : ViewModel() {
     private lateinit var shows: LiveData<PagedList<Show>>
 

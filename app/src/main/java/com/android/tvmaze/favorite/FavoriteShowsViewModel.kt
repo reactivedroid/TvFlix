@@ -1,5 +1,6 @@
 package com.android.tvmaze.favorite
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,9 +12,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.util.ArrayList
-import javax.inject.Inject
 
-class FavoriteShowsViewModel @Inject
+class FavoriteShowsViewModel @ViewModelInject
 constructor(private val favoriteShowsRepository: FavoriteShowsRepository) : ViewModel() {
     private val favoriteShowsLiveData: MutableLiveData<List<FavoriteShow>> = MutableLiveData()
     private lateinit var removedFromFavoriteShows: List<FavoriteShow>

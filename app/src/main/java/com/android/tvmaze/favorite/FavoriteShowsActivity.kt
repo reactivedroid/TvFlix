@@ -6,27 +6,24 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
-import com.android.tvmaze.base.TvMazeBaseActivity
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
-import com.android.tvmaze.di.ActivityScoped
 import com.android.tvmaze.utils.GridItemDecoration
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_favorite_shows.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import javax.inject.Inject
 
-class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callback {
-    @ActivityScoped
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val favoriteShowsViewModel by viewModels<FavoriteShowsViewModel> { viewModelFactory }
+@AndroidEntryPoint
+class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback {
+    private val favoriteShowsViewModel: FavoriteShowsViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +83,15 @@ class FavoriteShowsActivity : TvMazeBaseActivity(), FavoriteShowsAdapter.Callbac
         fun start(context: Activity) {
             val starter = Intent(context, FavoriteShowsActivity::class.java)
             context.startActivity(starter)
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == android.R.id.home) {
+            finish()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
     }
 }

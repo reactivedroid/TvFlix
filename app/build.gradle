@@ -4,6 +4,7 @@ apply from: "$project.rootDir/tools/pmd.gradle"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion versions.compile_sdk

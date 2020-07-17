@@ -1,9 +1,9 @@
 package com.android.tvmaze.home
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.android.tvmaze.favorite.FavoriteShowsRepository
 import com.android.tvmaze.network.TvMazeApi
@@ -17,9 +17,8 @@ import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import javax.inject.Inject
 
-class HomeViewModel @Inject constructor(
+class HomeViewModel @ViewModelInject constructor(
     private val tvMazeApi: TvMazeApi,
     private val favoriteShowsRepository: FavoriteShowsRepository
 ) : ViewModel() {
