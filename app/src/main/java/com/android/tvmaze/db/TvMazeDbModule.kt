@@ -5,15 +5,18 @@ import androidx.room.Room
 import com.android.tvmaze.db.favouriteshow.ShowDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 import javax.inject.Singleton
 
+@InstallIn(ApplicationComponent::class)
 @Module
 object TvMazeDbModule {
-    @JvmStatic
     @Singleton
     @Provides
-    fun provideTvMazeDatabase(context: Context): TvMazeDatabase {
+    fun provideTvMazeDatabase(@ApplicationContext context: Context): TvMazeDatabase {
         return Room.databaseBuilder(
             context,
             TvMazeDatabase::class.java, TvMazeDatabase.DATABASE_NAME
@@ -23,7 +26,6 @@ object TvMazeDbModule {
             .build()
     }
 
-    @JvmStatic
     @Singleton
     @Provides
     fun provideShowDao(tvMazeDatabase: TvMazeDatabase): ShowDao {

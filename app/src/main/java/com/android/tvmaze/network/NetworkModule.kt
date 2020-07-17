@@ -8,6 +8,8 @@ import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,6 +24,7 @@ import javax.inject.Singleton
 @Qualifier
 private annotation class InternalApi
 
+@InstallIn(ApplicationComponent::class)
 @Module(includes = [TvMazeApiModule::class, InterceptorModule::class])
 object NetworkModule {
     const val TVMAZE_BASE_URL = "tvmaze_base_url"

@@ -9,7 +9,7 @@ TvFlix consists of 3 pieces of UI right now:
 2. Favorites
 3. All Shows
 
-This app is under heavy development. :construction_worker: :hammer_and_wrench:
+This app is under development. :construction_worker: :hammer_and_wrench:
 
 *Note: TvFlix is an unofficial app built only for learning and sharing the latest concepts with #AndroidDevs*
 
@@ -18,7 +18,7 @@ This app is under heavy development. :construction_worker: :hammer_and_wrench:
 * The entire codebase is in [Kotlin](https://kotlinlang.org/)
 * Uses Kotlin [Coroutines](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html)
 * Uses MVVM Architecture by [Architecture Components](https://developer.android.com/topic/libraries/architecture/). Room, LiveData, ViewModel, Paging
-* Uses [dagger-android](https://google.github.io/dagger/android.html) for dependency injection
+* Uses [Hilt Android](https://developer.android.com/training/dependency-injection/hilt-android) with [Dagger](https://dagger.dev/) for dependency injection
 * Unit Testing by [Mockito](https://github.com/mockito/mockito)
 * Tests Coroutines and architecture components like ViewModel
 * UI Test by [Espresso](https://developer.android.com/training/testing/espresso) based on [Robot Pattern](https://academy.realm.io/posts/kau-jake-wharton-testing-robots/)
