@@ -20,21 +20,6 @@
 }
 -dontwarn org.apache.**
 
-# Design support library
--keep class android.support.design.widget.** { *; }
--keep interface android.support.design.widget.** { *; }
--dontwarn android.support.design.**
-
--keep class android.support.v4.** { *; }
--keep interface android.support.v4.app.** { *; }
-
-# FOR APPCOMPAT 23.1.1 and higher to avoid crashes on specific devices
-# Need to check if it will be necessary starting with 24.0.0
-# https://code.google.com/p/android/issues/detail?id=78377#c336
--keep class !android.support.v7.view.menu.*MenuBuilder*, android.support.v7.** { *; }
--keep interface android.support.v7.** { *; }
-
-
 # Needed by commons logging
 -keep class org.apache.commons.logging.* { *; }
 
@@ -112,4 +97,22 @@
     public static *** v(...);
     public static *** d(...);
     public static *** i(...);
+}
+
+# OkHttp platform used only on JVM and when Conscrypt dependency is available.
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# Animal Sniffer compileOnly dependency to ensure APIs are compatible with older versions of Java.
+-dontwarn org.codehaus.mojo.animal_sniffer.*
+
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep class * extends com.bumptech.glide.module.AppGlideModule {
+ <init>(...);
+}
+-keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+-keep class com.bumptech.glide.load.data.ParcelFileDescriptorRewinder$InternalRewinder {
+  *** rewind();
 }
