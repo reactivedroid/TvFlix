@@ -1,4 +1,5 @@
-![Android CI](https://github.com/ashwini009/TvFlix/workflows/Android%20CI/badge.svg?branch=master&event=push)
+![Android CI](https://github.com/ashwini009/TvFlix/workflows/Android%20CI/badge.svg?branch=master&event=push) ![GitHub top language](https://img.shields.io/github/languages/top/ashwini009/TvFlix?style=plastic) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21) ![GitHub stars](https://img.shields.io/github/stars/ashwini009/TvFlix?style=social) ![GitHub forks](https://img.shields.io/github/forks/ashwini009/TvFlix?style=social)
+
 
 # TvFlix :tv: 
 
