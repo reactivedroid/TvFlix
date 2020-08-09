@@ -11,17 +11,16 @@ import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
-import org.robolectric.RobolectricTestRunner
 
 @ExperimentalCoroutinesApi
-@RunWith(RobolectricTestRunner::class)
 class HomeViewModelTest {
     // Executes tasks in the Architecture Components in the same thread
     @get:Rule
@@ -130,5 +129,10 @@ class HomeViewModelTest {
                 }
             }
         }
+    }
+
+    @After
+    fun release() {
+        Mockito.framework().clearInlineMocks()
     }
 }

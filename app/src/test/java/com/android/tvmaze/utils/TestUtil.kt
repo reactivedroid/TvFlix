@@ -1,6 +1,5 @@
 package com.android.tvmaze.utils
 
-import com.android.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.tvmaze.home.HomeViewData
 import com.android.tvmaze.network.home.Episode
 import com.android.tvmaze.network.home.Show
@@ -62,14 +61,5 @@ object TestUtil {
         episodeList.add(episode1)
         episodeList.add(episode2)
         return episodeList
-    }
-
-    fun getFakeShow(): FavoriteShow {
-        return FavoriteShow(
-            id = 222, name = "Friends",
-            premiered = "Aug 2002", imageUrl = null,
-            summary = "Friends for life!", rating = "10 stars",
-            runtime = 132000, isFavorite = true
-        )
     }
 }

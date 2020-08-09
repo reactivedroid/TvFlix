@@ -138,7 +138,6 @@ dependencies {
     androidTestImplementation(Deps.Mockito.android)
     testImplementation(Deps.Mockito.kotlin)
     testImplementation(Deps.Mockito.inline)
-    testImplementation(Deps.robolectric)
     testImplementation(Deps.AndroidX.Test.arch_core_testing)
     testImplementation(Deps.AndroidX.Test.core)
     androidTestImplementation(Deps.AndroidX.Test.runner)
@@ -149,6 +148,7 @@ dependencies {
     androidTestImplementation(Deps.AndroidX.Test.Espresso.idling_resource)
     androidTestImplementation(Deps.AndroidX.Test.rules)
     testImplementation(Deps.truth)
+    androidTestImplementation(Deps.truth)
     testImplementation(Deps.Coroutines.test)
     // end-region Test
 
