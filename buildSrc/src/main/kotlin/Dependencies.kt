@@ -21,7 +21,6 @@ object Deps {
         const val timber = "4.7.1"
         const val mockito_kotlin = "2.2.0"
         const val arch_core_testing = "2.0.0"
-        const val robolectric = "4.3.1"
         const val moshi = "1.9.2"
         const val coroutines = "1.3.7"
         const val truth = "1.0.1"
@@ -42,7 +41,6 @@ object Deps {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     const val junit = "junit:junit:${Versions.junit}"
-    const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
 
     object Google {
         const val material = "com.google.android.material:material:${Versions.material}"
