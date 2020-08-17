@@ -15,9 +15,9 @@ object Deps {
         const val mockito = "3.2.4"
         const val okhttp = "4.8.0"
         const val retrofit = "2.9.0"
-        const val paging = "2.1.0"
+        const val paging = "3.0.0-alpha04"
         const val room = "2.2.5"
-        const val kotlin = "1.3.72"
+        const val kotlin = "1.4.0"
         const val timber = "4.7.1"
         const val mockito_kotlin = "2.2.0"
         const val arch_core_testing = "2.0.0"
@@ -34,6 +34,7 @@ object Deps {
         const val material = "1.1.0"
         const val android_test_junit = "1.1.1"
         const val multidex = "2.0.1"
+        const val nav_version = "2.3.0"
     }
 
     const val android_plugin = "com.android.tools.build:gradle:${Versions.android_plugin}"
@@ -58,6 +59,14 @@ object Deps {
     }
 
     object AndroidX {
+        object Navigation {
+            const val fragmentKtx =
+                "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
+            const val uiKtx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
+            const val testing = "androidx.navigation:navigation-testing:${Versions.nav_version}"
+            const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav_version}"
+        }
+
         object Test {
             const val core = "androidx.test:core:${Versions.android_test}"
             const val rules = "androidx.test:rules:${Versions.android_test}"

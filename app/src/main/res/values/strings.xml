@@ -11,4 +11,5 @@
     <string name="added_to_favorites">Added to favorites</string>
     <string name="favorite_shows">Favorite Shows</string>
     <string name="favorite_hint_msg">Click on the  &#160;&#160;icon \nto mark the show as favorite</string>
+    <string name="show_image">Show image</string>
 </resources>

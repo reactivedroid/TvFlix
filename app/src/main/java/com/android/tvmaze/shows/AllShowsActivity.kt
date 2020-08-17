@@ -3,72 +3,81 @@ package com.android.tvmaze.shows
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
-import androidx.paging.PagedList
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import com.android.tvmaze.R
-import com.android.tvmaze.network.home.Show
+import com.android.tvmaze.databinding.ActivityAllShowsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_all_shows.*
-import kotlinx.android.synthetic.main.toolbar.view.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class AllShowsActivity : AppCompatActivity(), ShowsPagedAdaptor.Callback {
+class AllShowsActivity : AppCompatActivity() {
     private val showsViewModel: ShowsViewModel by viewModels()
-    private lateinit var showsPagedAdaptor: ShowsPagedAdaptor
-
+    private lateinit var adapter: ShowsPagedAdapter
+    private lateinit var showsBinding: ActivityAllShowsBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_all_shows)
+        showsBinding = ActivityAllShowsBinding.inflate(LayoutInflater.from(this))
+        setContentView(showsBinding.root)
         setToolbar()
-        showsViewModel.onScreenCreated()
         initAdapter()
-        showsViewModel.initialLoadState().observe(this, Observer { setProgress(it) })
+        getShows()
+        showsBinding.retry.setOnClickListener { adapter.retry() }
+    }
+
+    private fun getShows() {
+        lifecycleScope.launch { showsViewModel.shows().collectLatest { adapter.submitData(it) } }
     }
 
     private fun initAdapter() {
-        val layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        showsPagedAdaptor = ShowsPagedAdaptor(ShowDiffUtilItemCallback(), this)
-        shows.layoutManager = layoutManager
-        shows.adapter = showsPagedAdaptor
-        showsViewModel.getShows().observe(this, Observer { showAllShows(it) })
-        showsViewModel.paginatedLoadState().observe(this, Observer { setAdapterState(it) })
-    }
+        adapter = ShowsPagedAdapter(ShowDiffUtilItemCallback())
+        showsBinding.shows.adapter = adapter.withLoadStateFooter(
+            footer = ShowsLoadStateAdapter { adapter.retry() }
+        )
 
-    private fun setAdapterState(networkState: NetworkState) {
-        showsPagedAdaptor.setNetworkState(networkState)
+        adapter.addLoadStateListener { combinedLoadStates ->
+            // Handle the initial load state
+            when (val loadState = combinedLoadStates.source.refresh) {
+                is LoadState.NotLoading -> {
+                    showsBinding.progress.isVisible = false
+                    showsBinding.shows.isVisible = true
+                    showsBinding.errorGroup.isVisible = false
+                }
+                is LoadState.Loading -> {
+                    showsBinding.progress.isVisible = true
+                    showsBinding.errorGroup.isVisible = false
+                }
+                is LoadState.Error -> {
+                    showsBinding.progress.isVisible = false
+                    showsBinding.errorGroup.isVisible = true
+                    showsBinding.errorMsg.text = loadState.error.localizedMessage
+                }
+            }
+
+            // Show message to the user when an error comes while loading the next page
+            val errorState = combinedLoadStates.source.append as? LoadState.Error
+                ?: combinedLoadStates.append as? LoadState.Error
+            errorState?.let {
+                Toast.makeText(this, errorState.error.localizedMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setToolbar() {
-        val toolbar = toolbar.toolbar
+        val toolbar = showsBinding.toolbar.toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         setTitle(R.string.shows)
-    }
-
-    private fun setProgress(loadState: NetworkState) {
-        when (loadState) {
-            is Success -> progress.visibility = View.GONE
-            is NetworkError -> {
-                progress.visibility = View.GONE
-                Toast.makeText(this, loadState.message, Toast.LENGTH_SHORT).show()
-            }
-            is Loading -> progress.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showAllShows(showsList: PagedList<Show>) {
-        showsPagedAdaptor.submitList(showsList)
-        shows.visibility = View.VISIBLE
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -78,10 +87,6 @@ class AllShowsActivity : AppCompatActivity(), ShowsPagedAdaptor.Callback {
         } else {
             super.onOptionsItemSelected(item)
         }
-    }
-
-    override fun onRetryClicked() {
-        showsViewModel.retry()
     }
 
     companion object {
