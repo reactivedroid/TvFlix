@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
-import com.android.tvmaze.R
 import com.android.tvmaze.databinding.NetworkFailureListItemBinding
 
 class ShowsStateViewHolder(
@@ -26,9 +25,8 @@ class ShowsStateViewHolder(
 
     companion object {
         fun create(parent: ViewGroup, retry: () -> Unit): ShowsStateViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.network_failure_list_item, parent, false)
-            val binding = NetworkFailureListItemBinding.bind(view)
+            val layoutInflater = LayoutInflater.from(parent.context)
+            val binding = NetworkFailureListItemBinding.inflate(layoutInflater, parent, false)
             return ShowsStateViewHolder(binding, retry)
         }
     }

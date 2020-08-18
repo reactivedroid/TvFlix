@@ -22,22 +22,23 @@
             android:id="@+id/error_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="retry, error_msg" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="retry, error_msg"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/error_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:gravity="center"
             android:textColor="@color/red"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBaseline_toBaselineOf="@id/retry"
-            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/retry"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="No Internet Connection " />
+            tools:text="No Internet Connection. Please check your internet connection and try again " />
 
         <Button
             android:id="@+id/retry"
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:text="@string/retry"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/error_msg" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
