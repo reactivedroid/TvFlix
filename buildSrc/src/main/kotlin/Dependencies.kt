@@ -34,7 +34,6 @@ object Deps {
         const val material = "1.1.0"
         const val android_test_junit = "1.1.1"
         const val multidex = "2.0.1"
-        const val nav_version = "2.3.0"
     }
 
     const val android_plugin = "com.android.tools.build:gradle:${Versions.android_plugin}"
@@ -59,14 +58,6 @@ object Deps {
     }
 
     object AndroidX {
-        object Navigation {
-            const val fragmentKtx =
-                "androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"
-            const val uiKtx = "androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"
-            const val testing = "androidx.navigation:navigation-testing:${Versions.nav_version}"
-            const val safeArgs = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav_version}"
-        }
-
         object Test {
             const val core = "androidx.test:core:${Versions.android_test}"
             const val rules = "androidx.test:rules:${Versions.android_test}"

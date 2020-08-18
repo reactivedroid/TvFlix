@@ -4,7 +4,6 @@ plugins {
     kotlin("kapt")
     kotlin("android.extensions")
     id("dagger.hilt.android.plugin")
-    id("androidx.navigation.safeargs.kotlin")
 }
 
 apply {
@@ -121,8 +120,6 @@ dependencies {
     kapt(Deps.AndroidX.Hilt.compiler)
     implementation(Deps.AndroidX.multidex)
     implementation(Deps.AndroidX.annotation)
-    implementation(Deps.AndroidX.Navigation.fragmentKtx)
-    implementation(Deps.AndroidX.Navigation.uiKtx)
     // end-region AndroidX
 
     implementation(Deps.OkHttp.main)
@@ -150,7 +147,6 @@ dependencies {
     androidTestImplementation(Deps.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.idling_resource)
     androidTestImplementation(Deps.AndroidX.Test.rules)
-    androidTestImplementation(Deps.AndroidX.Navigation.testing)
     testImplementation(Deps.truth)
     androidTestImplementation(Deps.truth)
     testImplementation(Deps.Coroutines.test)
