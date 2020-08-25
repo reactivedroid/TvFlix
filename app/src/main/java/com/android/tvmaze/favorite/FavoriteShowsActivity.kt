@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
@@ -31,7 +30,7 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
         setToolbar()
         favoriteShowsViewModel.loadFavoriteShows()
         favoriteShowsViewModel.getFavoriteShowsLiveData()
-            .observe(this, Observer { showFavorites(it) })
+            .observe(this, { showFavorites(it) })
     }
 
     private fun setToolbar() {

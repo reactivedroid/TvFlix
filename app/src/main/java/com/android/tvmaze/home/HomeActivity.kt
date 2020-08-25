@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
 import com.android.tvmaze.favorite.FavoriteShowsActivity
@@ -28,7 +27,7 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
         setContentView(R.layout.activity_home)
         setToolbar()
         homeViewModel.onScreenCreated()
-        homeViewModel.getHomeViewState().observe(this, Observer { setViewState(it) })
+        homeViewModel.getHomeViewState().observe(this, { setViewState(it) })
         popular_show_header.text = String.format(
             getString(R.string.popular_shows_airing_today),
             homeViewModel.country
