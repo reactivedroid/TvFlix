@@ -27,7 +27,7 @@ class ShowsAdapter constructor(
             .inflate(layoutInflater, parent, false)
         val showHolder = ShowHolder(showListItemBinding)
         showHolder.binding.showFavoriteIcon = true
-        showHolder.binding.favorite.setOnClickListener { onFavouriteIconClicked(showHolder.adapterPosition) }
+        showHolder.binding.favorite.setOnClickListener { onFavouriteIconClicked(showHolder.absoluteAdapterPosition) }
         return showHolder
     }
 

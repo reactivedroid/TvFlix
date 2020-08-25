@@ -134,10 +134,10 @@ dependencies {
 
     // start-region Test
     testImplementation(Deps.junit)
-    testImplementation(Deps.Mockito.core)
-    androidTestImplementation(Deps.Mockito.android)
-    testImplementation(Deps.Mockito.kotlin)
-    testImplementation(Deps.Mockito.inline)
+    testImplementation(Deps.Test.Mockito.core)
+    androidTestImplementation(Deps.Test.Mockito.android)
+    testImplementation(Deps.Test.Mockito.kotlin)
+    testImplementation(Deps.Test.Mockito.inline)
     testImplementation(Deps.AndroidX.Test.arch_core_testing)
     testImplementation(Deps.AndroidX.Test.core)
     androidTestImplementation(Deps.AndroidX.Test.runner)
@@ -147,8 +147,8 @@ dependencies {
     androidTestImplementation(Deps.AndroidX.Test.Espresso.contrib)
     androidTestImplementation(Deps.AndroidX.Test.Espresso.idling_resource)
     androidTestImplementation(Deps.AndroidX.Test.rules)
-    testImplementation(Deps.truth)
-    androidTestImplementation(Deps.truth)
+    testImplementation(Deps.Test.truth)
+    testImplementation(Deps.Test.robolectric)
     testImplementation(Deps.Coroutines.test)
     // end-region Test
 

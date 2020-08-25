@@ -34,6 +34,7 @@ object Deps {
         const val material = "1.1.0"
         const val android_test_junit = "1.1.1"
         const val multidex = "2.0.1"
+        const val robolectric = "4.4"
     }
 
     const val android_plugin = "com.android.tools.build:gradle:${Versions.android_plugin}"
@@ -140,17 +141,20 @@ object Deps {
         const val codegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     }
 
-    object Mockito {
-        const val core = "org.mockito:mockito-core:${Versions.mockito}"
-        const val android = "org.mockito:mockito-android:${Versions.mockito}"
-        const val inline = "org.mockito:mockito-inline:${Versions.mockito}"
-        const val kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
+    object Test {
+        object Mockito {
+            const val core = "org.mockito:mockito-core:${Versions.mockito}"
+            const val android = "org.mockito:mockito-android:${Versions.mockito}"
+            const val inline = "org.mockito:mockito-inline:${Versions.mockito}"
+            const val kotlin = "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
+        }
+        const val truth = "com.google.truth:truth:${Versions.truth}"
+        const val robolectric = "org.robolectric:robolectric:${Versions.robolectric}"
     }
+
 
     object Chucker {
         const val debug = "com.github.chuckerteam.chucker:library:${Versions.chucker}"
         const val release = "com.github.chuckerteam.chucker:library-no-op:${Versions.chucker}"
     }
-
-    const val truth = "com.google.truth:truth:${Versions.truth}"
 }

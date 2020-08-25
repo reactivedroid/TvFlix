@@ -3,22 +3,19 @@ package com.android.tvmaze.favorites
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.LargeTest
 import com.android.tvmaze.db.TvMazeDatabase
 import com.android.tvmaze.db.favouriteshow.ShowDao
 import com.android.tvmaze.favorite.FavoriteShowsRepository
-import com.android.tvmaze.utils.TestUtils
+import com.android.tvmaze.utils.TestUtil
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.IOException
+import org.robolectric.RobolectricTestRunner
 
-@LargeTest
-@RunWith(AndroidJUnit4::class)
+@RunWith(RobolectricTestRunner::class)
 class FavoritesRepositoryTest {
     private lateinit var favoriteShowsRepository: FavoriteShowsRepository
     private lateinit var tvMazeDb: TvMazeDatabase
@@ -37,7 +34,7 @@ class FavoritesRepositoryTest {
     @Test
     fun testShowInsertionInDb() {
         runBlocking {
-            favoriteShowsRepository.insertIntoFavorites(TestUtils.getFakeShow())
+            favoriteShowsRepository.insertIntoFavorites(TestUtil.getFakeShow())
             val favShows = favoriteShowsRepository.allFavoriteShows()
             assertThat(favShows.isNotEmpty()).isTrue()
         }
@@ -54,7 +51,7 @@ class FavoritesRepositoryTest {
     @Test
     fun testFavoriteShows() {
         runBlocking {
-            val fakeShow = TestUtils.getFakeShow()
+            val fakeShow = TestUtil.getFakeShow()
             favoriteShowsRepository.insertIntoFavorites(fakeShow)
             val favoriteShows = favoriteShowsRepository.allFavoriteShows()
             assertThat(favoriteShows[0] == fakeShow).isTrue()
@@ -62,7 +59,6 @@ class FavoritesRepositoryTest {
     }
 
     @After
-    @Throws(IOException::class)
     fun release() {
         tvMazeDb.close()
     }
