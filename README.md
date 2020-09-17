@@ -45,9 +45,8 @@ Know more:
 
 ### Pagination using Paging Library 
 
-The Shows screen displays the list of shows fetched from TvMaze API using `PagingLibray` of Android Architecture Components. 
-It also handles the retry if any network error occurred.
-Know more:
+The Shows screen displays the list of shows fetched from TvMaze API using [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) of Android Architecture Components. It also handles the retry if any network error occurred. Recently the repository has been [migrated to use Paging3](https://github.com/reactivedroid/TvFlix/pull/14).  
+Paging3 is in heavy development, and if you want to catch up with stable library(Paging 2), then check out this blog
 [Pagination using Paging Library with RxJava and Dagger](https://medium.com/@kumarashwini/pagination-using-paging-library-with-rxjava-and-dagger-d9d05dbd8eac)
 
 ### Room Persistence Library
