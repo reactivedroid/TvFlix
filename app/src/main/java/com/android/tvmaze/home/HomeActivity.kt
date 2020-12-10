@@ -10,25 +10,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
+import com.android.tvmaze.databinding.ActivityHomeBinding
 import com.android.tvmaze.favorite.FavoriteShowsActivity
 import com.android.tvmaze.shows.AllShowsActivity
 import com.android.tvmaze.utils.GridItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_home.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var showsAdapter: ShowsAdapter
+    private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(binding.root)
         setToolbar()
         homeViewModel.onScreenCreated()
         homeViewModel.getHomeViewState().observe(this, { setViewState(it) })
-        popular_show_header.text = String.format(
+        binding.popularShowHeader.text = String.format(
             getString(R.string.popular_shows_airing_today),
             homeViewModel.country
         )
@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
     }
 
     private fun setToolbar() {
-        val toolbar = toolbar.toolbar
+        val toolbar = binding.toolbar.toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
@@ -68,7 +68,7 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
         val gridLayoutManager = GridLayoutManager(this, NO_OF_COLUMNS)
         showsAdapter = ShowsAdapter(this)
         showsAdapter.updateList(homeViewData.episodes.toMutableList())
-        popular_shows.apply {
+        binding.popularShows.apply {
             layoutManager = gridLayoutManager
             setHasFixedSize(true)
             adapter = showsAdapter
@@ -82,11 +82,11 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
     }
 
     private fun showProgress() {
-        progress.visibility = View.VISIBLE
+        binding.progress.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        progress.visibility = View.GONE
+        binding.progress.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
