@@ -14,19 +14,19 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
+import com.android.tvmaze.databinding.ActivityFavoriteShowsBinding
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.tvmaze.utils.GridItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_favorite_shows.*
-import kotlinx.android.synthetic.main.toolbar.view.*
 
 @AndroidEntryPoint
 class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback {
     private val favoriteShowsViewModel: FavoriteShowsViewModel by viewModels()
+    private val binding by lazy { ActivityFavoriteShowsBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favorite_shows)
+        setContentView(binding.root)
         setToolbar()
         favoriteShowsViewModel.loadFavoriteShows()
         favoriteShowsViewModel.getFavoriteShowsLiveData()
@@ -34,7 +34,7 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
     }
 
     private fun setToolbar() {
-        val toolbar = toolbar.toolbar
+        val toolbar = binding.toolbar.toolbar
         setSupportActionBar(toolbar)
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
@@ -43,15 +43,15 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
     }
 
     private fun showFavorites(favoriteShows: List<FavoriteShow>) {
-        progress.visibility = View.GONE
+        binding.progress.visibility = View.GONE
         if (favoriteShows.isNotEmpty()) {
             val layoutManager = GridLayoutManager(this, COLUMNS_COUNT)
-            shows.layoutManager = layoutManager
+            binding.shows.layoutManager = layoutManager
             val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
-            shows.adapter = favoriteShowsAdapter
+            binding.shows.adapter = favoriteShowsAdapter
             val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-            shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
-            shows.visibility = View.VISIBLE
+            binding.shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
+            binding.shows.visibility = View.VISIBLE
         } else {
             val bookmarkSpan = ImageSpan(this, R.drawable.favorite_border)
             val spannableString = SpannableString(getString(R.string.favorite_hint_msg))
@@ -59,8 +59,8 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
                 bookmarkSpan, FAVORITE_ICON_START_OFFSET,
                 FAVORITE_ICON_END_OFFSET, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
-            favorite_hint.text = spannableString
-            favorite_hint.visibility = View.VISIBLE
+            binding.favoriteHint.text = spannableString
+            binding.favoriteHint.visibility = View.VISIBLE
         }
     }
 
