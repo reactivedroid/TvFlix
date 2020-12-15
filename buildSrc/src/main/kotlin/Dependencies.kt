@@ -22,7 +22,7 @@ object Deps {
         const val mockito_kotlin = "2.2.0"
         const val arch_core_testing = "2.0.0"
         const val moshi = "1.11.0"
-        const val coroutines = "1.3.9"
+        const val coroutines = "1.4.2"
         const val truth = "1.0.1"
         const val annotation = "1.1.0"
         const val chucker = "3.2.0"
@@ -92,7 +92,6 @@ object Deps {
 
         object Lifecycle {
             const val extensions = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
-            const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.lifecycle}"
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
             const val compiler = "androidx.lifecycle:lifecycle-common-java8:${Versions.lifecycle}"
         }

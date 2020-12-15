@@ -7,8 +7,8 @@
     <string name="rating">Rating: %s</string>
     <string name="premiered_on">Premiered on: %s</string>
     <string name="not_rated">Not Rated</string>
-    <string name="removed_from_favorites">Removed from favorites</string>
-    <string name="added_to_favorites">Added to favorites</string>
+    <string name="removed_from_favorites">\"%s\" removed from favorites</string>
+    <string name="added_to_favorites">\"%s\" added to favorites</string>
     <string name="favorite_shows">Favorite Shows</string>
     <string name="favorite_hint_msg">Click on the  &#160;&#160;icon \nto mark the show as favorite</string>
     <string name="show_image">Show image</string>

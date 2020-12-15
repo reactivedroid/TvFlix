@@ -3,9 +3,6 @@ package com.android.tvmaze.favorite
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.tvmaze.db.favouriteshow.ShowDao
 import com.android.tvmaze.network.home.Show
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,7 +14,7 @@ constructor(private val showDao: ShowDao) {
         return showDao.allFavouriteShows()
     }
 
-    fun insertShowIntoFavorites(show: Show) {
+    suspend fun insertShowIntoFavorites(show: Show) {
         val favoriteShow = FavoriteShow(
             id = show.id,
             name = show.name,
@@ -28,10 +25,10 @@ constructor(private val showDao: ShowDao) {
             runtime = show.runtime!!,
             isFavorite = true
         )
-        CoroutineScope(Dispatchers.IO).launch { showDao.insert(favoriteShow) }
+        showDao.insert(favoriteShow)
     }
 
-    fun removeShowFromFavorites(show: Show) {
+    suspend fun removeShowFromFavorites(show: Show) {
         val favoriteShow = FavoriteShow(
             id = show.id,
             name = show.name,
@@ -42,22 +39,22 @@ constructor(private val showDao: ShowDao) {
             runtime = show.runtime!!,
             isFavorite = false
         )
-        CoroutineScope(Dispatchers.IO).launch { showDao.remove(favoriteShow) }
+        showDao.remove(favoriteShow)
     }
 
-    fun insertIntoFavorites(favoriteShow: FavoriteShow) {
-        CoroutineScope(Dispatchers.IO).launch { showDao.insert(favoriteShow) }
+    suspend fun insertIntoFavorites(favoriteShow: FavoriteShow) {
+        showDao.insert(favoriteShow)
     }
 
-    fun removeFromFavorites(favoriteShow: FavoriteShow) {
-        CoroutineScope(Dispatchers.IO).launch { showDao.remove(favoriteShow) }
+    suspend fun removeFromFavorites(favoriteShow: FavoriteShow) {
+        showDao.remove(favoriteShow)
     }
 
     suspend fun allFavoriteShowIds(): List<Long> {
         return showDao.getFavoriteShowIds()
     }
 
-    fun clearAll() {
-        CoroutineScope(Dispatchers.IO).launch { showDao.clear() }
+    suspend fun clearAll() {
+        showDao.clear()
     }
 }

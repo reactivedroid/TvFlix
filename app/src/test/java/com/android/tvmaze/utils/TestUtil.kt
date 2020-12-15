@@ -1,9 +1,12 @@
 package com.android.tvmaze.utils
 
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
+import com.android.tvmaze.di.CoroutinesDispatcherProvider
 import com.android.tvmaze.home.HomeViewData
 import com.android.tvmaze.network.home.Episode
 import com.android.tvmaze.network.home.Show
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -73,6 +76,18 @@ object TestUtil {
             premiered = "Aug 2002", imageUrl = null,
             summary = "Friends for life!", rating = "10 stars",
             runtime = 132000, isFavorite = true
+        )
+    }
+
+    @ExperimentalCoroutinesApi
+    fun provideFakeCoroutinesDispatcherProvider(
+        dispatcher: TestCoroutineDispatcher?
+    ): CoroutinesDispatcherProvider {
+        val sharedTestCoroutineDispatcher = TestCoroutineDispatcher()
+        return CoroutinesDispatcherProvider(
+            dispatcher ?: sharedTestCoroutineDispatcher,
+            dispatcher ?: sharedTestCoroutineDispatcher,
+            dispatcher ?: sharedTestCoroutineDispatcher
         )
     }
 }

@@ -4,7 +4,7 @@
 # TvFlix :tv: 
 
 The aim of this app is to replicate the high level functionality of www.tvmaze.com and showcase an android app out of it. 
-It connects with [TVDB API](api.thetvdb.com) to give you popular shows and let you mark anyone as favorite.
+It connects with [TVDB API](https://api.thetvdb.com) to give you popular shows and let you mark anyone as favorite.
 TvFlix consists of 3 pieces of UI right now:
 1. Home with Popular Shows
 2. Favorites
@@ -17,14 +17,14 @@ This app is under development. :construction_worker: :hammer_and_wrench:
 ## Android Development and Architecture
 
 * The entire codebase is in [Kotlin](https://kotlinlang.org/)
-* Uses Kotlin [Coroutines](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html)
-* Uses MVVM Architecture by [Architecture Components](https://developer.android.com/topic/libraries/architecture/). Room, LiveData, ViewModel, Paging
+* Uses Kotlin [Coroutines](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html).
+* Uses MVVM Architecture by [Architecture Components](https://developer.android.com/topic/libraries/architecture/). Room, ViewModel, Paging
 * Uses [Hilt Android](https://developer.android.com/training/dependency-injection/hilt-android) with [Dagger](https://dagger.dev/) for dependency injection
 * Unit Testing by [Mockito](https://github.com/mockito/mockito)
 * Tests Coroutines and architecture components like ViewModel
 * UI Test by [Espresso](https://developer.android.com/training/testing/espresso) based on [Robot Pattern](https://academy.realm.io/posts/kau-jake-wharton-testing-robots/)
-
-*Note* For reference, the Java Codebase has been tagged on `tvmaze_java`. Just checkout the tag and you are in TvMaze Java Land.
+* Uses [Kotlin Coroutines Test](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/) to unit test Kotlin Coroutines
+* Uses [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) as a replacement over LiveData as a state-holder observable
 
 ## Further Reading
 
