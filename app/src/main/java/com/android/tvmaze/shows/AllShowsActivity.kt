@@ -34,7 +34,7 @@ class AllShowsActivity : AppCompatActivity() {
     }
 
     private fun getShows() {
-        lifecycleScope.launch { showsViewModel.shows().collectLatest { adapter.submitData(it) } }
+        lifecycleScope.launchWhenStarted { showsViewModel.shows().collectLatest { adapter.submitData(it) } }
     }
 
     private fun initAdapter() {

@@ -7,17 +7,19 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ImageSpan
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
 import com.android.tvmaze.databinding.ActivityFavoriteShowsBinding
 import com.android.tvmaze.db.favouriteshow.FavoriteShow
 import com.android.tvmaze.utils.GridItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback {
@@ -29,8 +31,22 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
         setContentView(binding.root)
         setToolbar()
         favoriteShowsViewModel.loadFavoriteShows()
-        favoriteShowsViewModel.getFavoriteShowsLiveData()
-            .observe(this, { showFavorites(it) })
+        lifecycleScope.launchWhenStarted {
+            favoriteShowsViewModel.favoriteShowsStateFlow.collect { setViewState(it) }
+        }
+    }
+
+    private fun setViewState(favoriteShowState: FavoriteShowState) {
+        when (favoriteShowState) {
+            is FavoriteShowState.Loading -> binding.progress.isVisible = true
+            is FavoriteShowState.AllFavorites ->
+                showFavorites(favoriteShowState.favoriteShows)
+            is FavoriteShowState.Error, FavoriteShowState.Empty -> showEmptyState()
+            is FavoriteShowState.AddedToFavorites ->
+                Toast.makeText(this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show()
+            is FavoriteShowState.RemovedFromFavorites ->
+                Toast.makeText(this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setToolbar() {
@@ -43,35 +59,30 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
     }
 
     private fun showFavorites(favoriteShows: List<FavoriteShow>) {
-        binding.progress.visibility = View.GONE
-        if (favoriteShows.isNotEmpty()) {
-            val layoutManager = GridLayoutManager(this, COLUMNS_COUNT)
-            binding.shows.layoutManager = layoutManager
-            val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
-            binding.shows.adapter = favoriteShowsAdapter
-            val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
-            binding.shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
-            binding.shows.visibility = View.VISIBLE
-        } else {
-            val bookmarkSpan = ImageSpan(this, R.drawable.favorite_border)
-            val spannableString = SpannableString(getString(R.string.favorite_hint_msg))
-            spannableString.setSpan(
-                bookmarkSpan, FAVORITE_ICON_START_OFFSET,
-                FAVORITE_ICON_END_OFFSET, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            binding.favoriteHint.text = spannableString
-            binding.favoriteHint.visibility = View.VISIBLE
-        }
+        binding.progress.isVisible = false
+        val layoutManager = GridLayoutManager(this, COLUMNS_COUNT)
+        binding.shows.layoutManager = layoutManager
+        val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
+        binding.shows.adapter = favoriteShowsAdapter
+        val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
+        binding.shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
+        binding.shows.isVisible = true
+    }
+
+    private fun showEmptyState() {
+        binding.progress.isVisible = false
+        val bookmarkSpan = ImageSpan(this, R.drawable.favorite_border)
+        val spannableString = SpannableString(getString(R.string.favorite_hint_msg))
+        spannableString.setSpan(
+            bookmarkSpan, FAVORITE_ICON_START_OFFSET,
+            FAVORITE_ICON_END_OFFSET, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        binding.favoriteHint.text = spannableString
+        binding.favoriteHint.isVisible = true
     }
 
     override fun onFavoriteClicked(show: FavoriteShow) {
-        if (!show.isFavorite) {
-            favoriteShowsViewModel.addToFavorite(show)
-            Toast.makeText(this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show()
-        } else {
-            favoriteShowsViewModel.removeFromFavorite(show)
-            Toast.makeText(this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
-        }
+        favoriteShowsViewModel.onFavoriteClick(show)
     }
 
     companion object {

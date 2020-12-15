@@ -1,48 +1,51 @@
 package com.android.tvmaze.home
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.tvmaze.di.CoroutinesDispatcherProvider
 import com.android.tvmaze.favorite.FavoriteShowsRepository
 import com.android.tvmaze.network.TvMazeApi
 import com.android.tvmaze.network.home.Episode
-import com.android.tvmaze.network.home.Show
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import java.util.*
+import kotlin.collections.ArrayList
 
 class HomeViewModel @ViewModelInject constructor(
     private val tvMazeApi: TvMazeApi,
-    private val favoriteShowsRepository: FavoriteShowsRepository
+    private val favoriteShowsRepository: FavoriteShowsRepository,
+    // Inject coroutineDispatcher to facilitate Unit Testing
+    private val coroutinesDispatcherProvider: CoroutinesDispatcherProvider
 ) : ViewModel() {
-    private val homeViewStateLiveData: MutableLiveData<HomeViewState> = MutableLiveData()
+    private val _homeViewStateFlow = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
 
+    // Represents _homeViewStateFlow mutable state flow as a read-only state flow.
+    val homeViewStateFlow = _homeViewStateFlow.asStateFlow()
     val country: String
         get() = COUNTRY_US
 
     fun onScreenCreated() {
-        homeViewStateLiveData.value = Loading
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
             onError(exception)
         }
-        // viewModelScope launch the new coroutine on Main Dispatcher internally, so move to db and network opn on IO
-        viewModelScope.launch(coroutineExceptionHandler) {
-            withContext(Dispatchers.IO) {
-                val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
-                val episodes = tvMazeApi.getCurrentSchedule(COUNTRY_US, currentDate)
-                withContext(Dispatchers.Main) {
-                    // Return the result on main thread via Dispatchers.Main
-                    homeViewStateLiveData.value =
-                        Success(HomeViewData(getShowsWithFavorites(episodes, favoriteShowIds)))
-                }
-            }
+        viewModelScope.launch(coroutinesDispatcherProvider.io + coroutineExceptionHandler) {
+            val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
+            val episodes = tvMazeApi.getCurrentSchedule(country, currentDate)
+            _homeViewStateFlow.emit(
+                HomeViewState.Success(
+                    HomeViewData(
+                        getShowsWithFavorites(
+                            episodes,
+                            favoriteShowIds
+                        )
+                    )
+                )
+            )
         }
     }
 
@@ -70,20 +73,20 @@ class HomeViewModel @ViewModelInject constructor(
     }
 
     private fun onError(throwable: Throwable) {
-        homeViewStateLiveData.value = NetworkError(throwable.message)
+        _homeViewStateFlow.value = HomeViewState.NetworkError(throwable.localizedMessage)
         Timber.e(throwable)
     }
 
-    fun getHomeViewState(): LiveData<HomeViewState> {
-        return homeViewStateLiveData
-    }
-
-    fun addToFavorite(show: Show) {
-        favoriteShowsRepository.insertShowIntoFavorites(show)
-    }
-
-    fun removeFromFavorite(show: Show) {
-        favoriteShowsRepository.removeShowFromFavorites(show)
+    fun onFavoriteClick(showViewData: HomeViewData.ShowViewData) {
+        viewModelScope.launch(coroutinesDispatcherProvider.io) {
+            if (!showViewData.isFavoriteShow) {
+                favoriteShowsRepository.insertShowIntoFavorites(showViewData.show)
+                _homeViewStateFlow.emit(HomeViewState.AddedToFavorites(showViewData.show))
+            } else {
+                favoriteShowsRepository.removeShowFromFavorites(showViewData.show)
+                _homeViewStateFlow.emit(HomeViewState.RemovedFromFavorites(showViewData.show))
+            }
+        }
     }
 
     companion object {

@@ -3,11 +3,12 @@ package com.android.tvmaze.home
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvmaze.R
 import com.android.tvmaze.databinding.ActivityHomeBinding
@@ -15,6 +16,7 @@ import com.android.tvmaze.favorite.FavoriteShowsActivity
 import com.android.tvmaze.shows.AllShowsActivity
 import com.android.tvmaze.utils.GridItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
@@ -27,7 +29,9 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
         setContentView(binding.root)
         setToolbar()
         homeViewModel.onScreenCreated()
-        homeViewModel.getHomeViewState().observe(this, { setViewState(it) })
+        lifecycleScope.launchWhenStarted {
+            homeViewModel.homeViewStateFlow.collect { setViewState(it) }
+        }
         binding.popularShowHeader.text = String.format(
             getString(R.string.popular_shows_airing_today),
             homeViewModel.country
@@ -36,15 +40,27 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
 
     private fun setViewState(homeViewState: HomeViewState) {
         when (homeViewState) {
-            is Loading -> setProgress(true)
-            is NetworkError -> {
-                setProgress(false)
+            is HomeViewState.Loading -> binding.progress.isVisible = true
+            is HomeViewState.NetworkError -> {
+                binding.progress.isVisible = false
                 showError(homeViewState.message!!)
             }
-            is Success -> {
-                setProgress(false)
+            is HomeViewState.Success -> {
+                binding.progress.isVisible = false
                 showPopularShows(homeViewState.homeViewData)
             }
+            is HomeViewState.AddedToFavorites ->
+                Toast.makeText(
+                    this,
+                    getString(R.string.added_to_favorites, homeViewState.show.name),
+                    Toast.LENGTH_SHORT
+                ).show()
+            is HomeViewState.RemovedFromFavorites ->
+                Toast.makeText(
+                    this,
+                    getString(R.string.removed_from_favorites, homeViewState.show.name),
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 
@@ -54,14 +70,6 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
         toolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         toolbar.setSubtitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         setTitle(R.string.app_name)
-    }
-
-    private fun setProgress(isLoading: Boolean) {
-        if (isLoading) {
-            showProgress()
-        } else {
-            hideProgress()
-        }
     }
 
     private fun showPopularShows(homeViewData: HomeViewData) {
@@ -79,14 +87,6 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun showProgress() {
-        binding.progress.visibility = View.VISIBLE
-    }
-
-    private fun hideProgress() {
-        binding.progress.visibility = View.GONE
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -109,13 +109,7 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
     }
 
     override fun onFavoriteClicked(showViewData: HomeViewData.ShowViewData) {
-        if (!showViewData.isFavoriteShow) {
-            homeViewModel.addToFavorite(showViewData.show)
-            Toast.makeText(this, R.string.added_to_favorites, Toast.LENGTH_SHORT).show()
-        } else {
-            homeViewModel.removeFromFavorite(showViewData.show)
-            Toast.makeText(this, R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
-        }
+        homeViewModel.onFavoriteClick(showViewData)
     }
 
     companion object {

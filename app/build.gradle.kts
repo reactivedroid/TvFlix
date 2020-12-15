@@ -109,7 +109,6 @@ dependencies {
     implementation(Deps.AndroidX.Lifecycle.extensions)
     kapt(Deps.AndroidX.Lifecycle.compiler)
     implementation(Deps.AndroidX.Lifecycle.viewmodel)
-    implementation(Deps.AndroidX.Lifecycle.livedata)
     implementation(Deps.AndroidX.Paging.runtime)
     testImplementation(Deps.AndroidX.Paging.common)
     implementation(Deps.AndroidX.Room.runtime)
