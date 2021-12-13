@@ -1,0 +1,2 @@
+* Add firebase crashlytics, app distribution and performance
+* Update AGP

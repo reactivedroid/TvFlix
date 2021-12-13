@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "352317035381",
+    "project_id": "tvflix-b45cd",
+    "storage_bucket": "tvflix-b45cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:352317035381:android:d68e4d8178aaa27e62793c",
+        "android_client_info": {
+          "package_name": "com.android.tvflix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "352317035381-gknu987p38ks98itjcds99pehar6539u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDomD9NnOHReomJXzki3akzw9M_JZ--DyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "352317035381-gknu987p38ks98itjcds99pehar6539u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

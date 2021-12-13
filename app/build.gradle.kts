@@ -4,6 +4,10 @@ plugins {
     kotlin("kapt")
     kotlin("plugin.parcelize")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.firebase.appdistribution")
 }
 
 apply {
@@ -12,7 +16,7 @@ apply {
 }
 
 android {
-    compileSdkVersion(Deps.Versions.compile_sdk)
+    compileSdk = Deps.Versions.compile_sdk
 
     buildFeatures {
         viewBinding = true
@@ -22,8 +26,8 @@ android {
 
     defaultConfig {
         applicationId = "com.android.tvflix"
-        minSdkVersion(Deps.Versions.min_sdk)
-        targetSdkVersion(Deps.Versions.target_sdk)
+        minSdk = Deps.Versions.min_sdk
+        targetSdk = Deps.Versions.target_sdk
         versionCode = Deps.Versions.app_version_code
         versionName = Deps.Versions.app_version_name
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -40,19 +44,28 @@ android {
             }
         }
     }
-    flavorDimensions("default")
+    flavorDimensions.addAll(listOf("default"))
     productFlavors {
         create("prod") {
+            dimension = "default"
             applicationId = "com.android.tvflix"
+            firebaseAppDistribution {
+                releaseNotesFile = "release-notes.txt"
+                groupsFile = "tester-groups.txt"
+                serviceCredentialsFile = "tvflix-b45cd-5fa9e2fb3108.json"
+            }
         }
         create("dev") {
-            applicationId = "com.android.tvflix.dev"
+            dimension = "default"
+            applicationId = "com.android.tvflix"
+            firebaseAppDistribution {
+                releaseNotesFile = "release-notes.txt"
+                groupsFile = "tester-groups.txt"
+                serviceCredentialsFile = "tvflix-b45cd-5fa9e2fb3108.json"
+            }
         }
     }
     buildTypes {
-        getByName("debug") {
-            applicationIdSuffix = ".debug"
-        }
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -64,8 +77,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     testOptions {
@@ -84,17 +97,21 @@ android {
     testBuildType = "debug"
 
     packagingOptions {
-        exclude("META-INF/ASL2.0")
-        exclude("META-INF/DEPENDENCIES")
-        exclude("META-INF/NOTICE")
-        exclude("META-INF/LICENSE")
-        exclude("META-INF/LICENSE.txt")
-        exclude("META-INF/NOTICE.txt")
-        exclude(".readme")
+        resources.excludes.addAll(
+            listOf(
+                "META-INF/ASL2.0",
+                "META-INF/DEPENDENCIES",
+                "META-INF/NOTICE",
+                "META-INF/LICENSE",
+                "META-INF/LICENSE.txt",
+                "META-INF/NOTICE.txt",
+                ".readme"
+            )
+        )
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
@@ -115,9 +132,6 @@ dependencies {
     kapt(Deps.AndroidX.Room.compiler)
     testImplementation(Deps.AndroidX.Room.testing)
     implementation(Deps.AndroidX.Room.ktx)
-    implementation(Deps.AndroidX.Hilt.viewmodel)
-    kapt(Deps.AndroidX.Hilt.compiler)
-    implementation(Deps.AndroidX.multidex)
     implementation(Deps.AndroidX.annotation)
     // end-region AndroidX
 
@@ -162,6 +176,14 @@ dependencies {
 
     implementation(Deps.Hilt.android)
     kapt(Deps.Hilt.android_compiler)
+
+    // start-region Firebase
+    implementation(platform(Deps.Firebase.firebase_bom))
+    implementation(Deps.Firebase.crashlytics)
+    implementation(Deps.Firebase.performance_monitoring)
+    implementation(Deps.Firebase.analytics)
+    implementation(Deps.Firebase.remote_config)
+    // end-region Firebase
 }
 
 

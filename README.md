@@ -35,7 +35,7 @@ There are several articles written on this repository which state the design and
 The TvFlix complete repository has been re-written in Kotlin with Coroutines covering
 Unit Tests across ViewModels and UI tests for the app.
 Know more:
-[Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://proandroiddev.com/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
+[Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://proandroiddev.com/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
 
 ### MVVM using Android Architecture Components
 

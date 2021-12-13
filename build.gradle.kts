@@ -1,15 +1,18 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
+        google()
         gradlePluginPortal()
         mavenCentral()
-        google()
-        jcenter()
     }
     dependencies {
-        classpath(Deps.android_plugin)
-        classpath(Deps.Kotlin.gradle_plugin)
-        classpath(Deps.Hilt.gradlePlugin)
+        classpath(Deps.AppPlugins.android_gradle)
+        classpath(Deps.AppPlugins.kotlin)
+        classpath(Deps.AppPlugins.hilt)
+        classpath(Deps.AppPlugins.gms)
+        classpath(Deps.AppPlugins.Firebase.crashlytics)
+        classpath(Deps.AppPlugins.Firebase.performance)
+        classpath(Deps.AppPlugins.Firebase.app_distribution)
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle.kts files
     }
@@ -17,9 +20,8 @@ buildscript {
 
 allprojects {
     repositories {
-        mavenCentral()
         google()
-        jcenter()
+        mavenCentral()
     }
     configurations.all {
         resolutionStrategy.eachDependency {
