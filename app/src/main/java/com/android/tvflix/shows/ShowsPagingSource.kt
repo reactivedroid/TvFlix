@@ -1,6 +1,7 @@
 package com.android.tvflix.shows
 
 import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.android.tvflix.network.TvFlixApi
 import com.android.tvflix.network.home.Show
 import retrofit2.HttpException
@@ -27,6 +28,16 @@ constructor(private val tvFlixApi: TvFlixApi) : PagingSource<Int, Show>() {
             LoadResult.Error(exception)
         } catch (exception: HttpException) {
             LoadResult.Error(exception)
+        }
+    }
+
+    override fun getRefreshKey(state: PagingState<Int, Show>): Int? {
+        // We need to get the previous key (or next key if previous is null) of the page
+        // that was closest to the most recently accessed index.
+        // Anchor position is the most recently accessed index
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
 }

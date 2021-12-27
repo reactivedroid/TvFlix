@@ -1,5 +1,7 @@
 package com.android.tvflix.home
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -11,18 +13,41 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvflix.R
+import com.android.tvflix.config.FavoritesFeatureFlag
 import com.android.tvflix.databinding.ActivityHomeBinding
 import com.android.tvflix.favorite.FavoriteShowsActivity
 import com.android.tvflix.shows.AllShowsActivity
 import com.android.tvflix.utils.GridItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
     private val homeViewModel: HomeViewModel by viewModels()
     private lateinit var showsAdapter: ShowsAdapter
     private val binding by lazy { ActivityHomeBinding.inflate(layoutInflater) }
+
+    @JvmField
+    @FavoritesFeatureFlag
+    @Inject
+    var favoritesFeatureEnable: Boolean = false
+
+    companion object {
+        private const val NO_OF_COLUMNS = 2
+
+        @JvmStatic
+        fun start(
+            context: Activity
+        ) {
+            val intent = Intent(context, HomeActivity::class.java)
+                .apply {
+                    flags = (Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+            context.startActivity(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +99,7 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
 
     private fun showPopularShows(homeViewData: HomeViewData) {
         val gridLayoutManager = GridLayoutManager(this, NO_OF_COLUMNS)
-        showsAdapter = ShowsAdapter(this)
+        showsAdapter = ShowsAdapter(this, favoritesFeatureEnable)
         showsAdapter.updateList(homeViewData.episodes.toMutableList())
         binding.popularShows.apply {
             layoutManager = gridLayoutManager
@@ -91,6 +116,7 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.home_menu, menu)
+        menu.findItem(R.id.action_favorites).isVisible = favoritesFeatureEnable
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -110,9 +136,5 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
 
     override fun onFavoriteClicked(showViewData: HomeViewData.ShowViewData) {
         homeViewModel.onFavoriteClick(showViewData)
-    }
-
-    companion object {
-        private const val NO_OF_COLUMNS = 2
     }
 }

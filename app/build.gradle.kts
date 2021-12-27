@@ -56,7 +56,6 @@ android {
             }
         }
         create("dev") {
-            dimension = "default"
             applicationId = "com.android.tvflix"
             firebaseAppDistribution {
                 releaseNotesFile = "release-notes.txt"
@@ -123,7 +122,6 @@ dependencies {
     implementation(Deps.AndroidX.ktx_fragment)
     implementation(Deps.AndroidX.ktx_activity)
     implementation(Deps.AndroidX.constraint_layout)
-    implementation(Deps.AndroidX.Lifecycle.extensions)
     kapt(Deps.AndroidX.Lifecycle.compiler)
     implementation(Deps.AndroidX.Lifecycle.viewmodel)
     implementation(Deps.AndroidX.Paging.runtime)
@@ -135,6 +133,7 @@ dependencies {
     implementation(Deps.AndroidX.annotation)
     // end-region AndroidX
 
+    implementation(platform(Deps.OkHttp.okhttp_bom))
     implementation(Deps.OkHttp.main)
     implementation(Deps.OkHttp.logging_interceptor)
     implementation(Deps.Glide.runtime)

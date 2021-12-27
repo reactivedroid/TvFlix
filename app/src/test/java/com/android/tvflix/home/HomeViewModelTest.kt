@@ -8,7 +8,6 @@ import com.android.tvflix.utils.MainCoroutineRule
 import com.android.tvflix.utils.TestUtil
 import com.android.tvflix.utils.runBlockingTest
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import org.junit.After
@@ -18,6 +17,7 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.whenever
 
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
@@ -42,7 +42,7 @@ class HomeViewModelTest {
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+        MockitoAnnotations.openMocks(this)
     }
 
     @Test

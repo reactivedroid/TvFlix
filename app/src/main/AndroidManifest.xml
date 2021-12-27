@@ -15,21 +15,24 @@
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
         <activity
-            android:name=".home.HomeActivity"
-            android:exported="true"
-            android:screenOrientation="sensorPortrait">
+            android:name=".splash.SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".home.HomeActivity"
+            android:exported="true"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name=".shows.AllShowsActivity"
             android:screenOrientation="sensorPortrait" />
-
         <activity
             android:name=".favorite.FavoriteShowsActivity"
             android:screenOrientation="sensorPortrait" />

@@ -61,7 +61,8 @@ class FavoriteShowsAdapter(
         return favoriteShows.size
     }
 
-    class FavoriteShowHolder(val binding: ShowListItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class FavoriteShowHolder(val binding: ShowListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     interface Callback {
         fun onFavoriteClicked(show: FavoriteShow)

@@ -16,8 +16,9 @@ import com.bumptech.glide.request.RequestOptions
 
 const val IS_FAVORITE = "IS_FAVORITE"
 
-class ShowsAdapter constructor(
-    private val callback: Callback
+class ShowsAdapter(
+    private val callback: Callback,
+    private val favoritesFeatureEnable: Boolean
 ) : RecyclerView.Adapter<ShowsAdapter.ShowHolder>() {
     private var episodeViewDataList: MutableList<HomeViewData.EpisodeViewData> = mutableListOf()
 
@@ -26,7 +27,7 @@ class ShowsAdapter constructor(
         val showListItemBinding = ShowListItemBinding
             .inflate(layoutInflater, parent, false)
         val showHolder = ShowHolder(showListItemBinding)
-        showHolder.binding.showFavoriteIcon = true
+        showHolder.binding.showFavoriteIcon = favoritesFeatureEnable
         showHolder.binding.favorite.setOnClickListener { onFavouriteIconClicked(showHolder.absoluteAdapterPosition) }
         return showHolder
     }
@@ -42,7 +43,8 @@ class ShowsAdapter constructor(
         if (position != RecyclerView.NO_POSITION) {
             val episodeViewData = episodeViewDataList[position]
             val isFavorite = episodeViewData.showViewData.isFavoriteShow
-            val updatedShowViewData = episodeViewData.showViewData.copy(isFavoriteShow = !isFavorite)
+            val updatedShowViewData =
+                episodeViewData.showViewData.copy(isFavoriteShow = !isFavorite)
             val updatedEpisodeViewData = episodeViewData.copy(showViewData = updatedShowViewData)
             episodeViewDataList[position] = updatedEpisodeViewData
             notifyItemChanged(position)

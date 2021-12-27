@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Looper
 import com.android.tvflix.BuildConfig
 import com.android.tvflix.di.DaggerSet
+import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import dagger.Lazy
 import dagger.Module
@@ -49,7 +50,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideChuckInterceptor(context: Context): ChuckerInterceptor {
-        return ChuckerInterceptor(context)
+        return ChuckerInterceptor.Builder(context)
+            .collector(ChuckerCollector(context))
+            .maxContentLength(250000L)
+            .redactHeaders(emptySet())
+            .alwaysReadResponseBody(false)
+            .build()
     }
 
     // Use newBuilder() to customize so that thread-pool and connection-pool same are used
