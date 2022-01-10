@@ -1,0 +1,6 @@
+1. Add firebase crashlytics and performance monitoring
+2. Upgrade AGP to 7.0.4
+3. Rename package and files to remove `TvMaze` reference
+4. Add Firebase analytics
+5. Update dependencies
+6. Integrate Firebase Remote Config

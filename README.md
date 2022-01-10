@@ -25,17 +25,19 @@ This app is under development. :construction_worker: :hammer_and_wrench:
 * UI Test by [Espresso](https://developer.android.com/training/testing/espresso) based on [Robot Pattern](https://academy.realm.io/posts/kau-jake-wharton-testing-robots/)
 * Uses [Kotlin Coroutines Test](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-test/) to unit test Kotlin Coroutines
 * Uses [StateFlow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) as a replacement over LiveData as a state-holder observable
+* Uses [Firebase Remote Config](https://firebase.google.com/products/remote-config) for experimentation and feature rollout
+* Uses [Firebase App Distribution](https://firebase.google.com/products/app-distribution) for internal distribution and quality testing
 
 ## Further Reading
 
 There are several articles written on this repository which state the design and architecture. 
 
-### Kotlin Everywhere. Coroutines, Tests, Robots and much more…
+### Kotlin Everywhere. Coroutines, Tests, Robots and much more…
 
 The TvFlix complete repository has been re-written in Kotlin with Coroutines covering
 Unit Tests across ViewModels and UI tests for the app.
 Know more:
-[Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://proandroiddev.com/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
+[Kotlin Everywhere. Coroutines, Tests, Robots and much more…](https://proandroiddev.com/kotlin-everywhere-coroutines-tests-robots-and-much-more-b02030206cc9)
 
 ### MVVM using Android Architecture Components
 
