@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.android.tvflix.R
 import com.android.tvflix.config.FavoritesFeatureFlag
 import com.android.tvflix.databinding.ActivityHomeBinding
+import com.android.tvflix.domain.GetSchedulesUseCase
 import com.android.tvflix.favorite.FavoriteShowsActivity
 import com.android.tvflix.shows.AllShowsActivity
 import com.android.tvflix.utils.GridItemDecoration
@@ -57,10 +58,6 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
         lifecycleScope.launchWhenStarted {
             homeViewModel.homeViewStateFlow.collect { setViewState(it) }
         }
-        binding.popularShowHeader.text = String.format(
-            getString(R.string.popular_shows_airing_today),
-            homeViewModel.country
-        )
     }
 
     private fun setViewState(homeViewState: HomeViewState) {
@@ -71,7 +68,11 @@ class HomeActivity : AppCompatActivity(), ShowsAdapter.Callback {
                 showError(homeViewState.message!!)
             }
             is HomeViewState.Success -> {
-                binding.progress.isVisible = false
+                with(binding) {
+                    progress.isVisible = false
+                    popularShowHeader.text = homeViewState.homeViewData.heading
+                    popularShowHeader.isVisible = true
+                }
                 showPopularShows(homeViewState.homeViewData)
             }
             is HomeViewState.AddedToFavorites ->

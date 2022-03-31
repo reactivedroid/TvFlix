@@ -53,16 +53,4 @@ constructor(
             )
         Timber.d(throwable)
     }
-
-    fun onFavoriteClick(show: FavoriteShow) {
-        viewModelScope.launch(ioDispatcher) {
-            if (!show.isFavorite) {
-                favoriteShowsRepository.insertIntoFavorites(show)
-                _favoriteShowsStateFlow.emit(FavoriteShowState.AddedToFavorites(show))
-            } else {
-                favoriteShowsRepository.removeFromFavorites(show)
-                _favoriteShowsStateFlow.emit(FavoriteShowState.RemovedFromFavorites(show))
-            }
-        }
-    }
 }

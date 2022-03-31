@@ -12,7 +12,6 @@ data class FavoriteShow(
     val imageUrl: String?,
     var summary: String?,
     var rating: String?,
-    var runtime: Int?,
-    val isFavorite: Boolean
+    var runtime: Int?
 )
 

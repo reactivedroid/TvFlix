@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback {
+class FavoriteShowsActivity : AppCompatActivity() {
     private val favoriteShowsViewModel: FavoriteShowsViewModel by viewModels()
     private val binding by lazy { ActivityFavoriteShowsBinding.inflate(layoutInflater) }
 
@@ -62,7 +62,7 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
         binding.progress.isVisible = false
         val layoutManager = GridLayoutManager(this, COLUMNS_COUNT)
         binding.shows.layoutManager = layoutManager
-        val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList(), this)
+        val favoriteShowsAdapter = FavoriteShowsAdapter(favoriteShows.toMutableList())
         binding.shows.adapter = favoriteShowsAdapter
         val spacing = resources.getDimensionPixelSize(R.dimen.show_grid_spacing)
         binding.shows.addItemDecoration(GridItemDecoration(spacing, COLUMNS_COUNT))
@@ -79,10 +79,6 @@ class FavoriteShowsActivity : AppCompatActivity(), FavoriteShowsAdapter.Callback
         )
         binding.favoriteHint.text = spannableString
         binding.favoriteHint.isVisible = true
-    }
-
-    override fun onFavoriteClicked(show: FavoriteShow) {
-        favoriteShowsViewModel.onFavoriteClick(show)
     }
 
     companion object {

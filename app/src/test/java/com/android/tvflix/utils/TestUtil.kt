@@ -4,8 +4,6 @@ import com.android.tvflix.db.favouriteshow.FavoriteShow
 import com.android.tvflix.home.HomeViewData
 import com.android.tvflix.network.home.Episode
 import com.android.tvflix.network.home.Show
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 object TestUtil {
@@ -29,13 +27,6 @@ object TestUtil {
         }
         return episodeViewDataList
     }
-
-    val currentDate: String
-        get() {
-            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            val calendar = Calendar.getInstance()
-            return simpleDateFormat.format(calendar.time)
-        }
 
     fun getFakeEpisodeList(): List<Episode> {
         val episodeList = ArrayList<Episode>(2)
@@ -69,7 +60,7 @@ object TestUtil {
             id = 222, name = "Friends",
             premiered = "Aug 2002", imageUrl = null,
             summary = "Friends for life!", rating = "10 stars",
-            runtime = 132000, isFavorite = true
+            runtime = 132000
         )
     }
 }

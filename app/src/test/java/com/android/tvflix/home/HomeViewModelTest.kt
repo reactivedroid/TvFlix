@@ -1,9 +1,13 @@
 package com.android.tvflix.home
 
+import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
 import com.android.tvflix.analytics.Analytics
-import com.android.tvflix.favorite.FavoriteShowsRepository
-import com.android.tvflix.network.TvFlixApi
+import com.android.tvflix.domain.AddToFavoritesUseCase
+import com.android.tvflix.domain.GetFavoriteShowsUseCase
+import com.android.tvflix.domain.GetSchedulesUseCase
+import com.android.tvflix.domain.RemoveFromFavoritesUseCase
 import com.android.tvflix.utils.MainCoroutineRule
 import com.android.tvflix.utils.TestUtil
 import com.android.tvflix.utils.runBlockingTest
@@ -14,13 +18,20 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.whenever
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
+@Config(manifest = Config.NONE)
 @ExperimentalCoroutinesApi
 class HomeViewModelTest {
+    private val context = ApplicationProvider.getApplicationContext<Context>()
+
     // Executes tasks in the Architecture Components in the same thread
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -30,10 +41,16 @@ class HomeViewModelTest {
     var coroutineRule = MainCoroutineRule()
 
     @Mock
-    private lateinit var tvFlixApi: TvFlixApi
+    private lateinit var getSchedulesUseCase: GetSchedulesUseCase
 
     @Mock
-    private lateinit var favoriteShowsRepository: FavoriteShowsRepository
+    private lateinit var addToFavoritesUseCase: AddToFavoritesUseCase
+
+    @Mock
+    private lateinit var removeFromFavoritesUseCase: RemoveFromFavoritesUseCase
+
+    @Mock
+    private lateinit var getFavoriteShowsUseCase: GetFavoriteShowsUseCase
 
     private val testDispatcher = coroutineRule.testDispatcher
 
@@ -49,10 +66,10 @@ class HomeViewModelTest {
     fun `test if home is loaded with shows and without favorites`() {
         coroutineRule.runBlockingTest {
             // Stubbing network calls with fake episode list
-            whenever(tvFlixApi.getCurrentSchedule("US", TestUtil.currentDate))
+            whenever(getSchedulesUseCase.invoke(Unit))
                 .thenReturn(TestUtil.getFakeEpisodeList())
             // Stub repository with empty list
-            whenever(favoriteShowsRepository.allFavoriteShowIds())
+            whenever(getFavoriteShowsUseCase.invoke(Unit))
                 .thenReturn(emptyList())
 
             val homeViewModel = createHomeViewModel()
@@ -62,7 +79,7 @@ class HomeViewModelTest {
             val homeState = homeViewModel.homeViewStateFlow.first() as HomeViewState.Success
             assertThat(homeState).isNotNull()
             val episodes = homeState.homeViewData.episodes
-            assertThat(episodes.isNotEmpty())
+            assertThat(episodes.isNotEmpty()).isTrue()
             // compare the response with fake list
             assertThat(episodes).hasSize(TestUtil.getFakeEpisodeList().size)
             // compare the data and also order
@@ -76,10 +93,13 @@ class HomeViewModelTest {
 
     private fun createHomeViewModel(): HomeViewModel {
         return HomeViewModel(
-            tvFlixApi = tvFlixApi,
-            favoriteShowsRepository = favoriteShowsRepository,
-            dispatcher = testDispatcher,
-            analytics = analytics
+            context,
+            getSchedulesUseCase,
+            getFavoriteShowsUseCase,
+            addToFavoritesUseCase,
+            removeFromFavoritesUseCase,
+            testDispatcher,
+            analytics
         )
     }
 
@@ -87,10 +107,10 @@ class HomeViewModelTest {
     fun `test if home is loaded with shows and favorites`() {
         coroutineRule.runBlockingTest {
             // Stubbing network calls with fake episode list
-            whenever(tvFlixApi.getCurrentSchedule("US", TestUtil.currentDate))
+            whenever(getSchedulesUseCase.invoke(Unit))
                 .thenReturn(TestUtil.getFakeEpisodeList())
             // Stub repository with fake favorites
-            whenever(favoriteShowsRepository.allFavoriteShowIds())
+            whenever(getFavoriteShowsUseCase.invoke(Unit))
                 .thenReturn(arrayListOf(1, 2))
             val homeViewModel = createHomeViewModel()
             homeViewModel.onScreenCreated()
@@ -98,7 +118,7 @@ class HomeViewModelTest {
             val homeState = homeViewModel.homeViewStateFlow.first() as HomeViewState.Success
             assertThat(homeState).isNotNull()
             val episodes = homeState.homeViewData.episodes
-            assertThat(episodes.isNotEmpty())
+            assertThat(episodes.isNotEmpty()).isTrue()
             // compare the response with fake list
             assertThat(episodes).hasSize(TestUtil.getFakeEpisodeList().size)
             // compare the data and also order
@@ -115,10 +135,10 @@ class HomeViewModelTest {
         coroutineRule.runBlockingTest {
             val homeViewModel = createHomeViewModel()
             // Stubbing network calls with fake episode list
-            whenever(tvFlixApi.getCurrentSchedule("US", TestUtil.currentDate))
+            whenever(getSchedulesUseCase.invoke(Unit))
                 .thenThrow(RuntimeException("Error occurred"))
             // Stub repository with fake favorites
-            whenever(favoriteShowsRepository.allFavoriteShowIds())
+            whenever(getFavoriteShowsUseCase.invoke(Unit))
                 .thenReturn(arrayListOf(1, 2))
 
             homeViewModel.onScreenCreated()

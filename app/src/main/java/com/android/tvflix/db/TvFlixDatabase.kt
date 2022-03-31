@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.android.tvflix.db.favouriteshow.FavoriteShow
 import com.android.tvflix.db.favouriteshow.ShowDao
 
-@Database(entities = [FavoriteShow::class], version = 2, exportSchema = false)
+@Database(entities = [FavoriteShow::class], version = 3, exportSchema = false)
 abstract class TvFlixDatabase : RoomDatabase() {
 
     abstract fun showDao(): ShowDao

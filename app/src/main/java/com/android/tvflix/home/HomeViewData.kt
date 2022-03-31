@@ -2,7 +2,7 @@ package com.android.tvflix.home
 
 import com.android.tvflix.network.home.Show
 
-data class HomeViewData(val episodes: List<EpisodeViewData>) {
+data class HomeViewData(val heading: String, val episodes: List<EpisodeViewData>) {
     data class EpisodeViewData(
         val id: Long,
         val showViewData: ShowViewData,
