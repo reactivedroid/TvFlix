@@ -3,8 +3,8 @@ object Deps {
         const val compile_sdk = 31
         const val min_sdk = 23
         const val target_sdk = 30
-        const val app_version_code = 106
-        const val app_version_name = "2.2.1"
+        const val app_version_code = 107
+        const val app_version_name = "2.2.2"
         const val android_plugin = "7.0.4"
         const val constraint_layout = "2.1.2"
         const val lifecycle = "2.4.0"

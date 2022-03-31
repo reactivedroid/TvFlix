@@ -22,8 +22,7 @@ constructor(private val showDao: ShowDao) {
             imageUrl = show.image!!["original"],
             summary = show.summary,
             rating = show.rating!!["average"],
-            runtime = show.runtime!!,
-            isFavorite = true
+            runtime = show.runtime!!
         )
         showDao.insert(favoriteShow)
     }
@@ -36,8 +35,7 @@ constructor(private val showDao: ShowDao) {
             imageUrl = show.image!!["original"],
             summary = show.summary,
             rating = show.rating!!["average"],
-            runtime = show.runtime!!,
-            isFavorite = false
+            runtime = show.runtime!!
         )
         showDao.remove(favoriteShow)
     }

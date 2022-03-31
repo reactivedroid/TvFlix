@@ -1,31 +1,41 @@
 package com.android.tvflix.home
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.tvflix.R
 import com.android.tvflix.analytics.Analytics
 import com.android.tvflix.analytics.Event
 import com.android.tvflix.analytics.EventNames
 import com.android.tvflix.analytics.EventParams
+import com.android.tvflix.db.favouriteshow.FavoriteShow
 import com.android.tvflix.di.IoDispatcher
-import com.android.tvflix.favorite.FavoriteShowsRepository
-import com.android.tvflix.network.TvFlixApi
+import com.android.tvflix.domain.AddToFavoritesUseCase
+import com.android.tvflix.domain.GetFavoriteShowsUseCase
+import com.android.tvflix.domain.GetSchedulesUseCase
+import com.android.tvflix.domain.RemoveFromFavoritesUseCase
 import com.android.tvflix.network.home.Episode
+import com.android.tvflix.utils.toFavoriteShow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val tvFlixApi: TvFlixApi,
-    private val favoriteShowsRepository: FavoriteShowsRepository,
+    @ApplicationContext private val context: Context,
+    private val getSchedulesUseCase: GetSchedulesUseCase,
+    private val getFavoriteShowsUseCase: GetFavoriteShowsUseCase,
+    private val addToFavoritesUseCase: AddToFavoritesUseCase,
+    private val removeFromFavoritesUseCase: RemoveFromFavoritesUseCase,
     // Inject coroutineDispatcher to facilitate Unit Testing
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
     private val analytics: Analytics
@@ -34,19 +44,18 @@ class HomeViewModel @Inject constructor(
 
     // Represents _homeViewStateFlow mutable state flow as a read-only state flow.
     val homeViewStateFlow = _homeViewStateFlow.asStateFlow()
-    val country: String
-        get() = COUNTRY_US
 
     fun onScreenCreated() {
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
             onError(exception)
         }
         viewModelScope.launch(dispatcher + coroutineExceptionHandler) {
-            val favoriteShowIds = favoriteShowsRepository.allFavoriteShowIds()
-            val episodes = tvFlixApi.getCurrentSchedule(country, currentDate)
+            val favoriteShowIds = getFavoriteShowsUseCase.invoke(Unit)
+            val episodes = getSchedulesUseCase.invoke(Unit)
             _homeViewStateFlow.emit(
                 HomeViewState.Success(
                     HomeViewData(
+                        heading(),
                         getShowsWithFavorites(
                             episodes,
                             favoriteShowIds
@@ -55,6 +64,13 @@ class HomeViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    fun heading(): String {
+        return String.format(
+            context.getString(R.string.popular_shows_airing_today),
+            GetSchedulesUseCase.COUNTRY
+        )
     }
 
     private fun getShowsWithFavorites(
@@ -99,7 +115,7 @@ class HomeViewModel @Inject constructor(
                         )
                     )
                 )
-                favoriteShowsRepository.insertShowIntoFavorites(showViewData.show)
+                addToFavoritesUseCase.invoke(showViewData.show.toFavoriteShow())
                 _homeViewStateFlow.emit(HomeViewState.AddedToFavorites(showViewData.show))
             } else {
                 analytics.sendEvent(
@@ -113,21 +129,9 @@ class HomeViewModel @Inject constructor(
                         )
                     )
                 )
-                favoriteShowsRepository.removeShowFromFavorites(showViewData.show)
+                removeFromFavoritesUseCase.invoke(showViewData.show.toFavoriteShow())
                 _homeViewStateFlow.emit(HomeViewState.RemovedFromFavorites(showViewData.show))
             }
         }
-    }
-
-    companion object {
-        private const val COUNTRY_US = "US"
-        private const val QUERY_DATE_FORMAT = "yyyy-MM-dd"
-
-        private val currentDate: String
-            get() {
-                val simpleDateFormat = SimpleDateFormat(QUERY_DATE_FORMAT, Locale.US)
-                val calendar = Calendar.getInstance()
-                return simpleDateFormat.format(calendar.time)
-            }
     }
 }
