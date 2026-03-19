@@ -24,7 +24,13 @@ constructor(
     val splashViewStateFlow = _splashViewStateFlow.asStateFlow()
     fun fetchConfig() {
         viewModelScope.launch(dispatcher) {
-            appConfig.fetch()
+            try {
+                appConfig.fetch()
+            } catch (_: Exception) {
+                // Remote config fetch can fail due to network issues or
+                // Firebase Installations service unavailability. Continue
+                // with cached/default config values.
+            }
             _splashViewStateFlow.emit(SplashViewState.NavigateToHome)
         }
     }

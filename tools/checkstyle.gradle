@@ -12,8 +12,8 @@ task checkstyle(type: Checkstyle) {
     showViolations true
 
     reports {
-        xml.enabled = true
-        html.enabled = true
-        html.destination file("$project.buildDir/outputs/checkstyle/checkstyle.html")
+        xml.required = true
+        html.required = true
+        html.outputLocation = file("${project.layout.buildDirectory.get()}/outputs/checkstyle/checkstyle.html")
     }
 }

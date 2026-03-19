@@ -1,29 +1,32 @@
 package com.android.tvflix.analytics
 
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.analytics.ktx.logEvent
-import com.google.firebase.ktx.Firebase
+import android.content.Context
+import android.os.Bundle
+import com.google.firebase.analytics.FirebaseAnalytics
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FirebaseAnalyticsHandler
 @Inject
-constructor() : Analytics {
-    private val firebaseAnalytics by lazy { Firebase.analytics }
+constructor(@ApplicationContext context: Context) : Analytics {
+    private val firebaseAnalytics = FirebaseAnalytics.getInstance(context)
+
     override fun sendEvent(event: Event) {
-        firebaseAnalytics.logEvent(event.eventName) {
-            param(EventParams.CONTENT_ID, event.eventParams[EventParams.CONTENT_ID] as Long)
-            param(EventParams.CONTENT_TITLE, event.eventParams[EventParams.CONTENT_TITLE] as String)
-            param(
+        val bundle = Bundle().apply {
+            putLong(EventParams.CONTENT_ID, event.eventParams[EventParams.CONTENT_ID] as Long)
+            putString(EventParams.CONTENT_TITLE, event.eventParams[EventParams.CONTENT_TITLE] as String)
+            putString(
                 EventParams.IS_FAVORITE_MARKED,
                 event.eventParams[EventParams.IS_FAVORITE_MARKED].toString()
             )
-            param(
+            putString(
                 EventParams.CLICK_CONTEXT,
                 event.eventParams[EventParams.CLICK_CONTEXT] as String
             )
         }
+        firebaseAnalytics.logEvent(event.eventName, bundle)
     }
 
     override fun setUserId(userId: String) {

@@ -14,4 +14,3 @@ data class FavoriteShow(
     var rating: String?,
     var runtime: Int?
 )
-
