@@ -1,12 +1,11 @@
 repositories {
-    jcenter()
+    mavenCentral()
 }
-
 plugins {
     `kotlin-dsl`
     `java-gradle-plugin`
 }
 
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
+kotlin {
+    jvmToolchain(17)
 }

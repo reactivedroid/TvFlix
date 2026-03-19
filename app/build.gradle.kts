@@ -1,7 +1,8 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    kotlin("kapt")
+    kotlin("plugin.compose")
+    id("com.google.devtools.ksp")
     kotlin("plugin.parcelize")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
@@ -21,6 +22,7 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
         buildConfig = true
     }
 
@@ -31,17 +33,11 @@ android {
         versionCode = Deps.Versions.app_version_code
         versionName = Deps.Versions.app_version_name
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        javaCompileOptions {
-            annotationProcessorOptions {
-                // Refer https://developer.android.com/jetpack/androidx/releases/room#compiler-options
-                arguments(
-                    mapOf(
-                        "room.schemaLocation" to "$projectDir/schemas",
-                        "room.incremental" to "true",
-                        "room.expandProjection" to "true"
-                    )
-                )
-            }
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+            arg("room.incremental", "true")
+            arg("room.expandProjection", "true")
         }
     }
     flavorDimensions.addAll(listOf("default"))
@@ -76,8 +72,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     testOptions {
@@ -85,17 +81,9 @@ android {
         animationsDisabled = true
     }
 
-    kapt {
-        useBuildCache = true
-        javacOptions {
-            // Increase the max count of errors from annotation processors.
-            // Default is 100.
-            option("-Xmaxerrs", 500)
-        }
-    }
     testBuildType = "debug"
 
-    packagingOptions {
+    packaging {
         resources.excludes.addAll(
             listOf(
                 "META-INF/ASL2.0",
@@ -110,8 +98,9 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
+    namespace = "com.android.tvflix"
 }
 
 dependencies {
@@ -121,13 +110,22 @@ dependencies {
     implementation(Deps.AndroidX.ktx_core)
     implementation(Deps.AndroidX.ktx_fragment)
     implementation(Deps.AndroidX.ktx_activity)
+    implementation(Deps.AndroidX.compose_activity)
     implementation(Deps.AndroidX.constraint_layout)
-    kapt(Deps.AndroidX.Lifecycle.compiler)
+    implementation(platform(Deps.AndroidX.Compose.bom))
+    implementation(Deps.AndroidX.Compose.ui)
+    implementation(Deps.AndroidX.Compose.foundation)
+    implementation(Deps.AndroidX.Compose.material)
+    implementation(Deps.AndroidX.Compose.material_icons)
+    implementation(Deps.AndroidX.Compose.tooling_preview)
+    implementation(Deps.AndroidX.Compose.navigation)
+    implementation(Deps.AndroidX.Compose.hilt_navigation)
     implementation(Deps.AndroidX.Lifecycle.viewmodel)
     implementation(Deps.AndroidX.Paging.runtime)
+    implementation(Deps.AndroidX.Paging.compose)
     testImplementation(Deps.AndroidX.Paging.common)
     implementation(Deps.AndroidX.Room.runtime)
-    kapt(Deps.AndroidX.Room.compiler)
+    ksp(Deps.AndroidX.Room.compiler)
     testImplementation(Deps.AndroidX.Room.testing)
     implementation(Deps.AndroidX.Room.ktx)
     implementation(Deps.AndroidX.annotation)
@@ -138,7 +136,8 @@ dependencies {
     implementation(Deps.OkHttp.logging_interceptor)
     implementation(Deps.Glide.runtime)
     implementation(Deps.Glide.okhttp_integration)
-    kapt(Deps.Glide.compiler)
+    implementation(Deps.Coil.compose)
+    ksp(Deps.Glide.ksp)
     implementation(Deps.Retrofit.main)
     implementation(Deps.Retrofit.moshi)
 
@@ -154,27 +153,25 @@ dependencies {
     testImplementation(Deps.AndroidX.Test.core)
     androidTestImplementation(Deps.AndroidX.Test.runner)
     androidTestImplementation(Deps.AndroidX.Test.junit)
-    // Espresso
-    androidTestImplementation(Deps.AndroidX.Test.Espresso.core)
-    androidTestImplementation(Deps.AndroidX.Test.Espresso.contrib)
-    androidTestImplementation(Deps.AndroidX.Test.Espresso.idling_resource)
-    androidTestImplementation(Deps.AndroidX.Test.rules)
+    androidTestImplementation(Deps.AndroidX.Compose.test_junit4)
     testImplementation(Deps.Test.truth)
     testImplementation(Deps.Test.robolectric)
     testImplementation(Deps.Coroutines.test)
     // end-region Test
 
     implementation(Deps.Moshi.kotlin)
-    kapt(Deps.Moshi.codegen)
+    ksp(Deps.Moshi.codegen)
 
     implementation(Deps.Coroutines.core)
     implementation(Deps.Coroutines.android)
 
     debugImplementation(Deps.Chucker.debug)
+    debugImplementation(Deps.AndroidX.Compose.tooling)
+    debugImplementation(Deps.AndroidX.Compose.test_manifest)
     releaseImplementation(Deps.Chucker.release)
 
     implementation(Deps.Hilt.android)
-    kapt(Deps.Hilt.android_compiler)
+    ksp(Deps.Hilt.android_compiler)
 
     // start-region Firebase
     implementation(platform(Deps.Firebase.firebase_bom))
@@ -184,5 +181,3 @@ dependencies {
     implementation(Deps.Firebase.remote_config)
     // end-region Firebase
 }
-
-

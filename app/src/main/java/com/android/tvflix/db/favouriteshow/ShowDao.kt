@@ -1,6 +1,10 @@
 package com.android.tvflix.db.favouriteshow
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 
 @Dao
 interface ShowDao {
@@ -13,7 +17,7 @@ interface ShowDao {
     @Delete
     suspend fun remove(favoriteShow: FavoriteShow)
 
-    @Query("SELECT id from favourite_shows")
+    @Query("SELECT id FROM favourite_shows")
     suspend fun getFavoriteShowIds(): List<Long>
 
     @Query("DELETE FROM favourite_shows")

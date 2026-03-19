@@ -9,8 +9,8 @@ task pmd(type: Pmd) {
     exclude '**/gen/**'
 
     reports {
-        xml.enabled = false
-        html.enabled = true
-        html.destination file("$project.buildDir/outputs/pmd/pmd.html")
+        xml.required = false
+        html.required = true
+        html.outputLocation = file("${project.layout.buildDirectory.get()}/outputs/pmd/pmd.html")
     }
 }

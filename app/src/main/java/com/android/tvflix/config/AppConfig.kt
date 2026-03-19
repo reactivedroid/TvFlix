@@ -1,10 +1,10 @@
 package com.android.tvflix.config
 
 import com.android.tvflix.BuildConfig
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import kotlinx.coroutines.suspendCancellableCoroutine
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
@@ -19,7 +19,7 @@ constructor() {
         const val MIN_FETCH_INTERVAL_S = 3600L
     }
 
-    private val remoteConfig by lazy { Firebase.remoteConfig }
+    private val remoteConfig by lazy { FirebaseRemoteConfig.getInstance() }
 
     fun initialise() {
         val minFetchInterval: Long = if (BuildConfig.DEBUG) {
@@ -27,10 +27,10 @@ constructor() {
         } else {
             MIN_FETCH_INTERVAL_S
         }
-        val remoteConfigSettings = remoteConfigSettings {
-            fetchTimeoutInSeconds = FETCH_TIMEOUT_S
-            minimumFetchIntervalInSeconds = minFetchInterval
-        }
+        val remoteConfigSettings = FirebaseRemoteConfigSettings.Builder()
+            .setFetchTimeoutInSeconds(FETCH_TIMEOUT_S)
+            .setMinimumFetchIntervalInSeconds(minFetchInterval)
+            .build()
         remoteConfig.apply {
             setConfigSettingsAsync(remoteConfigSettings)
             setDefaultsAsync(ConfigDefaults.getDefaultValues())
@@ -40,8 +40,11 @@ constructor() {
     suspend fun fetch(): Boolean =
         suspendCancellableCoroutine { continuation ->
             remoteConfig.fetchAndActivate().addOnSuccessListener {
+                Timber.i("Config fetched successfully")
                 continuation.resume(true)
-            }.addOnFailureListener { exc -> continuation.resumeWithException(exc) }
+            }.addOnFailureListener { exc ->
+                Timber.i("Config fetch failed")
+                continuation.resumeWithException(exc) }
         }
 
     fun getString(key: String): String {

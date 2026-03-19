@@ -1,43 +1,50 @@
 object Deps {
     object Versions {
-        const val compile_sdk = 31
+        const val compile_sdk = 35
         const val min_sdk = 23
-        const val target_sdk = 30
-        const val app_version_code = 107
-        const val app_version_name = "2.2.2"
-        const val android_plugin = "7.0.4"
-        const val constraint_layout = "2.1.2"
-        const val lifecycle = "2.4.0"
-        const val android_test = "1.4.0"
-        const val espresso = "3.4.0"
-        const val glide = "4.12.0"
-        const val junit = "4.12"
-        const val mockito = "4.2.0"
-        const val okhttp = "4.9.3"
-        const val retrofit = "2.9.0"
-        const val paging = "3.1.0"
-        const val room = "2.4.0"
-        const val kotlin = "1.5.31"
+        const val target_sdk = 35
+        const val app_version_code = 200
+        const val app_version_name = "3.0.0"
+        const val android_plugin = "8.7.3"
+        const val constraint_layout = "2.2.1"
+        const val lifecycle = "2.8.7"
+        const val android_test = "1.6.1"
+        const val espresso = "3.6.1"
+        const val glide = "4.16.0"
+        const val junit = "4.13.2"
+        const val mockito = "5.14.2"
+        const val okhttp = "4.12.0"
+        const val retrofit = "2.11.0"
+        const val paging = "3.3.5"
+        const val room = "2.6.1"
+        const val kotlin = "2.1.0"
+        const val ksp = "2.1.0-1.0.29"
         const val timber = "5.0.1"
-        const val mockito_kotlin = "4.0.0"
-        const val arch_core_testing = "2.1.0"
-        const val moshi = "1.12.0"
-        const val coroutines = "1.5.2"
-        const val truth = "1.1.3"
-        const val annotation = "1.1.0"
-        const val chucker = "3.5.2"
-        const val ktx_core = "1.7.0"
-        const val ktx_fragment = "1.4.0"
-        const val ktx_activity = "1.4.0"
-        const val hilt = "2.38.1"
-        const val material = "1.4.0"
-        const val android_test_junit = "1.1.3"
-        const val robolectric = "4.6"
-        const val firebase_bom = "29.0.2"
-        const val firebase_crashlytics_plugin = "2.8.1"
-        const val firebase_performance_plugin = "1.4.0"
-        const val gms_version = "4.3.10"
-        const val app_distribution = "2.2.0"
+        const val mockito_kotlin = "5.4.0"
+        const val arch_core_testing = "2.2.0"
+        const val moshi = "1.15.2"
+        const val coroutines = "1.9.0"
+        const val truth = "1.4.4"
+        const val annotation = "1.9.1"
+        const val chucker = "4.1.0"
+        const val ktx_core = "1.15.0"
+        const val ktx_fragment = "1.8.5"
+        const val ktx_activity = "1.9.3"
+        const val compose_bom = "2024.12.01"
+        const val compose_activity = "1.9.3"
+        const val compose_navigation = "2.8.5"
+        const val compose_hilt_navigation = "1.2.0"
+        const val paging_compose = "3.3.5"
+        const val coil_compose = "2.7.0"
+        const val hilt = "2.53.1"
+        const val material = "1.12.0"
+        const val android_test_junit = "1.2.1"
+        const val robolectric = "4.14.1"
+        const val firebase_bom = "33.7.0"
+        const val firebase_crashlytics_plugin = "3.0.2"
+        const val firebase_performance_plugin = "1.4.2"
+        const val gms_version = "4.4.2"
+        const val app_distribution = "5.0.0"
     }
 
     object AppPlugins {
@@ -52,7 +59,11 @@ object Deps {
                 "com.google.firebase:firebase-appdistribution-gradle:${Versions.app_distribution}"
         }
 
-        const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+        object Kotlin {
+            const val gradle = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+            const val compose = "org.jetbrains.kotlin:compose-compiler-gradle-plugin:${Deps.Versions.kotlin}"
+        }
+        const val ksp = "com.google.devtools.ksp:symbol-processing-gradle-plugin:${Versions.ksp}"
         const val hilt = "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
         const val gms = "com.google.gms:google-services:${Versions.gms_version}"
     }
@@ -93,6 +104,7 @@ object Deps {
         object Paging {
             const val common = "androidx.paging:paging-common-ktx:${Versions.paging}"
             const val runtime = "androidx.paging:paging-runtime-ktx:${Versions.paging}"
+            const val compose = "androidx.paging:paging-compose:${Versions.paging_compose}"
         }
 
         const val constraint_layout =
@@ -101,7 +113,25 @@ object Deps {
         const val ktx_core = "androidx.core:core-ktx:${Versions.ktx_core}"
         const val ktx_fragment = "androidx.fragment:fragment-ktx:${Versions.ktx_fragment}"
         const val ktx_activity = "androidx.activity:activity-ktx:${Versions.ktx_activity}"
+        const val compose_activity =
+            "androidx.activity:activity-compose:${Versions.compose_activity}"
         const val annotation = "androidx.annotation:annotation:${Versions.annotation}"
+
+        object Compose {
+            const val bom = "androidx.compose:compose-bom:${Versions.compose_bom}"
+            const val ui = "androidx.compose.ui:ui"
+            const val foundation = "androidx.compose.foundation:foundation"
+            const val material = "androidx.compose.material:material"
+            const val material_icons = "androidx.compose.material:material-icons-core"
+            const val tooling_preview = "androidx.compose.ui:ui-tooling-preview"
+            const val tooling = "androidx.compose.ui:ui-tooling"
+            const val test_junit4 = "androidx.compose.ui:ui-test-junit4"
+            const val test_manifest = "androidx.compose.ui:ui-test-manifest"
+            const val navigation =
+                "androidx.navigation:navigation-compose:${Versions.compose_navigation}"
+            const val hilt_navigation =
+                "androidx.hilt:hilt-navigation-compose:${Versions.compose_hilt_navigation}"
+        }
 
         object Lifecycle {
             const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
@@ -136,9 +166,13 @@ object Deps {
 
     object Glide {
         const val runtime = "com.github.bumptech.glide:glide:${Versions.glide}"
-        const val compiler = "com.github.bumptech.glide:compiler:${Versions.glide}"
+        const val ksp = "com.github.bumptech.glide:ksp:${Versions.glide}"
         const val okhttp_integration =
             "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
+    }
+
+    object Coil {
+        const val compose = "io.coil-kt:coil-compose:${Versions.coil_compose}"
     }
 
     object Moshi {
@@ -167,9 +201,9 @@ object Deps {
 
     object Firebase {
         const val firebase_bom = "com.google.firebase:firebase-bom:${Versions.firebase_bom}"
-        const val crashlytics = "com.google.firebase:firebase-crashlytics-ktx"
-        const val performance_monitoring = "com.google.firebase:firebase-perf-ktx"
-        const val analytics = "com.google.firebase:firebase-analytics-ktx"
-        const val remote_config = "com.google.firebase:firebase-config-ktx"
+        const val crashlytics = "com.google.firebase:firebase-crashlytics"
+        const val performance_monitoring = "com.google.firebase:firebase-perf"
+        const val analytics = "com.google.firebase:firebase-analytics"
+        const val remote_config = "com.google.firebase:firebase-config"
     }
 }
